@@ -1,1 +1,1 @@
-# GIM-Party13Game-Prototype
+# Ganesha Interactive Media First Game Prototype
