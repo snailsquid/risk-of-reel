@@ -11,14 +11,15 @@ public class HookMovement : MonoBehaviour
     {
         
     }
-
-    // Update is called once per frame
     void Update()
     {
-        float moveInput = Input.GetAxis("Vertical");
-        if (moveInput !=0)
+        if (Input.GetMouseButton(0))
         {
-            moveHook(moveInput);
+            moveHook(1);
+        }
+        else
+        {
+            moveHook(-1);
         }
     }
     private void moveHook(float moveInput)
