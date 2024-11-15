@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class RodCasting : MonoBehaviour
 {
-    [SerializeField] private Transform horizontalBar, verticalBar, fishableArea, target;
+    [SerializeField] private Transform horizontalBar, verticalBar, fishableArea, target, bobberObject;
+    public float bobberVelocity = 5f;
+    Transform bobberClone;
     float horizontalPercent = 0f; //right left percent
     float verticalPercent = 0f; //up down percent
     bool clicked = false, playHorizontal = false, playVertical = false;
@@ -14,10 +16,20 @@ public class RodCasting : MonoBehaviour
     {
         Vector3 areaSize = fishableArea.GetComponent<Renderer>().bounds.size;
         Vector3 areaPos = fishableArea.position;
-        Vector3 bobberPosition = new Vector3(areaSize.x * horizontalPercent + areaPos.x - areaSize.x / 2f, areaPos.y, areaSize.z * verticalPercent + areaPos.z - areaSize.z / 2f);
-        target.position = bobberPosition;
+        Vector3 bobberTarget = new Vector3(areaSize.x * horizontalPercent + areaPos.x - areaSize.x / 2f, areaPos.y, areaSize.z * verticalPercent + areaPos.z - areaSize.z / 2f);
+        target.position = bobberTarget;
+        BobberThrow();
     }
-    void GetPowerLevel()
+    void BobberThrow()
+    {
+        bobberClone = Instantiate(bobberObject);
+        Rigidbody rigidbody = bobberClone.GetComponent<Rigidbody>();
+        Vector3 distance = target.position - bobberClone.position;
+        float time = distance.magnitude / bobberVelocity;
+        rigidbody.velocity = bobberVelocity * distance.normalized + new Vector3(0, time * Physics.gravity.magnitude * 0.5f);
+        // bobberClone.position = target.position;
+    }
+    void SetPowerLevel()
     {
         amplitude = horizontalBar.parent.GetComponent<RectTransform>().rect.width - horizontalBar.GetComponent<RectTransform>().rect.width;
         playHorizontal = true;
@@ -25,7 +37,7 @@ public class RodCasting : MonoBehaviour
     // Tween the bar of rightLeft or upDown
     void Start()
     {
-        GetPowerLevel();
+        SetPowerLevel();
     }
     void Update()
     {
@@ -62,7 +74,7 @@ public class RodCasting : MonoBehaviour
             else
             {
                 clicked = false;
-                GetPowerLevel();
+                SetPowerLevel();
             }
         }
     }
