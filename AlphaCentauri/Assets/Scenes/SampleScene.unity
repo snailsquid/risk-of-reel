@@ -393,7 +393,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.1417334, y: -10.170628, z: -2.0393791}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.079146, y: 1.9232, z: 0.0029064}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -732,7 +732,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 90.3
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -758,8 +758,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.576, y: -0.79, z: -17.81}
+  m_LocalRotation: {x: -0.104675196, y: 0, z: 0, w: 0.9945065}
+  m_LocalPosition: {x: -3.576, y: -0.79, z: -17.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -949,6 +949,8 @@ MonoBehaviour:
   verticalBar: {fileID: 1936793941}
   fishableArea: {fileID: 1674650326}
   target: {fileID: 346669833}
+  bobberObject: {fileID: 3001853000703922498, guid: 3ef640db229b8844c996d2b53ece3344, type: 3}
+  bobberVelocity: 2.3
 --- !u!4 &1415660128
 Transform:
   m_ObjectHideFlags: 0
@@ -1063,8 +1065,8 @@ Transform:
   m_GameObject: {fileID: 1674650322}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.51, y: -1.4, z: -15.1118}
-  m_LocalScale: {x: 5.1462, y: 0.25044, z: 3.3965}
+  m_LocalPosition: {x: -3.6, y: -1.4, z: -14.7}
+  m_LocalScale: {x: 4.0309596, y: 0.25044, z: 4.12471}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
