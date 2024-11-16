@@ -12,6 +12,7 @@ public class RodCasting : MonoBehaviour
     float verticalPercent = 0f; //up down percent
     bool clicked = false, playHorizontal = false, playVertical = false;
     float amplitude;
+    bool Pulling = true;
     void CastRod()
     {
         Vector3 areaSize = fishableArea.GetComponent<Renderer>().bounds.size;
@@ -71,9 +72,16 @@ public class RodCasting : MonoBehaviour
                 clicked = false;
                 CastRod();
             }
-            else
+            else if (Pulling==true)
+            {
+                Debug.Log("Pulling");
+                clicked = false;
+                Pulling = false;
+            }
+            else if (Pulling==false)
             {
                 clicked = false;
+                Pulling = true;
                 SetPowerLevel();
             }
         }
