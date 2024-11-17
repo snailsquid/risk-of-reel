@@ -12,7 +12,10 @@ public class RodCasting : MonoBehaviour
     float verticalPercent = 0f; //up down percent
     bool clicked = false, playHorizontal = false, playVertical = false;
     float amplitude;
-    bool Pulling = true;
+    bool Pulling;
+    public bool isThereABite;
+    public bool IsFishing;
+    
     void CastRod()
     {
         Vector3 areaSize = fishableArea.GetComponent<Renderer>().bounds.size;
@@ -29,6 +32,8 @@ public class RodCasting : MonoBehaviour
         float time = distance.magnitude / bobberVelocity;
         rigidbody.velocity = bobberVelocity * distance.normalized + new Vector3(0, time * Physics.gravity.magnitude * 0.5f);
         // bobberClone.position = target.position;
+        StartFishing();
+
     }
     void SetPowerLevel()
     {
@@ -36,6 +41,44 @@ public class RodCasting : MonoBehaviour
         playHorizontal = true;
     }
     // Tween the bar of rightLeft or upDown
+    void StartFishing()
+    {
+        StartCoroutine(FishingCorountine());
+    }
+    IEnumerator FishingCorountine()
+    {
+        if (IsFishing)
+        {
+            int wait_time = Random.Range (10, 11);//Wait random time to fish to bite the bait
+		    yield return new WaitForSeconds (wait_time);
+        }
+        if (IsFishing)
+        {
+            Debug.Log("Biting");
+            StartCoroutine(StartFishStruggle());
+        }
+        
+    }
+    IEnumerator StartFishStruggle()
+    {
+        isThereABite = true;
+        //wait until pull
+        while (!Pulling)
+        {
+            yield return null;
+        }
+        Debug.Log("Start fish battle");
+    }
+    public void SetPulling()
+    {
+        Pulling=true;
+    }
+    void EndFishing()
+    {
+        Pulling = false;
+        isThereABite = false;
+    }
+    
     void Start()
     {
         SetPowerLevel();
@@ -70,18 +113,19 @@ public class RodCasting : MonoBehaviour
                 Debug.Log(verticalPercent);
                 playVertical = false;
                 clicked = false;
+                IsFishing = true;
                 CastRod();
             }
-            else if (Pulling==true)
+            else if(isThereABite)
             {
-                Debug.Log("Pulling");
                 clicked = false;
-                Pulling = false;
+                SetPulling();
             }
-            else if (Pulling==false)
+            else
             {
                 clicked = false;
-                Pulling = true;
+                IsFishing=false;
+                EndFishing();
                 SetPowerLevel();
             }
         }
