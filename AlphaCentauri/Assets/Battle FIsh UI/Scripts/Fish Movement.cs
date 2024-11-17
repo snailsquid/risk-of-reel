@@ -11,18 +11,19 @@ public class FishMovement : MonoBehaviour
     public float targetPosition;
     public bool Movingup = true;
     public float mood;
-    public bool Neutral;
-    public bool Angry;
-    public bool Tired;
+    public bool Neutral = true;
+    public bool Angry = false;
+    public bool Tired = false;
     float Ang;
     float Neu;
     float Tir;
+    bool fishing = true;
     void Start()
     {
         targetPosition = Random.Range(minX,maxX);
-        Neutral = true;
-        Angry = false;
-        Tired = false;
+        mood = 1f;
+        //Neutral = true;
+        FishMood();
     }
     void Update()
     {
@@ -40,41 +41,74 @@ public class FishMovement : MonoBehaviour
             Movingup = !Movingup;
             targetPosition = Movingup ? maxX : minX;
         }
-        if(Neutral)
+    }
+    void FishMood()
+    {
+        while (fishing)
         {
-            mood = 1f;
-            StartCoroutine(WaitNeutral);
-            Neutral = false;
-            Angry = true;
-        }
-        else if (Angry)
-        {
-            mood = 2f;
-            StartCoroutine(WaitAngr);
-            Angry = false;
-            Tired = true;
-        }
-        else if (Tired)
-        {
-            mood = 0.5f;
-            StartCoroutine(WaitTired);
-            Tired = false;
-            Neutral = true;
+            if(Neutral && !Angry && !Tired)
+            {
+                mood = 1f;
+                StartCoroutine(WaitNeutral());
+            }
+            if (Angry && !Neutral && !Tired)
+            {
+                mood = 2f;
+                StartCoroutine(WaitAngr());
+            }
+            if (Tired && !Neutral && !Angry)
+            {
+                mood = 0.5f;
+                StartCoroutine(WaitTired());
+            }
         }
     }
     IEnumerator WaitNeutral()
     {
-        Neu = Random.Range(3,8);
+        int Neu = Random.Range(3,8);
         yield return new WaitForSeconds(Neu);
+        if(Neutral && !Angry && !Tired)
+        {
+            Debug.Log("Neutral");
+            ToAngry();
+        }
     }
     IEnumerator WaitAngr()
     {
-        Ang = Random.Range(2,5);
+        int Ang = Random.Range(2,5);
         yield return new WaitForSeconds(Ang);
+        if (Angry && !Neutral && !Tired)
+        {
+            Debug.Log("Angry");
+            ToTired();
+        }
     }
     IEnumerator WaitTired()
     {
-        Tir = Math.Abs(Neu-Ang);
+        int Tir = Random.Range(5,10);
         yield return new WaitForSeconds(Tir);
+        if (Tired && !Neutral && !Angry)
+        {
+            Debug.Log("Tired");
+            ToNeutral();
+        }
+    }
+    void ToNeutral()
+    {
+        Tired = false;
+        Neutral = true;
+        Angry=false;
+    }
+    void ToAngry()
+    {
+        Neutral = false;
+        Angry = true;
+        Tired = false;
+    }
+    void ToTired()
+    {
+        Angry = false;
+        Tired = true;
+        Neutral=false;
     }
 }
