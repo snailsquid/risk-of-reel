@@ -15,7 +15,7 @@ public class RodCasting : MonoBehaviour
     bool Pulling;
     public bool isThereABite;
     public bool IsFishing;
-    
+    public float FishHadEnough;//Automatically Trigger another fishbiting if afk
     void CastRod()
     {
         Vector3 areaSize = fishableArea.GetComponent<Renderer>().bounds.size;
@@ -33,7 +33,7 @@ public class RodCasting : MonoBehaviour
         rigidbody.velocity = bobberVelocity * distance.normalized + new Vector3(0, time * Physics.gravity.magnitude * 0.5f);
         // bobberClone.position = target.position;
         StartFishing();
-
+        //Trigger the fish eat the bait
     }
     void SetPowerLevel()
     {
@@ -49,13 +49,13 @@ public class RodCasting : MonoBehaviour
     {
         if (IsFishing)
         {
-            int wait_time = Random.Range (10, 11);//Wait random time to fish to bite the bait
+            int wait_time = Random.Range (5, 10);//Wait random time to fish to bite the bait
 		    yield return new WaitForSeconds (wait_time);
         }
         if (IsFishing)
         {
             Debug.Log("Biting");
-            StartCoroutine(StartFishStruggle());
+            StartCoroutine(StartFishStruggle());//Start fish struggle
         }
         
     }
@@ -65,9 +65,22 @@ public class RodCasting : MonoBehaviour
         //wait until pull
         while (!Pulling)
         {
-            yield return null;
+            yield return FishHadEnough +=1f;
+            if(FishHadEnough>= 3000)
+            {
+                isThereABite = false;
+                FishHadEnough = 0;
+                StartFishing();
+                break;
+            }
         }
-        Debug.Log("Start fish battle");
+        if(isThereABite)
+        {
+            Debug.Log("Start fish battle");//Start fish battle
+            isThereABite = false;
+            FishHadEnough = 0;
+        }
+        
     }
     public void SetPulling()
     {
