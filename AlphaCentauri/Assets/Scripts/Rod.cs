@@ -5,17 +5,25 @@ using UnityEngine;
 
 public class Rod
 {
-    enum RodType
+    public RodType RodType { get; private set; }
+    public RodRarity RodRarity { get; private set; }
+    public Bait Bait { get; set; }
+    public Rod(RodType rodType, RodRarity rodRarity, Bait bait)
     {
-        FishingRod1,
-        FishingRod2
+        RodType = rodType;
+        RodRarity = rodRarity;
+        Bait = bait;
     }
-    enum RodRarity
-    {
-        Basic,
-        Super,
-        Ultimate
-    }
-    RodType rodType;
-    RodRarity rodRarity;
+}
+public enum RodRarity
+{
+    Basic,
+    Super,
+    Ultimate
+}
+
+public enum RodType
+{
+    FishingRod1,
+    FishingRod2
 }
