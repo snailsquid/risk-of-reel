@@ -30,10 +30,6 @@ public class JamText : MonoBehaviour
     {
         DeductTime();
         CheckTime();
-    }
-
-    public void update()
-    {
         GenerateDeltaJam();
     }
     public void GenerateDeltaJam()
@@ -42,23 +38,23 @@ public class JamText : MonoBehaviour
         {
             DeltaJam = 1;//bukan 0 krn nanti di awal masa pasti batas bawah
         }
-        if (currentJam == JamText.Jam.jam09)
+        else if (currentJam == JamText.Jam.jam09)
         {
             DeltaJam = 2;
         }
-        if (currentJam == JamText.Jam.jam10)
+        else if (currentJam == JamText.Jam.jam10)
         {
             DeltaJam = 3;
         }
-        if (currentJam == JamText.Jam.jam11)
+        else if (currentJam == JamText.Jam.jam11)
         {
             DeltaJam = 4;
         }
-        if (currentJam == JamText.Jam.jam00)
+        else if (currentJam == JamText.Jam.jam00)
         {
             DeltaJam = 5;
         }
-        if (currentJam == JamText.Jam.jam01)
+        else if (currentJam == JamText.Jam.jam01)
         {
             DeltaJam = 6;
         }

@@ -4,24 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class Popup : MonoBehaviour
+public class PopUp : MonoBehaviour
 {
-    public GameObject popupPanel; // The panel containing the popup
-    public Button closeButton; // Button to close the popup
+    public GameObject popupPanel;
+    public Button closeButton;
+    public static bool poupPanelActiveSelf;
 
     void Start()
     {
         popupPanel.SetActive(true);
+        poupPanelActiveSelf = true;
 
         if (closeButton != null)
         {
             closeButton.onClick.AddListener(HidePopup);
         }
     }
-
-    // Hide the popup
     public void HidePopup()
     {
         popupPanel.SetActive(false);
+        poupPanelActiveSelf = false;
     }
 }

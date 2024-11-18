@@ -6,13 +6,15 @@ using TMPro;
 public class FishLengthWeight : MonoBehaviour
 {
     public TMP_Text fishText;
-    private FishLength.FishLengthType ClassPanjangIkan;
-    private FishWeight.FishWeightType ClassBeratIkan;
+
+    public GameObject popUp;
     public void Update()
     {
-        string ClassPanjangIka = ClassPanjangIkan.ToString();
-        string ClassBeratIka = ClassBeratIkan.ToString();
-        fishText.text = $"{ClassPanjangIka}: {(float)FishLength.PanjangIkan}" +
-            $"{ClassBeratIka}:{(float)FishWeight.BeratIkan}";
+        FishStatsPrint();
+    }
+    public void FishStatsPrint()
+    {
+        fishText.text = $"{FishLength.fishlengthType}: {(float)FishLength.PanjangIkan}" +
+            $"{FishWeight.fishweightType}:{(float)FishWeight.BeratIkan}";
     }
 }

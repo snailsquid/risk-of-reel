@@ -2,32 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FishLength
+public class FishLength : MonoBehaviour
 {
-    
     public enum FishLengthType
     {
         Long,
         Medium,
         Short
     }
-    FishLengthType fishlengthType;
+    public static FishLengthType fishlengthType;
 
-    public JamText.Jam currentJam;
     public static float BatasBawahPanjang;//nanti ganti
     public static float BatasAtasPanjang;//nanti ganti
     public static float PanjangIkan;
+    public GameObject popUp;
+    private bool HasRun;
 
-    public void start()
+    public void Start()
     {
         BatasBawahPanjang = 1;//nanti ganti
         BatasAtasPanjang = 4;//nanti ganti
         PanjangIkan = 0;
+        HasRun = false;
     }
-
-    public void update()
+    public void Update()
     {
-        GenerateFishLength();
+        if (popUp.activeSelf == true && HasRun == false)
+        {
+            GenerateFishLength();
+            HasRun = true;
+            Debug.Log(PanjangIkan);
+        }
+        if (popUp.activeSelf == false)
+        {
+            HasRun = false;
+        }
     }
     public void GenerateFishLength()
     {
@@ -41,7 +50,7 @@ public class FishLength
         {
             fishlengthType = FishLengthType.Medium;
         }
-        if (PanjangIkan < BatasBawahPanjang + (BatasAtasPanjang - BatasBawahPanjang)/3 && PanjangIkan > (BatasBawahPanjang + (BatasAtasPanjang - BatasBawahPanjang) / 3)*2)
+        if (PanjangIkan > (BatasBawahPanjang + (BatasAtasPanjang - BatasBawahPanjang) / 3)*2 && PanjangIkan < BatasAtasPanjang)
         {
             fishlengthType = FishLengthType.Long;
         }
