@@ -12,6 +12,9 @@ public class RodCasting : MonoBehaviour
     float verticalPercent = 0f; //up down percent
     bool clicked = false, playHorizontal = false, playVertical = false;
     float amplitude;
+    /// <summary>
+    /// Places bobber target 
+    /// </summary>
     void CastRod()
     {
         Vector3 areaSize = fishableArea.GetComponent<Renderer>().bounds.size;
@@ -20,6 +23,9 @@ public class RodCasting : MonoBehaviour
         target.position = bobberTarget;
         BobberThrow();
     }
+    /// <summary>
+    /// Bobber throw animation
+    /// </summary>
     void BobberThrow()
     {
         bobberClone = Instantiate(bobberObject);
@@ -29,6 +35,9 @@ public class RodCasting : MonoBehaviour
         rigidbody.velocity = bobberVelocity * distance.normalized + new Vector3(0, time * Physics.gravity.magnitude * 0.5f);
         // bobberClone.position = target.position;
     }
+    /// <summary>
+    /// Start the power level bar minigame
+    /// </summary>
     void SetPowerLevel()
     {
         amplitude = horizontalBar.parent.GetComponent<RectTransform>().rect.width - horizontalBar.GetComponent<RectTransform>().rect.width;
