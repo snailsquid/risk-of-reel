@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class RodCasting : MonoBehaviour
 {
-    [SerializeField] private Transform horizontalBar, verticalBar, fishableArea, target, bobberObject;
+    [SerializeField] private Transform horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject;
     public float bobberVelocity = 5f;
     Transform bobberClone;
+    Transform player;
     float horizontalPercent = 0f; //right left percent
     float verticalPercent = 0f; //up down percent
     bool clicked = false, playHorizontal = false, playVertical = false;
@@ -16,6 +17,9 @@ public class RodCasting : MonoBehaviour
     public bool isThereABite;
     public bool IsFishing;
     public float FishHadEnough;//Automatically Trigger another fishbiting if afk
+    /// <summary>
+    /// Places bobber target 
+    /// </summary>
     void CastRod()
     {
         Vector3 areaSize = fishableArea.GetComponent<Renderer>().bounds.size;
@@ -24,9 +28,13 @@ public class RodCasting : MonoBehaviour
         target.position = bobberTarget;
         BobberThrow();
     }
+    /// <summary>
+    /// Bobber throw animation
+    /// </summary>
     void BobberThrow()
     {
         bobberClone = Instantiate(bobberObject);
+        bobberClone.position = player.position;
         Rigidbody rigidbody = bobberClone.GetComponent<Rigidbody>();
         Vector3 distance = target.position - bobberClone.position;
         float time = distance.magnitude / bobberVelocity;
@@ -35,6 +43,9 @@ public class RodCasting : MonoBehaviour
         StartFishing();
         //Trigger the fish eat the bait
     }
+    /// <summary>
+    /// Start the power level bar minigame
+    /// </summary>
     void SetPowerLevel()
     {
         amplitude = horizontalBar.parent.GetComponent<RectTransform>().rect.width - horizontalBar.GetComponent<RectTransform>().rect.width;
@@ -49,15 +60,15 @@ public class RodCasting : MonoBehaviour
     {
         if (IsFishing)
         {
-            int wait_time = Random.Range (5, 10);//Wait random time to fish to bite the bait
-		    yield return new WaitForSeconds (wait_time);
+            int wait_time = Random.Range(5, 10);//Wait random time to fish to bite the bait
+            yield return new WaitForSeconds(wait_time);
         }
         if (IsFishing)
         {
             Debug.Log("Biting");
             StartCoroutine(StartFishStruggle());//Start fish struggle
         }
-        
+
     }
     IEnumerator StartFishStruggle()
     {
@@ -65,8 +76,8 @@ public class RodCasting : MonoBehaviour
         //wait until pull
         while (!Pulling)
         {
-            yield return FishHadEnough +=1f;
-            if(FishHadEnough>= 3000)
+            yield return FishHadEnough += 1f;
+            if (FishHadEnough >= 3000)
             {
                 isThereABite = false;
                 FishHadEnough = 0;
@@ -74,26 +85,27 @@ public class RodCasting : MonoBehaviour
                 break;
             }
         }
-        if(isThereABite)
+        if (isThereABite)
         {
             Debug.Log("Start fish battle");//Start fish battle
             isThereABite = false;
             FishHadEnough = 0;
         }
-        
+
     }
     public void SetPulling()
     {
-        Pulling=true;
+        Pulling = true;
     }
     void EndFishing()
     {
         Pulling = false;
         isThereABite = false;
     }
-    
+
     void Start()
     {
+        player = referenceObject.GetComponent<ReferenceScript>().player;
         SetPowerLevel();
     }
     void Update()
@@ -129,7 +141,7 @@ public class RodCasting : MonoBehaviour
                 IsFishing = true;
                 CastRod();
             }
-            else if(isThereABite)
+            else if (isThereABite)
             {
                 clicked = false;
                 SetPulling();
@@ -137,7 +149,7 @@ public class RodCasting : MonoBehaviour
             else
             {
                 clicked = false;
-                IsFishing=false;
+                IsFishing = false;
                 EndFishing();
                 SetPowerLevel();
             }
