@@ -13,6 +13,10 @@ public class RodCasting : MonoBehaviour
     float verticalPercent = 0f; //up down percent
     bool clicked = false, playHorizontal = false, playVertical = false;
     float amplitude;
+    bool Pulling;
+    bool isThereABite;
+    bool IsFishing;
+    float FishHadEnough = 0f;
     /// <summary>
     /// Places bobber target 
     /// </summary>
@@ -36,6 +40,8 @@ public class RodCasting : MonoBehaviour
         float time = distance.magnitude / bobberVelocity;
         rigidbody.velocity = bobberVelocity * distance.normalized + new Vector3(0, time * Physics.gravity.magnitude * 0.5f);
         // bobberClone.position = target.position;
+        StartFishing();
+        //Trigger the fish eat the bait
     }
     /// <summary>
     /// Start the power level bar minigame
@@ -46,6 +52,58 @@ public class RodCasting : MonoBehaviour
         playHorizontal = true;
     }
     // Tween the bar of rightLeft or upDown
+    void StartFishing()
+    {
+        StartCoroutine(FishingCorountine());
+    }
+    IEnumerator FishingCorountine()
+    {
+        if (IsFishing)
+        {
+            int wait_time = Random.Range(5, 10);//Wait random time to fish to bite the bait
+            yield return new WaitForSeconds(wait_time);
+        }
+        if (IsFishing)
+        {
+            Debug.Log("Biting");
+            StartCoroutine(StartFishStruggle());//Start fish struggle
+        }
+
+    }
+    IEnumerator StartFishStruggle()
+    {
+        isThereABite = true;
+        //wait until pull
+        while (!Pulling)
+        {
+            yield return FishHadEnough += Time.deltaTime;
+            if (FishHadEnough > 10)
+            {
+                isThereABite = false;
+                Debug.Log("The fish go away");
+                StartFishing();
+                FishHadEnough = 0f;
+                break;
+            }
+        }
+        if (isThereABite)
+        {
+            Debug.Log("Start fish battle");//Start fish battle
+            isThereABite = false;
+            FishHadEnough = 0f;
+        }
+    }
+    public void SetPulling()
+    {
+        Pulling = true;
+    }
+    void EndFishing()
+    {
+        Pulling = false;
+        isThereABite = false;
+        FishHadEnough = 0f;
+    }
+
     void Start()
     {
         player = referenceObject.GetComponent<ReferenceScript>().player;
@@ -81,11 +139,19 @@ public class RodCasting : MonoBehaviour
                 Debug.Log(verticalPercent);
                 playVertical = false;
                 clicked = false;
+                IsFishing = true;
                 CastRod();
+            }
+            else if (isThereABite)
+            {
+                clicked = false;
+                SetPulling();
             }
             else
             {
                 clicked = false;
+                IsFishing = false;
+                EndFishing();
                 SetPowerLevel();
             }
         }
