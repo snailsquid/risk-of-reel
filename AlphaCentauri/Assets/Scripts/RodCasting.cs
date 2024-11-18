@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class RodCasting : MonoBehaviour
 {
-    [SerializeField] private Transform horizontalBar, verticalBar, fishableArea, target, bobberObject;
+    [SerializeField] private Transform horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject;
     public float bobberVelocity = 5f;
     Transform bobberClone;
+    Transform player;
     float horizontalPercent = 0f; //right left percent
     float verticalPercent = 0f; //up down percent
     bool clicked = false, playHorizontal = false, playVertical = false;
@@ -29,6 +30,7 @@ public class RodCasting : MonoBehaviour
     void BobberThrow()
     {
         bobberClone = Instantiate(bobberObject);
+        bobberClone.position = player.position;
         Rigidbody rigidbody = bobberClone.GetComponent<Rigidbody>();
         Vector3 distance = target.position - bobberClone.position;
         float time = distance.magnitude / bobberVelocity;
@@ -46,6 +48,7 @@ public class RodCasting : MonoBehaviour
     // Tween the bar of rightLeft or upDown
     void Start()
     {
+        player = referenceObject.GetComponent<ReferenceScript>().player;
         SetPowerLevel();
     }
     void Update()
