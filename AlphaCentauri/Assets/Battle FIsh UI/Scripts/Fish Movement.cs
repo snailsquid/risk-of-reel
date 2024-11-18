@@ -11,9 +11,8 @@ public class FishMovement : MonoBehaviour
     public float targetPosition;
     bool Movingup = true;
     float mood;
-    bool Neutral = true;
-    bool Angry = false;
-    bool Tired = false;
+    public enum FishEmotion {Neutral, Angry, Tired}
+    FishEmotion fishEmotion;
     float Ang;
     float Neu;
     float Tir;
@@ -51,15 +50,15 @@ public class FishMovement : MonoBehaviour
     void FishMood()//State mood
     {
         Stateloop=false;
-        if(Neutral)
+        if(fishEmotion == FishEmotion.Neutral)
         {
             StartCoroutine(WaitNeutral());
         }
-        if(Angry)
+        if(fishEmotion == FishEmotion.Angry)
         {
             StartCoroutine(WaitAngr());
         }
-        if(Tired)
+        if(fishEmotion == FishEmotion.Tired)
         {
             StartCoroutine(WaitTired());
         }
@@ -68,7 +67,7 @@ public class FishMovement : MonoBehaviour
     {
         Neu = Random.Range(3,8);
         yield return new WaitForSeconds(Neu);
-        if(Neutral && !Angry && !Tired)
+        if(fishEmotion == FishEmotion.Neutral)
         {
             mood = 2f;
             Debug.Log("To Angry");
@@ -80,7 +79,7 @@ public class FishMovement : MonoBehaviour
     {
         Ang = Random.Range(2,5);
         yield return new WaitForSeconds(Ang);
-        if (Angry && !Neutral && !Tired)
+        if (fishEmotion == FishEmotion.Angry)
         {
             mood = 0.5f;
             Debug.Log("To Tired");
@@ -92,7 +91,7 @@ public class FishMovement : MonoBehaviour
     {
         Tir = Mathf.Abs(Neu-Ang);
         yield return new WaitForSeconds(Tir);
-        if (Tired && !Neutral && !Angry)
+        if (fishEmotion == FishEmotion.Tired)
         {
             mood = 1f;
             Debug.Log("To Neutral");
@@ -102,20 +101,14 @@ public class FishMovement : MonoBehaviour
     }
     void ToNeutral()
     {
-        Tired = false;
-        Neutral = true;
-        Angry=false;
+        fishEmotion = FishEmotion.Neutral;
     }
     void ToAngry()
     {
-        Neutral = false;
-        Angry = true;
-        Tired = false;
+        fishEmotion = FishEmotion.Angry;
     }
     void ToTired()
     {
-        Angry = false;
-        Tired = true;
-        Neutral=false;
+        fishEmotion = FishEmotion.Tired;
     }
 }
