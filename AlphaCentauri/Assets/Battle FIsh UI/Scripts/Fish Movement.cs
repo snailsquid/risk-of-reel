@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Build.Reporting;
 using static FishMovement.FishEmotion;
 using UnityEngine;
 public class FishMovement : MonoBehaviour
