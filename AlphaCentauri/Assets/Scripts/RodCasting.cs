@@ -14,9 +14,9 @@ public class RodCasting : MonoBehaviour
     bool clicked = false, playHorizontal = false, playVertical = false;
     float amplitude;
     bool Pulling;
-    public bool isThereABite;
-    public bool IsFishing;
-    public float FishHadEnough;//Automatically Trigger another fishbiting if afk
+    bool isThereABite;
+    bool IsFishing;
+    float FishHadEnough = 0f;
     /// <summary>
     /// Places bobber target 
     /// </summary>
@@ -76,12 +76,13 @@ public class RodCasting : MonoBehaviour
         //wait until pull
         while (!Pulling)
         {
-            yield return FishHadEnough += 1f;
-            if (FishHadEnough >= 3000)
+            yield return FishHadEnough += Time.deltaTime;
+            if (FishHadEnough > 10)
             {
                 isThereABite = false;
-                FishHadEnough = 0;
+                Debug.Log("The fish go away");
                 StartFishing();
+                FishHadEnough = 0f;
                 break;
             }
         }
@@ -89,9 +90,8 @@ public class RodCasting : MonoBehaviour
         {
             Debug.Log("Start fish battle");//Start fish battle
             isThereABite = false;
-            FishHadEnough = 0;
+            FishHadEnough = 0f;
         }
-
     }
     public void SetPulling()
     {
@@ -101,6 +101,7 @@ public class RodCasting : MonoBehaviour
     {
         Pulling = false;
         isThereABite = false;
+        FishHadEnough = 0f;
     }
 
     void Start()
