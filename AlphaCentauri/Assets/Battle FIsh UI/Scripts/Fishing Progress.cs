@@ -10,7 +10,7 @@ public class FishingProgress : MonoBehaviour
     public bool HookTouchFish;
     public Slider success;
     public float successrate = 15;
-    public float failrate = 14;
+    public float failrate = 10;
     float successbar = 100;
     float failbar = -100;
     float successCounter = 0;
