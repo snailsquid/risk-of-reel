@@ -67,7 +67,7 @@ public class BaitRegistry
         CacingTanah,
         Jangkrik,
         DagingCincang,
-        IHaveNoClue,
+        BeefWellington,
         Mackarel,
         Crab,
     }

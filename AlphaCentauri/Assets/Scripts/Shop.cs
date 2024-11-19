@@ -7,7 +7,7 @@ public class Shop
 {
   public Dictionary<BuyItemType, BuyItem> BuyItems { get; private set; } = new();
   public Dictionary<UpgradeItemType, UpgradeItem> UpgradeItems { get; private set; } = new();
-  public int Balance { get; private set; } = 0;
+  public int Balance { get; private set; } = 1000000000;
   public Shop(Dictionary<BuyItemType, BuyItem> buyItems, Dictionary<UpgradeItemType, UpgradeItem> upgradeItems)
   {
     BuyItems = buyItems;
@@ -17,8 +17,9 @@ public class Shop
   {
     Balance += amount;
   }
-  public bool BuyItem(BuyItem item)
+  public bool BuyItem(BuyItemType buyItemType)
   {
+    BuyItem item = BuyItems[buyItemType];
     if (Balance >= item.Price)
     {
       Balance -= item.Price;
@@ -28,6 +29,14 @@ public class Shop
     {
       return false;
     }
+  }
+  public bool UpgradeItem(UpgradeItemType upgradeItemType)
+  {
+    if (!UpgradeItems.ContainsKey(upgradeItemType)) return false;
+    UpgradeItem item = UpgradeItems[upgradeItemType];
+    if (Balance < item.Price) return false;
+    Balance -= item.Price;
+    return true;
   }
 }
 interface IItem
@@ -43,12 +52,14 @@ public class BuyItem : IItem
   public int Price { get; }
   public string Description { get; }
   public Sprite Image { get; }
-  public BuyItem(string name, int price, string description, Sprite image)
+  public Bait Bait { get; }
+  public BuyItem(string name, int price, string description, Sprite image, Bait bait)
   {
     Name = name;
     Price = price;
     Description = description;
     Image = image;
+    Bait = bait;
   }
 }
 public class UpgradeItem : IItem

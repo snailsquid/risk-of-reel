@@ -19,7 +19,7 @@ public class Inventory
     }
     else
     {
-      Items.Add(item, new InventoryItem(ItemRegistry.BuyItems[item].Name, ItemRegistry.BuyItems[item].Price, ItemRegistry.BuyItems[item].Description, ItemRegistry.BuyItems[item].Image, 1));
+      Items.Add(item, new InventoryItem(ItemRegistry.BuyItems[item].Name, ItemRegistry.BuyItems[item].Price, ItemRegistry.BuyItems[item].Description, ItemRegistry.BuyItems[item].Image, 1, BuyItems[item].Bait));
     }
   }
   public void RemoveItem(BuyItemType item)
@@ -41,7 +41,7 @@ public class Inventory
 public class InventoryItem : BuyItem
 {
   public int Quantity { get; private set; }
-  public InventoryItem(string name, int price, string description, Sprite image, int quantity) : base(name, price, description, image)
+  public InventoryItem(string name, int price, string description, Sprite image, int quantity, Bait bait) : base(name, price, description, image, bait)
   {
     Quantity = quantity;
   }
