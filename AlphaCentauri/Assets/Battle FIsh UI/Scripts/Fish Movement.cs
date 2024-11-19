@@ -24,6 +24,11 @@ public class FishMovement : MonoBehaviour
     bool Stateloop;
     void Start()
     {
+        RectTransform RectParent = transform.parent.GetComponent<RectTransform>();
+        RectTransform Rect = transform.GetComponent<RectTransform>();
+        maxX = RectParent.sizeDelta.x * RectParent.lossyScale.x / 2 - Rect.sizeDelta.x * Rect.lossyScale.x / 2;
+        minX = -maxX;
+        print(maxX);
         targetPosition = Random.Range(minX, maxX);
         mood = 1f;
         Stateloop = true;

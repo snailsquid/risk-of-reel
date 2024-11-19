@@ -16,12 +16,12 @@ public class FishingProgress : MonoBehaviour
     float successCounter = 0;
     void Start()
     {
-        
+
     }
 
     void Update()
     {
-        if(CheckTouching(fishTransform,hookTransform))
+        if (fishTransform.Overlaps(hookTransform))
         {
             HookTouchFish = true;
         }
@@ -33,7 +33,7 @@ public class FishingProgress : MonoBehaviour
     }
     private void Calculation()
     {
-        if(HookTouchFish)
+        if (HookTouchFish)
         {
             successCounter += successrate * Time.deltaTime;
         }
@@ -41,9 +41,9 @@ public class FishingProgress : MonoBehaviour
         {
             successCounter -= failrate * Time.deltaTime;
         }
-        successCounter = Mathf.Clamp(successCounter,failbar,successbar);
+        successCounter = Mathf.Clamp(successCounter, failbar, successbar);
         //Progress bar
-        success.value=successCounter;
+        success.value = successCounter;
         //Success or fail
         if (successCounter >= successbar)
         {
@@ -51,17 +51,40 @@ public class FishingProgress : MonoBehaviour
             successCounter = 0;
             success.value = 0;
         }
-        else if(successCounter <= failbar)
+        else if (successCounter <= failbar)
         {
             Debug.Log("Fail");
             successCounter = 0;
             success.value = 0;
         }
     }
-    private bool CheckTouching(RectTransform rect1, RectTransform rect2)//Checking if Hook touching Fish
+}
+public static class RectTransformExtensions
+{
+
+    public static bool Overlaps(this RectTransform a, RectTransform b)
     {
-        Rect r1 = new Rect(rect1.position.x, rect1.position.y,rect1.rect.width,rect1.rect.height);
-        Rect r2 = new Rect(rect2.position.x, rect2.position.y,rect2.rect.width,rect2.rect.height);
-        return r1.Overlaps(r2);
+        return a.WorldRect().Overlaps(b.WorldRect());
     }
+    public static bool Overlaps(this RectTransform a, RectTransform b, bool allowInverse)
+    {
+        return a.WorldRect().Overlaps(b.WorldRect(), allowInverse);
+    }
+
+    public static Rect WorldRect(this RectTransform rectTransform)
+    {
+        Vector2 sizeDelta = rectTransform.sizeDelta;
+        Vector2 pivot = rectTransform.pivot;
+
+        float rectTransformWidth = sizeDelta.x * rectTransform.lossyScale.x;
+        float rectTransformHeight = sizeDelta.y * rectTransform.lossyScale.y;
+
+        //With this it works even if the pivot is not at the center
+        Vector3 position = rectTransform.TransformPoint(rectTransform.rect.center);
+        float x = position.x - rectTransformWidth * 0.5f;
+        float y = position.y - rectTransformHeight * 0.5f;
+
+        return new Rect(x, y, rectTransformWidth, rectTransformHeight);
+    }
+
 }

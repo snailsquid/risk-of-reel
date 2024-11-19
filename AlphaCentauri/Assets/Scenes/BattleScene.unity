@@ -732,7 +732,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48e94313458b9234591673dbf0e61668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraposition: {fileID: 735269710}
 --- !u!81 &810316943
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1334,7 +1333,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 80, y: 50}
+  m_SizeDelta: {x: 154.728, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1766203268
 MonoBehaviour:
