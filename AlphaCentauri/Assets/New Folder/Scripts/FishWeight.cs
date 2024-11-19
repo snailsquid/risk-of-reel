@@ -16,7 +16,7 @@ public class FishWeight : MonoBehaviour
     public static float BatasAtasBerat;//nanti ganti
     public static float BeratIkan;
     public GameObject popUp;
-    private bool HasRun;
+    private bool hasRun;
     public static float MaxBeratStorage;
     public static float IkanDiStorage;
 
@@ -25,23 +25,23 @@ public class FishWeight : MonoBehaviour
         BatasBawahBerat = 1;//nanti ganti
         BatasAtasBerat = 4;//nanti ganti
         BeratIkan = 0;
-        HasRun = false;
-        MaxBeratStorage = 0;
+        hasRun = false;
+        MaxBeratStorage = 100;
         IkanDiStorage = 0;
     }
     private void Update()
     {
-        if (popUp.activeSelf == true && HasRun == false)
+        if (popUp.activeSelf == true && hasRun == false)
         {
             GenerateWeight();
             Debug.Log(BeratIkan);
             Debug.Log(fishweightType);
             Storage();
-            HasRun = true;
+            hasRun = true;
         }
         if (popUp.activeSelf == false)
         {
-            HasRun = false;
+            hasRun = false;
         }
     }
     private void GenerateWeight()
@@ -68,8 +68,11 @@ public class FishWeight : MonoBehaviour
         IkanDiStorage += BeratIkan;
         if (IkanDiStorage > MaxBeratStorage)
         {
-            //do something
-            Debug.Log('k');
+            EndRun();
         }
+    }
+    public void EndRun()
+    {
+        Debug.Log('k');
     }
 }

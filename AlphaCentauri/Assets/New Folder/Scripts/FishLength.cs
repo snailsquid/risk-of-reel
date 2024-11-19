@@ -16,26 +16,26 @@ public class FishLength : MonoBehaviour
     public static float BatasAtasPanjang;//nanti ganti
     public static float PanjangIkan;
     public GameObject popUp;
-    private bool HasRun;
+    private bool hasRun;
 
     public void Start()
     {
         BatasBawahPanjang = 1;//nanti ganti
         BatasAtasPanjang = 4;//nanti ganti
         PanjangIkan = 0;
-        HasRun = false;
+        hasRun = false;
     }
     public void Update()
     {
-        if (popUp.activeSelf == true && HasRun == false)
+        if (popUp.activeSelf == true && hasRun == false)
         {
             GenerateFishLength();
-            HasRun = true;
+            hasRun = true;
             Debug.Log(PanjangIkan);
         }
         if (popUp.activeSelf == false)
         {
-            HasRun = false;
+            hasRun = false;
         }
     }
     public void GenerateFishLength()

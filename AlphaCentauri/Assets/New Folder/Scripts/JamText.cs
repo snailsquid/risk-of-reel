@@ -18,7 +18,6 @@ public class JamText : MonoBehaviour
         jam01,
         jam02
     }
-
     private Jam currentJam;
 
 
@@ -26,12 +25,14 @@ public class JamText : MonoBehaviour
     {
         time = 0;
     }
+
     public void Update()
     {
         DeductTime();
         CheckTime();
         GenerateDeltaJam();
     }
+
     public void GenerateDeltaJam()
     {
         if (currentJam == JamText.Jam.jam08)
@@ -63,11 +64,13 @@ public class JamText : MonoBehaviour
             DeltaJam = 10000000;
         }
     }
+
     public void DeductTime()
     {
         time += Time.deltaTime / 2; //jam 8:00 itu jam 0 jam 14:00 itu jam 4
         timeText.text = string.Format("{0:00}:{1:00}", ((int)8 + time / 60), ((int)time % 60));
     }
+
     public void CheckTime()
     {
         //for i in range (7)
