@@ -5,16 +5,20 @@ using TMPro;
 
 public class FishLengthWeight : MonoBehaviour
 {
-    public TMP_Text fishText;
-
     public GameObject popUp;
+    public TMP_Text fishText;
+    public string FishType;
+    public void Start()
+    {
+        FishType = "Salmon";
+    }
+
     public void Update()
     {
         FishStatsPrint();
     }
     public void FishStatsPrint()
     {
-        fishText.text = $"{FishLength.fishlengthType}: {(float)FishLength.PanjangIkan}" +
-            $"{FishWeight.fishweightType}:{(float)FishWeight.BeratIkan}";
+        fishText.text = $"{FishType}<br>{FishLength.fishlengthType}: {(float)FishLength.PanjangIkan}<br>{FishWeight.fishweightType}:{(float)FishWeight.BeratIkan}";
     }
 }

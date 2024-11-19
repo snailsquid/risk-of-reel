@@ -26,7 +26,7 @@ public class FishWeight : MonoBehaviour
         BatasAtasBerat = 4;//nanti ganti
         BeratIkan = 0;
         hasRun = false;
-        MaxBeratStorage = 100;
+        MaxBeratStorage = 10;
         IkanDiStorage = 0;
     }
     private void Update()
