@@ -19,6 +19,7 @@ public class FishWeight : MonoBehaviour
     private bool hasRun;
     public static float MaxBeratStorage;
     public static float IkanDiStorage;
+    private float rounder;
 
     private void Start()
     {
@@ -34,8 +35,6 @@ public class FishWeight : MonoBehaviour
         if (popUp.activeSelf == true && hasRun == false)
         {
             GenerateWeight();
-            Debug.Log(BeratIkan);
-            Debug.Log(fishweightType);
             Storage();
             hasRun = true;
         }
@@ -46,8 +45,9 @@ public class FishWeight : MonoBehaviour
     }
     private void GenerateWeight()
     {
-        float xRandom = Random.Range(1, 4);
-        BeratIkan = JamText.DeltaJam / 6 * (BatasAtasBerat - BatasBawahBerat) * xRandom / 3 + BatasBawahBerat;
+        float xRandom = UnityEngine.Random.Range(1, 4);
+        rounder = (JamText.DeltaJam / 6 * (BatasAtasBerat - BatasBawahBerat) * xRandom / 3 + BatasBawahBerat)*100;
+        BeratIkan = Mathf.Round(rounder)/100;
 
         if (BeratIkan < BatasBawahBerat + (BatasAtasBerat - BatasBawahBerat) / 3)
         {

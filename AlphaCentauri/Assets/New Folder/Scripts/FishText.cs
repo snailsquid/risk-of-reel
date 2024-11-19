@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class FishLengthWeight : MonoBehaviour
+public class FishText : MonoBehaviour
 {
     public GameObject popUp;
     public TMP_Text fishText;
-    public string FishType;
+    public static string FishType;//nanti diganti
     public void Start()
     {
         FishType = "Salmon";
@@ -19,6 +19,6 @@ public class FishLengthWeight : MonoBehaviour
     }
     public void FishStatsPrint()
     {
-        fishText.text = $"{FishType}<br>{FishLength.fishlengthType}: {(float)FishLength.PanjangIkan}<br>{FishWeight.fishweightType}:{(float)FishWeight.BeratIkan}";
+        fishText.text = $"{FishType}<br>{FishLength.fishlengthType}: {(FishLength.PanjangIkan)} cm <br>{FishWeight.fishweightType}:{(float)FishWeight.BeratIkan} kg";
     }
 }

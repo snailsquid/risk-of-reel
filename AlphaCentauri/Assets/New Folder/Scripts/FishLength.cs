@@ -17,6 +17,7 @@ public class FishLength : MonoBehaviour
     public static float PanjangIkan;
     public GameObject popUp;
     private bool hasRun;
+    private float rounder;
 
     public void Start()
     {
@@ -31,7 +32,6 @@ public class FishLength : MonoBehaviour
         {
             GenerateFishLength();
             hasRun = true;
-            Debug.Log(PanjangIkan);
         }
         if (popUp.activeSelf == false)
         {
@@ -41,7 +41,9 @@ public class FishLength : MonoBehaviour
     public void GenerateFishLength()
     {
         float xRandom = Random.Range(1, 4);
-        PanjangIkan = JamText.DeltaJam / 6 * (BatasAtasPanjang - BatasBawahPanjang) * xRandom / 3 + BatasBawahPanjang;
+        rounder = (JamText.DeltaJam / 6 * (BatasAtasPanjang - BatasBawahPanjang) * xRandom / 3 + BatasBawahPanjang)*100;
+        PanjangIkan = Mathf.Round(rounder)/100;
+        
         if (PanjangIkan < BatasBawahPanjang + (BatasAtasPanjang - BatasBawahPanjang) / 3)
         {
             fishlengthType = FishLengthType.Short;
