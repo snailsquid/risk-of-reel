@@ -3,26 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class PopUp : MonoBehaviour
 {
-    public GameObject popupPanel;
-    public Button closeButton;
-    public static bool poupPanelActiveSelf;
+    [SerializeField] TMP_Text fishName, fishWeightAndLength;
+    public static string FishType;//nanti diganti
 
-    void Start()
+    public void SetText(string name, float weight, float length)
     {
-        popupPanel.SetActive(true);
-        poupPanelActiveSelf = true;
-
-        if (closeButton != null)
-        {
-            closeButton.onClick.AddListener(HidePopup);
-        }
+        fishName.text = name;
+        fishWeightAndLength.text = weight + "kg\n" + length + "m";
     }
-    public void HidePopup()
+    public void Show()
     {
-        popupPanel.SetActive(false);
-        poupPanelActiveSelf = false;
+        transform.DOScale(new Vector2(0.5f, 0.5f), 2);
     }
 }
