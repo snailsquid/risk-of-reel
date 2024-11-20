@@ -29,11 +29,33 @@ public class Rod
             case RodState.PreCast:
                 break;
             case RodState.Casting:
-                RodMechanics.CastUpdate();
+                bool isFinished = RodMechanics.CastUpdate();
+                if (isFinished) { RodState = RodState.FishWaiting; };
                 break;
             case RodState.FishWaiting:
                 break;
             case RodState.Battling:
+                break;
+            case RodState.PostFish:
+                break;
+        }
+    }
+    public void OnClick()
+    {
+        Debug.Log("click " + RodState);
+        switch (RodState)
+        {
+            case RodState.PreCast:
+                Cast();
+                break;
+            case RodState.Casting:
+                Cast();
+                break;
+            case RodState.FishWaiting:
+                Battle();
+                break;
+            case RodState.Battling:
+                FinishFishing();
                 break;
             case RodState.PostFish:
                 break;
@@ -45,13 +67,14 @@ public class Rod
     }
     public void Cast()
     {
+        Debug.Log("Casting");
         RodState = RodState.Casting;
         RodMechanics.Cast();
+
     }
     public void Battle()
     {
         RodState = RodState.Battling;
-
     }
     public void FishWait()
     {
@@ -70,9 +93,9 @@ public class RodMechanics
     {
         cast.CastClick();
     }
-    public void CastUpdate()
+    public bool CastUpdate()
     {
-        cast.CastUpdate();
+        return cast.CastUpdate();
     }
     public void FishWait()
     {
@@ -100,23 +123,27 @@ public class Cast
     public Props CastProperties { get; private set; }
     enum CastState
     {
+        None,
         Horizontal,
         Vertical,
-        None,
+        Throwing,
     }
     CastState castState = CastState.None;
-    public void CastUpdate()
+    public bool CastUpdate()
     {
         switch (castState)
         {
             case CastState.None:
-                break;
+                return false;
             case CastState.Horizontal:
                 PlayHorizontal();
-                break;
+                return false;
             case CastState.Vertical:
                 PlayVertical();
-                break;
+                return false;
+            case CastState.Throwing:
+                return IsBobberOnWater();
+            default: return false;
         }
     }
     public Cast(Props castProps)
@@ -125,36 +152,68 @@ public class Cast
     }
     public void CastClick()
     {
+        Debug.Log("before" + castState);
         switch (castState)
         {
             case CastState.None:
+                Debug.Log("Horizontal rn");
+                amplitude = CastProperties.horizontalBar.parent.GetComponent<RectTransform>().rect.width - CastProperties.horizontalBar.GetComponent<RectTransform>().rect.width;
                 castState = CastState.Horizontal;
                 break;
             case CastState.Horizontal:
+                Debug.Log("Vertical rn");
                 castState = CastState.Vertical;
                 break;
             case CastState.Vertical:
-                castState = CastState.None;
+                Debug.Log("Throwing rn");
+                castState = CastState.Throwing;
+                BobberCast();
                 break;
         }
-    }
-    void PlayVertical()
-    {
-
     }
     float horizontalPercent = 0f;
     float verticalPercent = 0f;
     float amplitude;
+    void PlayVertical()
+    {
+        verticalPercent = Mathf.PingPong(Time.time, 1f);
+        CastProperties.verticalBar.localRotation = Quaternion.Euler(0f, 0f, -verticalPercent * 90f + 90f);
+    }
     void PlayHorizontal()
     {
-        castState = CastState.Horizontal;
         horizontalPercent = Mathf.PingPong(Time.time, 1f);
+        Debug.Log((horizontalPercent - 0.5f) * amplitude);
         CastProperties.horizontalBar.localPosition = new Vector3((horizontalPercent - 0.5f) * amplitude, 0f, 0f);
     }
+    Transform bobberClone;
+    void BobberCast()
+    {
+        Transform fishableArea = CastProperties.fishableArea;
+        Vector3 areaSize = fishableArea.GetComponent<Renderer>().bounds.size;
+        Vector3 areaPos = fishableArea.position;
+
+        Vector3 bobberTarget = new Vector3(areaSize.x * horizontalPercent + areaPos.x - areaSize.x / 2f, areaPos.y, areaSize.z * verticalPercent + areaPos.z - areaSize.z / 2f);
+        CastProperties.target.position = bobberTarget;
+
+
+        bobberClone = GameObject.Instantiate(CastProperties.bobberObject);
+        bobberClone.position = CastProperties.referenceObject.GetComponent<ReferenceScript>().player.position;
+        Rigidbody rigidbody = bobberClone.GetComponent<Rigidbody>();
+        Vector3 distance = CastProperties.target.position - bobberClone.position;
+
+        float time = distance.magnitude / CastProperties.bobberVelocity;
+        rigidbody.velocity = CastProperties.bobberVelocity * distance.normalized + new Vector3(0, time * Physics.gravity.magnitude * 0.5f);
+    }
+    bool IsBobberOnWater()
+    {
+        return bobberClone.GetComponent<Bobber>().IsTouchingWater;
+    }
+
     public class Props
     {
-        public Transform horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject;
-        public Props(Transform horizontalBar, Transform verticalBar, Transform fishableArea, Transform target, Transform bobberObject, Transform referenceObject)
+        public Transform horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject, waterObject;
+        public float bobberVelocity;
+        public Props(Transform horizontalBar, Transform verticalBar, Transform fishableArea, Transform target, Transform bobberObject, Transform referenceObject, Transform waterObject, float bobberVelocity)
         {
             this.horizontalBar = horizontalBar;
             this.verticalBar = verticalBar;
@@ -162,6 +221,8 @@ public class Cast
             this.target = target;
             this.bobberObject = bobberObject;
             this.referenceObject = referenceObject;
+            this.bobberVelocity = bobberVelocity;
+            this.waterObject = waterObject;
         }
     }
 }

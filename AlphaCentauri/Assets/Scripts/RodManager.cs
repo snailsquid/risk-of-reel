@@ -7,43 +7,43 @@ using static RodRegistry;
 public class RodManager : MonoBehaviour
 {
     public Rod equippedRod;
-    [SerializeField] private Transform player, referenceObject;
+    public bool clickDebounce;
+    [SerializeField] private Transform referenceObject, waterObject;
     [SerializeField] Transform horizontalBar, verticalBar, fishableArea, target, bobberObject;
+    [SerializeField] float bobberVelocity = 5f;
     void Start()
     {
         SetRod(RodType.FishingRod1);
-        player = referenceObject.GetComponent<ReferenceScript>().player;
     }
     void SetRod(RodType rodType)
     {
         equippedRod = Rods[rodType];
-        Cast.Props castProps = new Cast.Props(horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject);
+        Cast.Props castProps = new Cast.Props(horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject, waterObject, bobberVelocity);
         equippedRod.SetRodMechanic(new RodMechanics.Props(castProps));
     }
     void Update()
     {
         if (Input.GetMouseButton(0))
         {
-            OnClick();
+            if (!clickDebounce)
+            {
+                clickDebounce = true;
+                OnClick();
+            }
+
+        }
+
+        else
+        {
+            if (clickDebounce)
+            {
+                clickDebounce = false;
+            }
         }
         equippedRod.Update();
     }
     void OnClick()
     {
-        switch (equippedRod.RodState)
-        {
-            case RodState.PreCast:
-                equippedRod.Cast();
-                break;
-            case RodState.Casting:
-                equippedRod.Battle();
-                break;
-            case RodState.Battling:
-                equippedRod.Battle();
-                break;
-            case RodState.FishWaiting:
-                equippedRod.FinishFishing();
-                break;
-        }
+        equippedRod.OnClick();
     }
 }

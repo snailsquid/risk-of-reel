@@ -186,7 +186,7 @@ Transform:
   m_GameObject: {fileID: 105141209}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.15, y: 0, z: 0}
   m_LocalScale: {x: 0.3492, y: 0.3492, z: 0.3492}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -207,7 +207,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -403,7 +403,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -808,8 +808,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1211456906}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 10, y: 0}
   m_SizeDelta: {x: 52.8782, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1362,7 +1362,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1293584112
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1492,7 +1492,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1557,7 +1557,7 @@ Transform:
   m_GameObject: {fileID: 1322129452}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.943, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1692,7 +1692,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1757,7 +1757,7 @@ Transform:
   m_GameObject: {fileID: 1442039776}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.28988528, y: -1.4, z: 4.271654}
+  m_LocalPosition: {x: -0.28988528, y: -1.42, z: 4.17}
   m_LocalScale: {x: 4.0309596, y: 0.25044, z: 4.12471}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1796,7 +1796,7 @@ RectTransform:
   m_Father: {fileID: 83947276}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1855,7 +1855,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1700009943
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1924,6 +1924,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1768554212}
   - component: {fileID: 1768554211}
+  - component: {fileID: 1768554213}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1938,7 +1939,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1768554210}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e957e855c8a07a47bac35866d2b98c9, type: 3}
   m_Name: 
@@ -1965,6 +1966,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1768554213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768554210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b91f7ff7a61bb53469b6676545f0df5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickDebounce: 0
+  referenceObject: {fileID: 2029783364}
+  waterObject: {fileID: 2138575095}
+  horizontalBar: {fileID: 1152862742}
+  verticalBar: {fileID: 893200970}
+  fishableArea: {fileID: 1442039780}
+  target: {fileID: 195569143}
+  bobberObject: {fileID: 3001853000703922498, guid: 3ef640db229b8844c996d2b53ece3344, type: 3}
+  bobberVelocity: 5
 --- !u!1 &1776700546
 GameObject:
   m_ObjectHideFlags: 0
@@ -2166,7 +2188,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1939222660
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2241,7 +2263,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1973264823
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2374,7 +2396,7 @@ GameObject:
   - component: {fileID: 2138575092}
   m_Layer: 0
   m_Name: Danau
-  m_TagString: Untagged
+  m_TagString: water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2394,7 +2416,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -2459,8 +2481,8 @@ Transform:
   m_GameObject: {fileID: 2138575091}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.01, y: -1.3837671, z: 3.95}
-  m_LocalScale: {x: 8.419944, y: 0.21055, z: 3.7138}
+  m_LocalPosition: {x: 0.01, y: -1.68, z: 4.494}
+  m_LocalScale: {x: 8.419944, y: 0.81831646, z: 4.8019433}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
