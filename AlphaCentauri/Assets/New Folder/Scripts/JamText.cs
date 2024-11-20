@@ -6,6 +6,7 @@ using TMPro;
 public class JamText : MonoBehaviour
 {
     public float time;
+    public int jam;
     public TMP_Text timeText;
     public static int DeltaJam;
 
@@ -23,7 +24,8 @@ public class JamText : MonoBehaviour
     public void DeductTime()
     {
         time += Time.deltaTime / 2; //jam 8:00 itu jam 0 jam 14:00 itu jam 4
-        timeText.text = string.Format("{0:00}:{1:00}", ((int)8 + time / 60), ((int)time % 60));
+        jam = Mathf.FloorToInt(time/60);
+        timeText.text = string.Format("{0:00}:{1:00}", ((int)8 + jam), ((int)time % 60));
     }
 
     public void CheckTime()
