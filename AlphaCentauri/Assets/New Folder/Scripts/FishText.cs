@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
 
 public class FishText : MonoBehaviour
 {
-    public GameObject popUp;
+    [SerializeField] TMP_Text fishName, fishWeightAndLength;
     public TMP_Text fishText;
     public static string FishType;//nanti diganti
     public void Start()
@@ -13,12 +14,13 @@ public class FishText : MonoBehaviour
         FishType = "Salmon";
     }
 
-    public void Update()
+    public void SetText(string name, float weight, float length)
     {
-        FishStatsPrint();
+        fishName.text = name;
+        fishWeightAndLength.text = weight + "kg\n" + length + "m";
     }
-    public void FishStatsPrint()
+    public void PopUp()
     {
-        fishText.text = $"{FishType}<br>{FishLength.fishlengthType}: {(FishLength.PanjangIkan)} cm <br>{FishWeight.fishweightType}:{(float)FishWeight.BeratIkan} kg";
+        transform.DOScale(new Vector2(0.5f, 0.5f), 2);
     }
 }
