@@ -41,7 +41,7 @@ public class FishLength : MonoBehaviour
     public void GenerateFishLength()
     {
         float xRandom = Random.Range(1, 4);
-        rounder = (JamText.DeltaJam / 6 * (BatasAtasPanjang - BatasBawahPanjang) * xRandom / 3 + BatasBawahPanjang)*100;
+        rounder = ((float)JamText.DeltaJam / 6 * (BatasAtasPanjang - BatasBawahPanjang) * xRandom / 3 + BatasBawahPanjang)*100;
         PanjangIkan = Mathf.Round(rounder)/100;
         
         if (PanjangIkan < BatasBawahPanjang + (BatasAtasPanjang - BatasBawahPanjang) / 3)

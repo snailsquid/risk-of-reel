@@ -46,7 +46,7 @@ public class FishWeight : MonoBehaviour
     private void GenerateWeight()
     {
         float xRandom = UnityEngine.Random.Range(1, 4);
-        rounder = (JamText.DeltaJam / 6 * (BatasAtasBerat - BatasBawahBerat) * xRandom / 3 + BatasBawahBerat)*100;
+        rounder = ((float)JamText.DeltaJam / 6 * (BatasAtasBerat - BatasBawahBerat) * xRandom / 3 + BatasBawahBerat)*100;
         BeratIkan = Mathf.Round(rounder)/100;
 
         if (BeratIkan < BatasBawahBerat + (BatasAtasBerat - BatasBawahBerat) / 3)
