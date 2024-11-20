@@ -1,7 +1,11 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
+using UnityEditor;
 using UnityEngine;
 using static RodRegistry;
 
@@ -13,6 +17,7 @@ public class Rod
     public RodRarity RodRarity { get; private set; }
     public Bait Bait { get; set; }
     public RodMechanics RodMechanics { get; private set; }
+    public bool IsFishBite { get; private set; } = false;
     public Rod(string name, RodRarity rodRarity)
     {
         Name = name;
@@ -29,12 +34,20 @@ public class Rod
             case RodState.PreCast:
                 break;
             case RodState.Casting:
-                bool isFinished = RodMechanics.CastUpdate();
-                if (isFinished) { RodState = RodState.FishWaiting; };
+                bool isFinished = RodMechanics.cast.CastUpdate();
+                if (isFinished)
+                {
+                    RodState = RodState.FishWaiting;
+                    RodMechanics.fishWait.WaitBite();
+                };
                 break;
             case RodState.FishWaiting:
+                if (RodMechanics.fishWait.GetTempFishBite()) { IsFishBite = true; Battle(); }
                 break;
             case RodState.Battling:
+                IsFishBite = RodMechanics.battle.BattleUpdate();
+                if (!IsFishBite)
+                { BattleFail(); }
                 break;
             case RodState.PostFish:
                 break;
@@ -42,7 +55,6 @@ public class Rod
     }
     public void OnClick()
     {
-        Debug.Log("click " + RodState);
         switch (RodState)
         {
             case RodState.PreCast:
@@ -52,10 +64,8 @@ public class Rod
                 Cast();
                 break;
             case RodState.FishWaiting:
-                Battle();
                 break;
             case RodState.Battling:
-                FinishFishing();
                 break;
             case RodState.PostFish:
                 break;
@@ -68,13 +78,23 @@ public class Rod
     public void Cast()
     {
         Debug.Log("Casting");
+        RodMechanics.cast.UI(true);
         RodState = RodState.Casting;
-        RodMechanics.Cast();
+        RodMechanics.cast.CastClick();
 
+    }
+    public void PostFish()
+    {
+        RodMechanics.battle.UI(false);
+        RodState = RodState.PreCast;
     }
     public void Battle()
     {
+        RodMechanics.cast.Restart();
+        RodMechanics.battle.UI(true);
+        RodMechanics.cast.UI(false);
         RodState = RodState.Battling;
+        Debug.Log("battling");
     }
     public void FishWait()
     {
@@ -84,40 +104,123 @@ public class Rod
     {
         RodState = RodState.PostFish;
     }
+    public void BattleSuccess()
+    {
+        Debug.Log("Successfully Battled the god damn fish");
+        RodMechanics.battle.UI(false);
+        RodState = RodState.PostFish;
+    }
+    public void BattleFail()
+    {
+        Debug.Log("You failed bruh");
+        FishUnbite();
+        RodState = RodState.PreCast;
+        RodMechanics.battle.UI(false);
+    }
+    public void FishUnbite()
+    {
+        IsFishBite = false;
+    }
 }
+
 
 public class RodMechanics
 {
-    Cast cast;
-    public void Cast()
-    {
-        cast.CastClick();
-    }
-    public bool CastUpdate()
-    {
-        return cast.CastUpdate();
-    }
-    public void FishWait()
-    {
-
-    }
-    public void Battle()
-    {
-
-    }
+    public Cast cast;
+    public Battle battle;
+    public FishWait fishWait;
     public RodMechanics(Props props)
     {
         cast = new Cast(props.castProps);
+        battle = new Battle(props.battleProps);
+        fishWait = new FishWait(props.fishProps);
     }
     public class Props
     {
         public Cast.Props castProps;
-        public Props(Cast.Props castProps)
+        public Battle.Props battleProps;
+        public FishWait.Props fishProps;
+        public Props(Cast.Props castProps, Battle.Props battleProps, FishWait.Props fishProps)
         {
             this.castProps = castProps;
+            this.battleProps = battleProps;
+            this.fishProps = fishProps;
         }
     }
 }
+public class FishWait
+{
+    bool tempFishBite = false;
+    public class Props
+    {
+        public (int MinTime, int MaxTime) FishBite;
+        public Props((int MinTime, int MaxTime) fishBite)
+        {
+            FishBite = fishBite;
+        }
+    }
+    Props props;
+    public FishWait(Props props)
+    {
+        this.props = props;
+    }
+    public async Task WaitBite()
+    {
+        float time = Random.Range(props.FishBite.MinTime, props.FishBite.MaxTime) * 1000;
+        Debug.Log(time);
+        await Task.Delay((int)time);
+        tempFishBite = true;
+    }
+    public bool GetTempFishBite()
+    {
+        if (tempFishBite)
+        {
+            tempFishBite = false;
+            Debug.Log("Fish Bite");
+            return true;
+        }
+        return false;
+    }
+}
+public class Battle
+{
+    public float FishTimer { get; private set; } = 0f;
+    public bool IsFishing { get; private set; } = false;
+    public float MaxFishBite { get; private set; } = 10f;
+    public class Props
+    {
+        public Transform hookBar { get; private set; }
+        public Props(Transform hookBar)
+        {
+            this.hookBar = hookBar;
+        }
+    }
+    Props props;
+    public void UI(bool show)
+    {
+        props.hookBar.gameObject.SetActive(show);
+    }
+    public Battle(Props props)
+    {
+        this.props = props;
+    }
+    public void Restart()
+    {
+        FishTimer = 0;
+    }
+    public bool BattleUpdate()
+    {
+        FishTimer += Time.deltaTime;
+
+        if (FishTimer > MaxFishBite)
+        {
+            FishTimer = 0;
+            return false;
+        }
+        return true;
+    }
+}
+
 public class Cast
 {
     public Props CastProperties { get; private set; }
@@ -182,8 +285,12 @@ public class Cast
     void PlayHorizontal()
     {
         horizontalPercent = Mathf.PingPong(Time.time, 1f);
-        Debug.Log((horizontalPercent - 0.5f) * amplitude);
         CastProperties.horizontalBar.localPosition = new Vector3((horizontalPercent - 0.5f) * amplitude, 0f, 0f);
+    }
+    public void Restart()
+    {
+        GameObject.Destroy(bobberClone.gameObject);
+        castState = CastState.None;
     }
     Transform bobberClone;
     void BobberCast()
@@ -206,7 +313,12 @@ public class Cast
     }
     bool IsBobberOnWater()
     {
-        return bobberClone.GetComponent<Bobber>().IsTouchingWater;
+        if (bobberClone.GetComponent<Bobber>().IsTouchingWater)
+        {
+            castState = CastState.None;
+            return true;
+        }
+        else return true;
     }
 
     public class Props
@@ -224,6 +336,13 @@ public class Cast
             this.bobberVelocity = bobberVelocity;
             this.waterObject = waterObject;
         }
+    }
+
+    public void UI(bool show)
+    {
+        Debug.Log(show ? "Showing" : "Hiding");
+        CastProperties.horizontalBar.parent.gameObject.SetActive(show);
+        CastProperties.verticalBar.parent.gameObject.SetActive(show);
     }
 }
 

@@ -43,7 +43,6 @@ public class Bobber : MonoBehaviour
         {
             deltaTime += Time.deltaTime;
             float x = (float)BobEase(deltaTime, damping, freq) * multiplier;
-            Debug.Log(deltaTime + " " + x);
             rigidBody.position = new Vector3(rigidBody.position.x, yTouchWater + x, rigidBody.position.z);
         }
     }

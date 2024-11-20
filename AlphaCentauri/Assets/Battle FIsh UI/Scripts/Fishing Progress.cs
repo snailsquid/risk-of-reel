@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class FishingProgress : MonoBehaviour
 {
+    [SerializeField] Transform gameManager;
+    Rod rod;
     public RectTransform fishTransform;
     public RectTransform hookTransform;
     public bool HookTouchFish;
@@ -16,7 +18,7 @@ public class FishingProgress : MonoBehaviour
     float successCounter = 0;
     void Start()
     {
-
+        rod = gameManager.GetComponent<RodManager>().equippedRod;
     }
 
     void Update()
@@ -50,12 +52,14 @@ public class FishingProgress : MonoBehaviour
             Debug.Log("Success");
             successCounter = 0;
             success.value = 0;
+            rod.BattleSuccess();
         }
         else if (successCounter <= failbar)
         {
             Debug.Log("Fail");
             successCounter = 0;
             success.value = 0;
+            rod.BattleFail();
         }
     }
 }
