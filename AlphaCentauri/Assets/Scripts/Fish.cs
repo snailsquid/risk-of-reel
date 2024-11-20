@@ -12,6 +12,7 @@ public class Fish
     public float Weight { get; private set; }
     public float Length { get; private set; }
     public float Strength { get; private set; }
+    public float PricePerKg { get; private set; }
     public enum FishRarity
     {
         Common,
@@ -20,13 +21,17 @@ public class Fish
         Misc,
         Dev
     }
-    public Fish(FishTemplate fishTemplate)
+    public Fish(FishTemplate fishTemplate, (float current, float max) time)
     {
         Name = fishTemplate.Name;
         Rarity = fishTemplate.Rarity;
-        Weight = Random.Range(fishTemplate.MinWeigth, fishTemplate.MaxWeigth);
-        Length = Random.Range(fishTemplate.MinLength, fishTemplate.MaxLength);
+        Weight = GenerateStat(fishTemplate.MaxWeigth, fishTemplate.MinWeigth, time);
+        Length = GenerateStat(fishTemplate.MaxLength, fishTemplate.MinLength, time);
         Strength = fishTemplate.Strength;
+    }
+    float GenerateStat(float max, float min, (float current, float max) time)
+    {
+        return (time.current * (max - min) * Random.Range(1, 4) / 3 / time.max) + min;
     }
 }
 public enum FishTypes
@@ -43,7 +48,8 @@ public class FishTemplate
     public float MaxLength { get; private set; }
     public float MinLength { get; private set; }
     public float Strength { get; private set; }
-    public FishTemplate(string name, Fish.FishRarity rarity, float maxL, float minL, float maxW, float minW, float strength)
+    public float PricePerKg { get; private set; }
+    public FishTemplate(string name, Fish.FishRarity rarity, float maxL, float minL, float maxW, float minW, float strength, float pricePerKg)
     {
         Name = name;
         Rarity = rarity;
@@ -52,6 +58,7 @@ public class FishTemplate
         MaxLength = maxL;
         MinLength = minL;
         Strength = strength;
+        PricePerKg = pricePerKg;
     }
 }
 
@@ -69,15 +76,15 @@ public class FishGenerator
     }
 
     public static readonly Dictionary<FishType, FishTemplate> FishTemplates = new Dictionary<FishType, FishTemplate>{
-        {FishType.Salmon, new FishTemplate("Salmon", Fish.FishRarity.Common, 45, 75, 2.2f, 5, 2)},
-        {FishType.Tuna, new FishTemplate("Tuna", Fish.FishRarity.Common, 120, 220, 12, 20, 4)},
-        {FishType.Bass, new FishTemplate("Bass", Fish.FishRarity.Common, 40, 75, 2, 3.5f, 2)},
-        {FishType.Trout, new FishTemplate("Trout", Fish.FishRarity.Common, 61, 91, 2.8f, 8, 2)},
-        {FishType.Catfish, new FishTemplate("Catfish", Fish.FishRarity.Common, 130, 160, 6, 10, 3)},
-        {FishType.Carp, new FishTemplate("Carp", Fish.FishRarity.Common, 45, 95, 6, 14, 3)},
-        {FishType.SecretFish, new FishTemplate("Secret Fish", Fish.FishRarity.Dev, 0,0,0,0,0)}
+        {FishType.Salmon, new FishTemplate("Salmon", Fish.FishRarity.Common, 45, 75, 2.2f, 5, 2, 1200)},
+        {FishType.Tuna, new FishTemplate("Tuna", Fish.FishRarity.Common, 120, 220, 12, 20, 4, 800)},
+        {FishType.Bass, new FishTemplate("Bass", Fish.FishRarity.Common, 40, 75, 2, 3.5f, 2, 500)},
+        {FishType.Trout, new FishTemplate("Trout", Fish.FishRarity.Common, 61, 91, 2.8f, 8, 2, 600)},
+        {FishType.Catfish, new FishTemplate("Catfish", Fish.FishRarity.Common, 130, 160, 6, 10, 3, 700)},
+        {FishType.Carp, new FishTemplate("Carp", Fish.FishRarity.Common, 45, 95, 6, 14, 3, 6000)},
+        {FishType.SecretFish, new FishTemplate("Secret Fish", Fish.FishRarity.Dev, 0,0,0,0,0, 0)}
     };
-    public static Fish GenerateFish(Bait bait)
+    public static Fish GenerateFish(Bait bait, (float current, float max) time)
     {
         Dictionary<FishTemplate, float> fishChances = bait.BaitChance.FishChances;
         float totalchance = bait.BaitChance.TotalChance;
@@ -88,10 +95,10 @@ public class FishGenerator
             sum += key.Value;
             if (rng <= sum)
             {
-                return new Fish(key.Key);
+                return new Fish(key.Key, time);
             }
         }
         Debug.Log("Nah couldnt find yer fish mate my bad gng");
-        return new Fish(FishTemplates[FishType.SecretFish]);
+        return new Fish(FishTemplates[FishType.SecretFish], time);
     }
 }
