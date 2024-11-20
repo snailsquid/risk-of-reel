@@ -186,19 +186,23 @@ public class Battle
 {
     public float FishTimer { get; private set; } = 0f;
     public bool IsFishing { get; private set; } = false;
-    public float MaxFishBite { get; private set; } = 10f;
     public class Props
     {
         public Transform hookBar { get; private set; }
-        public Props(Transform hookBar)
+        public Transform successBar { get; private set; }
+        public float maxFishBiteTime { get; private set; } = 10f;
+        public Props(Transform hookBar, Transform successBar, float maxFishBiteTime)
         {
             this.hookBar = hookBar;
+            this.successBar = successBar;
+            this.maxFishBiteTime = maxFishBiteTime;
         }
     }
     Props props;
     public void UI(bool show)
     {
         props.hookBar.gameObject.SetActive(show);
+        props.successBar.gameObject.SetActive(show);
     }
     public Battle(Props props)
     {
@@ -212,7 +216,7 @@ public class Battle
     {
         FishTimer += Time.deltaTime;
 
-        if (FishTimer > MaxFishBite)
+        if (FishTimer > props.maxFishBiteTime)
         {
             FishTimer = 0;
             return false;
