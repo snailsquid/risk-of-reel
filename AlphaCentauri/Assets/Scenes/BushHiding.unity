@@ -251,6 +251,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   susMeter: {fileID: 1017644856}
+  caughtTime: 8
   Patroling: 0
   waypoints:
   - {fileID: 1413508369}

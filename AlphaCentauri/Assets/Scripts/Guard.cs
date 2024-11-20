@@ -11,19 +11,21 @@ public class Guard : MonoBehaviour
     public float viewDistance;
     public LayerMask viewMask;
     public Slider susMeter;
+    public float caughtTime;
     float VisibleTimer;
     float viewAngle;
-    bool Staying;
+    public enum GuardState {Staying, Patroling};
+    GuardState guardState;
+    public enum PlayerState {Playing, Waiting, getCaught};
+    PlayerState playerState;
     float waitTime;
     float guardChecking;
-    public bool Patroling;
     public List<GameObject> waypoints;
     int targetWaypointindex=0;
     Transform Player;
     void Start()
     {
-        Staying = false;
-        Patroling=false;
+        playerState = PlayerState.Playing;
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         viewAngle = spotlight.spotAngle;
     }
@@ -45,13 +47,12 @@ public class Guard : MonoBehaviour
     }
     IEnumerator Stay()//Stay after reach checkingpoint
     {
-        yield return Patroling = false;
+        yield return guardState = GuardState.Staying;
         waitTime += Time.deltaTime;
         if (waitTime >= 8f)
         {
-            Patroling = true;
+            guardState = GuardState.Patroling;
             waitTime = 0;
-            Staying = false;
         } 
     }
     void Update()
@@ -68,8 +69,9 @@ public class Guard : MonoBehaviour
         }
         VisibleTimer = Mathf.Clamp(VisibleTimer,0,8f);
         susMeter.value=VisibleTimer;
-        if (VisibleTimer >= 8f)
+        if (VisibleTimer >= caughtTime)
         {
+            playerState = PlayerState.Waiting;
             Debug.Log("GetCaught");//Add trigger gameover here
         }
         if (guardChecking >=20f)
@@ -82,7 +84,7 @@ public class Guard : MonoBehaviour
                 {
                     Debug.Log("Alert");//Add ui Guard go patrol
                     targetWaypointindex = 0;
-                    Patroling=true;
+                    guardState = GuardState.Patroling;
                     guardChecking=-20f;
                 }
                 else//If not checking just restart timer and do nothing
@@ -96,7 +98,7 @@ public class Guard : MonoBehaviour
                 {
                     Debug.Log("Alert");//Add ui Guard go patrol
                     targetWaypointindex = 0;
-                    Patroling=true;
+                    guardState = GuardState.Patroling;
                     guardChecking=-20f;
                 }
                 else//If not checking just restart timer and do nothing
@@ -105,7 +107,7 @@ public class Guard : MonoBehaviour
                 }
             }
         }
-        if(Patroling)//from spawnpoint go to checkingpoint and go back to spawnpoint after 8 sec
+        if(guardState == GuardState.Patroling)//from spawnpoint go to checkingpoint and go back to spawnpoint after 8 sec
         {
             Vector3 targetPosition = waypoints[targetWaypointindex].transform.position;
             Vector3 newPosition = Vector3.MoveTowards(transform.position,targetPosition,Guardspeed* Time.deltaTime);
@@ -115,16 +117,16 @@ public class Guard : MonoBehaviour
             {
                 if(targetWaypointindex<waypoints.Count-1)
                 {
-                    Staying = true;
+                    guardState = GuardState.Staying;
                     targetWaypointindex++;
                 }
                 else
                 {
-                    Patroling = false;
+                    
                 }
             }
         }
-        if(Staying)
+        if(guardState == GuardState.Staying)
         {
             StartCoroutine(Stay());
         }
