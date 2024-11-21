@@ -11,19 +11,29 @@ public class RodManager : MonoBehaviour
     [SerializeField] (int MinTime, int MaxTime) FishBite = (5, 10);
     [SerializeField] float MaxFishBiteTime = 20f;
     [SerializeField] private Transform referenceObject, waterObject;
-    [SerializeField] Transform horizontalBar, verticalBar, fishableArea, target, bobberObject, hookBar, successBar;
+    [SerializeField] Transform horizontalBar, verticalBar, fishableArea, target, bobberObject, hookBar, successBar, popUp;
     [SerializeField] float bobberVelocity = 5f;
+    TimeManager timeManager;
     void Awake()
     {
+        timeManager = transform.GetComponent<TimeManager>();
         SetRod(RodType.FishingRod1);
+        equippedRod.EquipBait(BaitRegistry.Baits[BaitRegistry.BaitType.None]);
+    }
+    void Start()
+    {
+    }
+    void EquipBait(InventoryItem baitItem)
+    {
+
     }
     void SetRod(RodType rodType)
     {
         equippedRod = Rods[rodType];
         Cast.Props castProps = new Cast.Props(horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject, waterObject, bobberVelocity);
-        Battle.Props battleProps = new Battle.Props(hookBar, successBar, MaxFishBiteTime);
+        Battle.Props battleProps = new Battle.Props(hookBar, successBar, MaxFishBiteTime, popUp);
         FishWait.Props fishWaitProps = new FishWait.Props(FishBite);
-        equippedRod.SetRodMechanic(new RodMechanics.Props(castProps, battleProps, fishWaitProps));
+        equippedRod.SetRodMechanic(new RodMechanics.Props(castProps, battleProps, fishWaitProps), timeManager);
     }
     void Update()
     {

@@ -8,7 +8,8 @@ using UnityEngine;
 public class TimeManager : MonoBehaviour
 {
     public float CurrentTime { get; private set; }
-    [SerializeField] float realToGameTime = 30, maxTime = 6;
+    public float maxTime { get; private set; } = 6;
+    [SerializeField] float realToGameTime = 30;
     [SerializeField] TMP_Text timeText;
     float RealTime;
     bool isTimePlaying = false;

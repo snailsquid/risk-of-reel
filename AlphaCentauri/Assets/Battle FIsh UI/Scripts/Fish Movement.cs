@@ -32,7 +32,6 @@ public class FishMovement : MonoBehaviour
         RectTransform Rect = transform.GetComponent<RectTransform>();
         maxX = RectParent.rect.width / 2 - Rect.rect.width / 2;
         minX = -maxX;
-        print(maxX);
         targetPosition = Random.Range(minX, maxX);
         mood = 1f;
         Stateloop = true;

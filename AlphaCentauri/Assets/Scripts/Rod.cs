@@ -15,17 +15,20 @@ public class Rod
     public string Name
     { get; private set; }
     public RodRarity RodRarity { get; private set; }
-    public Bait Bait { get; set; }
     public RodMechanics RodMechanics { get; private set; }
     public bool IsFishBite { get; private set; } = false;
+    public Fish fishAttached;
+    public Bait baitAttached;
     public Rod(string name, RodRarity rodRarity)
     {
         Name = name;
         RodRarity = rodRarity;
     }
-    public void SetRodMechanic(RodMechanics.Props props)
+    TimeManager timeManager;
+    public void SetRodMechanic(RodMechanics.Props props, TimeManager timeManager)
     {
         RodMechanics = new RodMechanics(props);
+        this.timeManager = timeManager;
     }
     public void Update()
     {
@@ -38,11 +41,17 @@ public class Rod
                 if (isFinished)
                 {
                     RodState = RodState.FishWaiting;
-                    RodMechanics.fishWait.WaitBite();
+                    Debug.Log((timeManager.CurrentTime, timeManager.maxTime));
+                    RodMechanics.fishWait.WaitBite(baitAttached, (timeManager.CurrentTime, timeManager.maxTime));
                 };
                 break;
             case RodState.FishWaiting:
-                if (RodMechanics.fishWait.GetTempFishBite()) { IsFishBite = true; Battle(); }
+                if (RodMechanics.fishWait.GetTempFishBite())
+                {
+                    IsFishBite = true;
+                    fishAttached = RodMechanics.fishWait.TempFish;
+                    Battle();
+                }
                 break;
             case RodState.Battling:
                 IsFishBite = RodMechanics.battle.BattleUpdate();
@@ -73,7 +82,7 @@ public class Rod
     }
     public void EquipBait(Bait bait)
     {
-        Bait = bait;
+        baitAttached = bait;
     }
     public void Cast()
     {
@@ -86,6 +95,8 @@ public class Rod
     public void PostFish()
     {
         RodMechanics.battle.UI(false);
+        RodMechanics.battle.PopUp(fishAttached.Name, fishAttached.Weight, fishAttached.Length);
+        baitAttached = BaitRegistry.Baits[BaitRegistry.BaitType.None];
         RodState = RodState.PreCast;
     }
     public void Battle()
@@ -109,6 +120,7 @@ public class Rod
         Debug.Log("Successfully Battled the god damn fish");
         RodMechanics.battle.UI(false);
         RodState = RodState.PostFish;
+        PostFish();
     }
     public void BattleFail()
     {
@@ -151,6 +163,7 @@ public class RodMechanics
 public class FishWait
 {
     bool tempFishBite = false;
+    public Fish TempFish;
     public class Props
     {
         public (int MinTime, int MaxTime) FishBite;
@@ -164,12 +177,13 @@ public class FishWait
     {
         this.props = props;
     }
-    public async Task WaitBite()
+    public async Task WaitBite(Bait bait, (float current, float max) time)
     {
-        float time = Random.Range(props.FishBite.MinTime, props.FishBite.MaxTime) * 1000;
-        Debug.Log(time);
-        await Task.Delay((int)time);
+        float randomTime = Random.Range(props.FishBite.MinTime, props.FishBite.MaxTime) * 1000;
+        Debug.Log(randomTime);
+        await Task.Delay((int)randomTime);
         tempFishBite = true;
+        TempFish = FishGenerator.GenerateFish(bait, time);
     }
     public bool GetTempFishBite()
     {
@@ -191,11 +205,13 @@ public class Battle
         public Transform hookBar { get; private set; }
         public Transform successBar { get; private set; }
         public float maxFishBiteTime { get; private set; } = 10f;
-        public Props(Transform hookBar, Transform successBar, float maxFishBiteTime)
+        public Transform popup { get; private set; }
+        public Props(Transform hookBar, Transform successBar, float maxFishBiteTime, Transform popUp)
         {
             this.hookBar = hookBar;
             this.successBar = successBar;
             this.maxFishBiteTime = maxFishBiteTime;
+            this.popup = popUp;
         }
     }
     Props props;
@@ -222,6 +238,13 @@ public class Battle
             return false;
         }
         return true;
+    }
+    public void PopUp(string name, float weight, float length)
+
+    {
+        PopUp popUp = props.popup.GetComponent<PopUp>();
+        popUp.SetText(name, weight, length);
+        popUp.Show();
     }
 }
 

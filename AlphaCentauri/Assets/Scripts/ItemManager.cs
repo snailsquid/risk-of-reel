@@ -1,23 +1,59 @@
-
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using static ItemRegistry;
 public class ItemManager : MonoBehaviour
 {
   [SerializeField] string currencyPrefix;
-  [SerializeField] Transform upgradeContent, upgradeItem, buyItem, buyContent, sidePanel;
+  [SerializeField] Transform upgradeContent, upgradeItem, buyItem, buyContent, sidePanel, shopInventory, lineupContainer;
   [SerializeField] TMP_Text balanceText;
-  Shop shop = new(BuyItems, UpgradeItems);
+  Shop shop;
   Inventory inventory = new(new Dictionary<BuyItemType, InventoryItem>());
+  public BuyItemType[] BaitLineup { get; private set; }
+  [SerializeField] List<BuyImage> buyImages = new List<BuyImage>();
+  void Awake()
+  {
+
+    BaitLineup = new BuyItemType[]{
+      BuyItemType.None,
+      BuyItemType.None,
+      BuyItemType.None,
+    };
+  }
   void Start()
   {
+    Dictionary<BuyItemType, BuyItem> BuyItemsClone = BuyItems;
+    foreach (KeyValuePair<BuyItemType, BuyItem> pair in BuyItemsClone)
+    {
+      BuyImage buyImage = buyImages.FirstOrDefault(item => item.buyItem == pair.Key);
+      if (buyImage != null)
+      {
+        BuyItemsClone[pair.Key].SetImage(buyImage.image);
+      }
+    }
+    shop = new(BuyItemsClone, UpgradeItems);
     UpdateUI();
+
+    //Debug
+    BuyItem(BuyItemType.CacingTanah);
+    BuyItem(BuyItemType.CacingTanah);
+    BuyItem(BuyItemType.CacingTanah);
+    BuyItem(BuyItemType.CacingTanah);
+    BuyItem(BuyItemType.CacingTanah);
+    BuyItem(BuyItemType.CacingTanah);
+    BuyItem(BuyItemType.CacingTanah);
+    BuyItem(BuyItemType.Mackarel);
   }
 
-
+  public void UI(bool show = true)
+  {
+    shopInventory.gameObject.SetActive(show);
+  }
   public void BuyItem(BuyItemType buyItemType)
   {
     if (shop.BuyItem(buyItemType))
@@ -30,10 +66,11 @@ public class ItemManager : MonoBehaviour
       Debug.Log("Not enough balance");
     };
   }
-  void UpdateUI()
+  public void UpdateUI()
   {
     UpdateBuyUI();
     UpdateUpgradeUI();
+    UpdateLineupUI();
   }
   void UpgradeItem(UpgradeItemType upgradeItemType)
   {
@@ -69,9 +106,14 @@ public class ItemManager : MonoBehaviour
     }
     foreach (BuyItemType key in shop.BuyItems.Keys)
     {
-      // Update UI
-      Transform clone = Instantiate(buyItem, buyContent);
-      clone.GetComponent<Buy>().SetUI(key, UpdateSidepanelUI);
+      Debug.Log(key);
+      if (key != BuyItemType.None)
+      {
+        // Update UI
+        Transform clone = Instantiate(buyItem, buyContent);
+        int quantity = inventory.Items.ContainsKey(key) ? inventory.Items[key].Quantity : 0;
+        clone.GetComponent<Buy>().SetUI(key, UpdateSidepanelUI, quantity);
+      }
     }
     UpdateBalanceUI();
   }
@@ -82,6 +124,36 @@ public class ItemManager : MonoBehaviour
   void UpdateBalanceUI()
   {
     balanceText.text = currencyPrefix + shop.Balance.ToString();
+  }
+  void UpdateLineupUI()
+  {
+    for (int i = 0; i < BaitLineup.Length; i++)
+    {
+      Debug.Log(BaitLineup[i]);
+      lineupContainer.GetChild(i).GetComponent<LineupButton>().SetButton(BaitLineup[i]);
+    }
+  }
+  public void AddToLineup(BuyItemType buyItemType)
+  {
+    if (BaitLineup.Contains(buyItemType)) return;
+    for (int i = 0; i < BaitLineup.Length; i++)
+    {
+      if (BaitLineup[i] == BuyItemType.None)
+      {
+        BaitLineup[i] = buyItemType;
+        break;
+      }
+    }
+    UpdateLineupUI();
+  }
+  public void RemoveFromLineup(int index)
+  {
+    BaitLineup[index] = BuyItemType.None;
+    UpdateLineupUI();
+  }
+  public void UseLineup(int index)
+  {
+    inventory.RemoveItem(BaitLineup[index]);
   }
 }
 
@@ -97,7 +169,6 @@ public static class ItemRegistry
     BeefWellington,
     Mackarel,
     Crab,
-
   }
   public enum UpgradeItemType
   {
@@ -105,9 +176,17 @@ public static class ItemRegistry
   }
   public static Dictionary<BuyItemType, BuyItem> BuyItems = new Dictionary<BuyItemType, BuyItem>(){
     {BuyItemType.None,new BuyItem("None", 1000, "None Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.None])},
+    {BuyItemType.CacingTanah,new BuyItem("Cacing Tanah", 1000, "Cacing Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.CacingTanah])},
+    {BuyItemType.Mackarel,new BuyItem("Macakererelle", 1000, "THIS MACAKRENRKEEKRE Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.Mackarel])},
   };
   public static Dictionary<UpgradeItemType, UpgradeItem> UpgradeItems = new Dictionary<UpgradeItemType, UpgradeItem>(){
     {UpgradeItemType.Upgrade,new UpgradeItem("Upgrade", 1000, "Upgrade", null)},
   };
 
+}
+[Serializable]
+public class BuyImage
+{
+  public BuyItemType buyItem;
+  public Sprite image;
 }

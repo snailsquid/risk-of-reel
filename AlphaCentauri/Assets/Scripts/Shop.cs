@@ -10,6 +10,7 @@ public class Shop
   public int Balance { get; private set; } = 1000000000;
   public Shop(Dictionary<BuyItemType, BuyItem> buyItems, Dictionary<UpgradeItemType, UpgradeItem> upgradeItems)
   {
+    Debug.Log("initialize shop");
     BuyItems = buyItems;
     UpgradeItems = upgradeItems;
   }
@@ -19,6 +20,8 @@ public class Shop
   }
   public bool BuyItem(BuyItemType buyItemType)
   {
+    Debug.Log("Buying Item");
+    Debug.Log(BuyItems[buyItemType]);
     BuyItem item = BuyItems[buyItemType];
     if (Balance >= item.Price)
     {
@@ -51,15 +54,20 @@ public class BuyItem : IItem
   public string Name { get; }
   public int Price { get; }
   public string Description { get; }
-  public Sprite Image { get; }
+  public Sprite Image { get; private set; }
   public Bait Bait { get; }
   public BuyItem(string name, int price, string description, Sprite image, Bait bait)
   {
+    Debug.Log(name);
     Name = name;
     Price = price;
     Description = description;
     Image = image;
     Bait = bait;
+  }
+  public void SetImage(Sprite image)
+  {
+    Image = image;
   }
 }
 public class UpgradeItem : IItem
