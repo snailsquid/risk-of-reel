@@ -18,6 +18,7 @@ public class Rod
     public string Name
     { get; private set; }
     public RodRarity RodRarity { get; private set; }
+    public HookRarity HookRarity { get; private set; }
     public RodMechanics RodMechanics { get; private set; }
     public bool IsFishBite { get; private set; } = false;
     public Fish fishAttached;
@@ -429,13 +430,10 @@ public static class RodRegistry
         Super,
         Ultimate
     }
-    public enum RodType
+    public enum HookRarity
     {
-        FishingRod1,
-        FishingRod2
+        Basic,
+        Super,
+        Ultimate
     }
-    public static Dictionary<RodType, Rod> Rods = new Dictionary<RodType, Rod>(){
-        {RodType.FishingRod1, new Rod("Fishing Rod 1", RodRarity.Basic)},
-        {RodType.FishingRod2, new Rod("Fishing Rod 2", RodRarity.Super)}
-    };
 }

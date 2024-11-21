@@ -58,16 +58,16 @@ public class Bucket
 }
 public static class BucketRegistry
 {
-    public enum Tier
+    public enum Rarity
     {
         Basic,
         Super,
         Ultimate
     }
-    public static Dictionary<Tier, Bucket> Buckets = new(){
-        {Tier.Basic,new Bucket(50)},
-        {Tier.Super,new Bucket(280)},
-        {Tier.Ultimate,new Bucket(5000)},
+    public static Dictionary<Rarity, Bucket> Buckets = new(){
+        {Rarity.Basic,new Bucket(50)},
+        {Rarity.Super,new Bucket(280)},
+        {Rarity.Ultimate,new Bucket(5000)},
     };
 
 }
