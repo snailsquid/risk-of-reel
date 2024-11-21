@@ -19,6 +19,8 @@ public class FishingProgress : MonoBehaviour
     void Start()
     {
         rod = gameManager.GetComponent<RodManager>().equippedRod;
+        Debug.Log(gameManager);
+        Debug.Log(gameManager.GetComponent<RodManager>());
     }
 
     void Update()
@@ -31,7 +33,11 @@ public class FishingProgress : MonoBehaviour
         {
             HookTouchFish = false;
         }
-        Calculation();
+        if (rod.IsFishBite)
+        {
+
+            Calculation();
+        }
     }
     private void Calculation()
     {

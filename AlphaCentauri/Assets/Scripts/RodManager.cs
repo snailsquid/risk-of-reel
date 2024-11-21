@@ -13,7 +13,7 @@ public class RodManager : MonoBehaviour
     [SerializeField] private Transform referenceObject, waterObject;
     [SerializeField] Transform horizontalBar, verticalBar, fishableArea, target, bobberObject, hookBar, successBar;
     [SerializeField] float bobberVelocity = 5f;
-    void Start()
+    void Awake()
     {
         SetRod(RodType.FishingRod1);
     }

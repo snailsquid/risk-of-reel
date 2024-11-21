@@ -32,7 +32,6 @@ public class TimeManager : MonoBehaviour
             RealTime += Time.deltaTime;
         }
         CurrentTime = RealTime * realToGameTime / 3600f;
-        Debug.Log(CurrentTime);
         float roundedTime = Mathf.Floor(CurrentTime);
         float hour = roundedTime < 4 ? roundedTime + 8 : roundedTime - 2;
         float minute = (float)Math.Floor(CurrentTime % 1 * 100 * 0.6) % 60;
