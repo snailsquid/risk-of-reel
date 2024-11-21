@@ -16,9 +16,11 @@ public class RodManager : MonoBehaviour
     [SerializeField] float bobberVelocity = 5f;
     TimeManager timeManager;
     CentralStateManager centralStateManager;
+    ItemManager itemManager;
     void Awake()
     {
         equippedRod = new("Rod", RodRarity.Basic);
+        itemManager = GetComponent<ItemManager>();
         centralStateManager = GetComponent<CentralStateManager>();
         timeManager = transform.GetComponent<TimeManager>();
         SetRod(RodRarity.Basic);
@@ -41,7 +43,7 @@ public class RodManager : MonoBehaviour
     void SetRod(RodRarity rodRarity)
     {
         equippedRod.SetRodRarity(rodRarity);
-        Cast.Props castProps = new Cast.Props(horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject, waterObject, bobberVelocity);
+        Cast.Props castProps = new Cast.Props(horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject, waterObject, bobberVelocity, itemManager);
         Battle.Props battleProps = new Battle.Props(hookBar, successBar, MaxFishBiteTime, popUp);
         FishWait.Props fishWaitProps = new FishWait.Props(FishBite);
         PostFish.Props postFishProps = new PostFish.Props(centralStateManager, postRunPopup.GetComponent<PostRunPopup>(), equippedBucket);

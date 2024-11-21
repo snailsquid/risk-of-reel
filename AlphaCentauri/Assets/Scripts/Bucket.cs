@@ -22,7 +22,6 @@ public class Bucket
             Fishes.Add(fish, 1);
             TotalWeight += fish.Weight;
         }
-        return false;
         return true;
     }
     float CountMoney()

@@ -44,8 +44,10 @@ public class Shop
   {
     if (!UpgradeItems.ContainsKey(upgradeItemType)) return false;
     UpgradeItem item = UpgradeItems[upgradeItemType];
-    if (Balance < item.Prices[item.CurrentLevel - 1]) return false;
-    Balance -= item.Prices[item.CurrentLevel - 1];
+    if (item.CurrentLevel >= item.MaxLevel) return false;
+    if (Balance < item.Prices[item.CurrentLevel]) return false;
+    Balance -= item.Prices[item.CurrentLevel];
+    item.Upgrade();
     return true;
   }
 }
@@ -81,17 +83,20 @@ public class UpgradeItem
 {
   public string Name { get; private set; }
   public List<int> Prices { get; private set; }
+  public List<float> Values { get; private set; }
   public string Description { get; private set; }
   public Sprite Image { get; private set; }
   public int CurrentLevel { get; private set; } = 0;
-  public int MaxLevel { get; private set; } = 3;
-  public UpgradeItem(string name, List<int> prices, string description, Sprite image)
+  public int MaxLevel { get; private set; }
+  public UpgradeItem(string name, List<int> prices, List<float> values, string description, Sprite image)
   {
     Name = name;
     Description = description;
     Prices = prices;
+    Values = values;
     Image = image;
     MaxLevel = prices.Count;
+    Debug.Log(name);
   }
   public void Upgrade()
   {

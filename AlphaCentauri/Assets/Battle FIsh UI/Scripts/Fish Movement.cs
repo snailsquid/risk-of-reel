@@ -5,7 +5,7 @@ using UnityEngine;
 using Unity.VisualScripting;
 public class FishMovement : MonoBehaviour
 {
-
+    float initialWidth;
     float maxX = 250f;
     float minX = -250f;
     public float moveSpeed = 250f;
@@ -25,9 +25,12 @@ public class FishMovement : MonoBehaviour
     };
     bool fishing = true;
     bool Stateloop;
+    ItemManager itemManager;
     void Start()
     {
+        itemManager = gameManager.GetComponent<ItemManager>();
         rod = gameManager.GetComponent<RodManager>().equippedRod;
+        initialWidth = GetComponent<RectTransform>().sizeDelta.x;
         RectTransform RectParent = transform.parent.GetComponent<RectTransform>();
         RectTransform Rect = transform.GetComponent<RectTransform>();
         maxX = RectParent.rect.width / 2 - Rect.rect.width / 2;
@@ -44,6 +47,13 @@ public class FishMovement : MonoBehaviour
         if (rod.IsFishBite)
         {
 
+            RectTransform rt = GetComponent<RectTransform>();
+            float width = initialWidth * ItemRegistry.UpgradeItems[ItemRegistry.UpgradeItemType.Rod].Values[itemManager.shop.UpgradeItems[ItemRegistry.UpgradeItemType.Rod].CurrentLevel];
+            rt.sizeDelta = new Vector2(width, rt.sizeDelta.y);
+            RectTransform RectParent = transform.parent.GetComponent<RectTransform>();
+            RectTransform Rect = transform.GetComponent<RectTransform>();
+            maxX = RectParent.rect.width / 2 - Rect.rect.width / 2;
+            minX = -maxX;
             //Move fish to targetPosition
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, new Vector3(targetPosition, transform.localPosition.y, transform.localPosition.z), moveSpeed * moodModifier * Time.deltaTime);
             //Checking the fish

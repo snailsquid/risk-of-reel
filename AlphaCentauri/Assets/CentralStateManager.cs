@@ -27,7 +27,7 @@ public class CentralStateManager : MonoBehaviour
     }
     void Start()
     {
-        SetState(PlayerState.Rod);
+        SetState(PlayerState.Shop);
     }
 
     public void SetState(PlayerState state)

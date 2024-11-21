@@ -69,10 +69,6 @@ public class ItemManager : MonoBehaviour
     {
       UpdateUpgradeUI();
     }
-    else
-    {
-      Debug.Log("Not enough balance");
-    };
   }
   void UpdateUpgradeUI()
   {
@@ -181,9 +177,9 @@ public static class ItemRegistry
     {BuyItemType.Mackarel,new BuyItem("Macakererelle", 1000, "THIS MACAKRENRKEEKRE Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.Mackarel])},
   };
   public static Dictionary<UpgradeItemType, UpgradeItem> UpgradeItems = new Dictionary<UpgradeItemType, UpgradeItem>(){
-    {UpgradeItemType.Rod,new UpgradeItem("Rod", new List<int>{100000}, "[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
-    {UpgradeItemType.Hook,new UpgradeItem("Hook", new List<int>{100000}, "[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
-    {UpgradeItemType.Bucket,new UpgradeItem("Bucket", new List<int>{100000}, "[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
+    {UpgradeItemType.Rod,new UpgradeItem("Rod", new List<int>{100000,2000000},new List<float>{1, 1.2f, 1.4f} ,"[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
+    {UpgradeItemType.Hook,new UpgradeItem("Hook", new List<int>{100000, 2000000},new List<float>{1, 1.2f, 1.4f}, "[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
+    {UpgradeItemType.Bucket,new UpgradeItem("Bucket", new List<int>{100000, 2000000},new List<float>{50, 280f, 5000f}, "[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
   };
 
 }

@@ -304,6 +304,7 @@ public class Cast
         Throwing,
     }
     CastState castState = CastState.None;
+    float initialWidth;
     public bool CastUpdate()
     {
         switch (castState)
@@ -324,6 +325,7 @@ public class Cast
     public Cast(Props castProps)
     {
         CastProperties = castProps;
+        initialWidth = CastProperties.horizontalBar.GetComponent<RectTransform>().rect.width;
     }
     public void CastClick()
     {
@@ -397,7 +399,8 @@ public class Cast
     {
         public Transform horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject, waterObject;
         public float bobberVelocity;
-        public Props(Transform horizontalBar, Transform verticalBar, Transform fishableArea, Transform target, Transform bobberObject, Transform referenceObject, Transform waterObject, float bobberVelocity)
+        public ItemManager itemManager;
+        public Props(Transform horizontalBar, Transform verticalBar, Transform fishableArea, Transform target, Transform bobberObject, Transform referenceObject, Transform waterObject, float bobberVelocity, ItemManager itemManager)
         {
             this.horizontalBar = horizontalBar;
             this.verticalBar = verticalBar;
@@ -407,6 +410,7 @@ public class Cast
             this.referenceObject = referenceObject;
             this.bobberVelocity = bobberVelocity;
             this.waterObject = waterObject;
+            this.itemManager = itemManager;
         }
     }
 
