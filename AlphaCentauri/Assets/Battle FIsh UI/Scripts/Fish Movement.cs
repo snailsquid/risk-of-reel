@@ -13,12 +13,12 @@ public class FishMovement : MonoBehaviour
     public float targetPosition;
     float strength = 1f;
     bool Movingup = true;
-    float mood;
+    float moodModifier;
     [SerializeField] Transform gameManager;
     Rod rod;
     public enum FishEmotion { Neutral, Angry, Tired }
     FishEmotion fishEmotion;
-    Dictionary<FishEmotion, float> fishSpeed = new Dictionary<FishEmotion, float>(){
+    Dictionary<FishEmotion, float> fishTime = new Dictionary<FishEmotion, float>(){
         {Neutral, 1f},
         {Angry, 2f},
         {Tired, 0.5f}
@@ -33,8 +33,9 @@ public class FishMovement : MonoBehaviour
         maxX = RectParent.rect.width / 2 - Rect.rect.width / 2;
         minX = -maxX;
         targetPosition = Random.Range(minX, maxX);
-        mood = 1f;
+        moodModifier = 1f;
         Stateloop = true;
+        strength = rod.fishAttached.Strength;
         //Neutral = true;
 
     }
@@ -44,7 +45,7 @@ public class FishMovement : MonoBehaviour
         {
 
             //Move fish to targetPosition
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, new Vector3(targetPosition, transform.localPosition.y, transform.localPosition.z), moveSpeed * mood * Time.deltaTime);
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, new Vector3(targetPosition, transform.localPosition.y, transform.localPosition.z), moveSpeed * moodModifier * Time.deltaTime);
             //Checking the fish
             if (Mathf.Approximately(transform.localPosition.x, targetPosition))
             {
@@ -81,11 +82,11 @@ public class FishMovement : MonoBehaviour
     }
     IEnumerator WaitNeutral()
     {
-        fishSpeed[Neutral] = Random.Range(3, 8) / strength;
-        yield return new WaitForSeconds(fishSpeed[Neutral]);
+        fishTime[Neutral] = Random.Range(3, 8) / strength;
+        yield return new WaitForSeconds(fishTime[Neutral]);
         if (fishEmotion == Neutral)
         {
-            mood = 2f;
+            moodModifier = 2f;
             Debug.Log("To Angry");
             Stateloop = true;
             fishEmotion = Angry;
@@ -93,11 +94,11 @@ public class FishMovement : MonoBehaviour
     }
     IEnumerator WaitAngr()
     {
-        fishSpeed[Angry] = Random.Range(2, 5) / strength;
-        yield return new WaitForSeconds(fishSpeed[Angry]);
+        fishTime[Angry] = Random.Range(2, 5) / strength;
+        yield return new WaitForSeconds(fishTime[Angry]);
         if (fishEmotion == Angry)
         {
-            mood = 0.5f;
+            moodModifier = 0.5f;
             Debug.Log("To Tired");
             Stateloop = true;
             fishEmotion = Tired;
@@ -105,11 +106,11 @@ public class FishMovement : MonoBehaviour
     }
     IEnumerator WaitTired()
     {
-        fishSpeed[Tired] = Mathf.Abs(fishSpeed[Neutral] - fishSpeed[Angry]);
-        yield return new WaitForSeconds(fishSpeed[Tired]);
+        fishTime[Tired] = Mathf.Abs(fishTime[Neutral] - fishTime[Angry]);
+        yield return new WaitForSeconds(fishTime[Tired]);
         if (fishEmotion == Tired)
         {
-            mood = 1f;
+            moodModifier = 1f;
             Debug.Log("To Neutral");
             Stateloop = true;
             fishEmotion = Neutral;
