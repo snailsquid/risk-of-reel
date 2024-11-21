@@ -5,9 +5,4 @@ using UnityEngine;
 
 public class FishManager : MonoBehaviour
 {
-    Bucket currentBucket;
-    void Start()
-    {
-        currentBucket = BucketRegistry.Buckets[BucketRegistry.Rarity.Basic];
-    }
 }

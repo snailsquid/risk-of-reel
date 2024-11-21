@@ -13,6 +13,7 @@ public class ItemManager : MonoBehaviour
   [SerializeField] Transform upgradeContent, upgradeItem, buyItem, buyContent, sidePanel, shopInventory, lineupContainer;
   [SerializeField] TMP_Text balanceText;
   CentralStateManager centralStateManager;
+  RodManager rodManager;
   public Shop shop { get; private set; }
   Inventory inventory = new(new Dictionary<BuyItemType, InventoryItem>());
   public BuyItemType[] BaitLineup { get; private set; }
@@ -20,6 +21,7 @@ public class ItemManager : MonoBehaviour
   void Awake()
   {
     centralStateManager = GetComponent<CentralStateManager>();
+    rodManager = GetComponent<RodManager>();
     BaitLineup = new BuyItemType[]{
       BuyItemType.None,
       BuyItemType.None,
@@ -65,8 +67,15 @@ public class ItemManager : MonoBehaviour
   }
   void UpgradeItem(UpgradeItemType upgradeItemType)
   {
+
     if (shop.UpgradeItem(upgradeItemType))
     {
+      if (upgradeItemType == UpgradeItemType.Bucket)
+      {
+        int level = shop.UpgradeItems[UpgradeItemType.Bucket].CurrentLevel;
+        rodManager.EquipBucket(level);
+      }
+
       UpdateUpgradeUI();
     }
   }

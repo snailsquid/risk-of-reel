@@ -25,15 +25,15 @@ public class RodManager : MonoBehaviour
         timeManager = transform.GetComponent<TimeManager>();
         SetRod(RodRarity.Basic);
         equippedRod.EquipBait(BaitRegistry.Baits[BaitRegistry.BaitType.None]);
-        EquipBucket(BucketRegistry.Rarity.Basic);
+        EquipBucket(0);
     }
     void Start()
     {
 
     }
-    void EquipBucket(BucketRegistry.Rarity rarity)
+    public void EquipBucket(int level)
     {
-        equippedBucket = BucketRegistry.Buckets[rarity];
+        equippedBucket = new(ItemRegistry.UpgradeItems[ItemRegistry.UpgradeItemType.Bucket].Values[level]);
         equippedRod.SetBucket(equippedBucket);
     }
     void EquipBait(InventoryItem baitItem)
