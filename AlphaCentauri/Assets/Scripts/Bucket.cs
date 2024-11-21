@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Timeline;
 
 public class Bucket
 {
-    private Dictionary<Fish, int> Fishes;
+    public Dictionary<Fish, int> Fishes { get; private set; }
     public float TotalWeight { get; private set; } = 0;
     public float MaxWeight { get; private set; } = 100;
     public bool AddFish(Fish fish)
@@ -21,16 +22,20 @@ public class Bucket
             Fishes.Add(fish, 1);
             TotalWeight += fish.Weight;
         }
+        return false;
         return true;
     }
     float CountMoney()
     {
         float moneySum = 0;
+        Debug.Log(Fishes.Count);
         foreach (KeyValuePair<Fish, int> pair in Fishes)
         {
             Fish fish = pair.Key;
-            moneySum += fish.Weight * fish.PricePerKg;
+            Debug.Log(fish.Weight + "kg " + fish.PricePerKg + "/kg " + pair.Value);
+            moneySum += fish.Weight * fish.PricePerKg * pair.Value;
         }
+        Debug.Log("money sum " + moneySum);
         return moneySum;
     }
     void Reset()
@@ -43,10 +48,11 @@ public class Bucket
         MaxWeight = maxWeight;
         Fishes = new();
     }
-    public float EndRun()
+    public int EndRun()
     {
-        float total = CountMoney();
+        int total = (int)CountMoney();
         Reset();
+        Debug.Log("total " + total);
         return total;
     }
 }

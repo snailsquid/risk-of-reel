@@ -22,12 +22,16 @@ public class TimeManager : MonoBehaviour
     {
         centralStateManager = GetComponent<CentralStateManager>();
     }
-    void StartTime()
+    public void StartTime()
     {
-        RealTime = 0;
         isTimePlaying = true;
     }
-    void PauseTime()
+    public void RestartTime()
+    {
+
+        RealTime = 0;
+    }
+    public void PauseTime()
     {
         isTimePlaying = false;
     }
@@ -48,10 +52,10 @@ public class TimeManager : MonoBehaviour
             float hour = roundedTime < 4 ? roundedTime + 8 : roundedTime - 2;
             float minute = (float)Math.Floor(CurrentTime % 1 * 100 * 0.6) % 60;
             timeText.text = String.Format("{0:00}:{1:00}", hour, minute);
+            if (CurrentTime > maxTime)
+            {
+                centralStateManager.FinishRun(false);
+            }
         }
-    }
-    void EndRun()
-    {
-        PauseTime();
     }
 }

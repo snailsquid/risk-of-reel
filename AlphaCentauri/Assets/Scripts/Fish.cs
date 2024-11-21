@@ -11,6 +11,7 @@ public class Fish
     public float Length { get; private set; }
     public float Strength { get; private set; }
     public float PricePerKg { get; private set; }
+    public Sprite Image { get; private set; }
     public enum FishRarity
     {
         Common,
@@ -26,6 +27,8 @@ public class Fish
         Weight = GenerateStat(fishTemplate.MaxWeigth, fishTemplate.MinWeigth, time);
         Length = GenerateStat(fishTemplate.MaxLength, fishTemplate.MinLength, time);
         Strength = fishTemplate.Strength;
+        Image = fishTemplate.Image;
+        PricePerKg = fishTemplate.PricePerKg;
     }
     float GenerateStat(float max, float min, (float current, float max) time)
     {
@@ -47,7 +50,8 @@ public class FishTemplate
     public float MinLength { get; private set; }
     public float Strength { get; private set; }
     public float PricePerKg { get; private set; }
-    public FishTemplate(string name, Fish.FishRarity rarity, float maxL, float minL, float maxW, float minW, float strength, float pricePerKg)
+    public Sprite Image { get; private set; }
+    public FishTemplate(string name, Fish.FishRarity rarity, float maxL, float minL, float maxW, float minW, float strength, float pricePerKg, Sprite image)
     {
         Name = name;
         Rarity = rarity;
@@ -57,6 +61,7 @@ public class FishTemplate
         MinLength = minL;
         Strength = strength;
         PricePerKg = pricePerKg;
+        Image = image;
     }
 }
 
@@ -74,13 +79,13 @@ public class FishGenerator
     }
 
     public static readonly Dictionary<FishType, FishTemplate> FishTemplates = new Dictionary<FishType, FishTemplate>{
-        {FishType.Salmon, new FishTemplate("Salmon", Fish.FishRarity.Common, 45, 75, 2.2f, 5, 2, 1200)},
-        {FishType.Tuna, new FishTemplate("Tuna", Fish.FishRarity.Common, 120, 220, 12, 20, 4, 800)},
-        {FishType.Bass, new FishTemplate("Bass", Fish.FishRarity.Common, 40, 75, 2, 3.5f, 2, 500)},
-        {FishType.Trout, new FishTemplate("Trout", Fish.FishRarity.Common, 61, 91, 2.8f, 8, 2, 600)},
-        {FishType.Catfish, new FishTemplate("Catfish", Fish.FishRarity.Common, 130, 160, 6, 10, 3, 700)},
-        {FishType.Carp, new FishTemplate("Carp", Fish.FishRarity.Common, 45, 95, 6, 14, 3, 6000)},
-        {FishType.SecretFish, new FishTemplate("Secret Fish", Fish.FishRarity.Dev, 0,0,0,0,0, 0)}
+        {FishType.Salmon, new FishTemplate("Salmon", Fish.FishRarity.Common, 45, 75, 2.2f, 5, 2, 1200, Resources.Load("Images/Fish/Salmon.png")as Sprite)},
+        {FishType.Tuna, new FishTemplate("Tuna", Fish.FishRarity.Common, 120, 220, 12, 20, 4, 800, Resources.Load("Images/Fish/Tuna.png")as Sprite)},
+        {FishType.Bass, new FishTemplate("Bass", Fish.FishRarity.Common, 40, 75, 2, 3.5f, 2, 500, Resources.Load("Images/Fish/Bass.png")as Sprite)},
+        {FishType.Trout, new FishTemplate("Trout", Fish.FishRarity.Common, 61, 91, 2.8f, 8, 2, 600, Resources.Load("Images/Fish/Trout.png")as Sprite)},
+        {FishType.Catfish, new FishTemplate("Catfish", Fish.FishRarity.Common, 130, 160, 6, 10, 3, 700, Resources.Load("Images/Fish/CatFish.png")as Sprite)},
+        {FishType.Carp, new FishTemplate("Carp", Fish.FishRarity.Common, 45, 95, 6, 14, 3, 6000, Resources.Load("Images/Fish/Carp.png")as Sprite)},
+        {FishType.SecretFish, new FishTemplate("Secret Fish", Fish.FishRarity.Dev, 0,0,0,0,0, 0, Resources.Load("Images/Fish/Secret Fish.png") as Sprite)}
     };
     public static Fish GenerateFish(Bait bait, (float current, float max) time)
     {

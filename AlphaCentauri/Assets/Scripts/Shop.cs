@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using static ItemRegistry;
 
@@ -16,7 +17,13 @@ public class Shop
   }
   public void AddBalance(int amount)
   {
+    Debug.Log("before " + Balance);
     Balance += amount;
+    Debug.Log("after " + Balance);
+  }
+  public void DeductBalance(int amount)
+  {
+    Balance -= amount;
   }
   public bool BuyItem(BuyItemType buyItemType)
   {
@@ -25,7 +32,7 @@ public class Shop
     BuyItem item = BuyItems[buyItemType];
     if (Balance >= item.Price)
     {
-      Balance -= item.Price;
+      DeductBalance(item.Price);
       return true;
     }
     else

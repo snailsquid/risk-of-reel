@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Microsoft.Unity.VisualStudio.Editor;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Animations;
 using static RodRegistry;
 
 public class Rod
@@ -19,16 +22,23 @@ public class Rod
     public bool IsFishBite { get; private set; } = false;
     public Fish fishAttached;
     public Bait baitAttached;
+    public Bucket currentBucket;
     public Rod(string name, RodRarity rodRarity)
     {
         Name = name;
         RodRarity = rodRarity;
     }
     TimeManager timeManager;
-    public void SetRodMechanic(RodMechanics.Props props, TimeManager timeManager)
+    CentralStateManager centralStateManager;
+    public void SetRodMechanic(RodMechanics.Props props, TimeManager timeManager, CentralStateManager centralStateManager)
     {
         RodMechanics = new RodMechanics(props);
         this.timeManager = timeManager;
+        this.centralStateManager = centralStateManager;
+    }
+    public void SetBucket(Bucket bucket)
+    {
+        currentBucket = bucket;
     }
     public void Update()
     {
@@ -95,8 +105,13 @@ public class Rod
     public void PostFish()
     {
         RodMechanics.battle.UI(false);
-        RodMechanics.battle.PopUp(fishAttached.Name, fishAttached.Weight, fishAttached.Length);
         baitAttached = BaitRegistry.Baits[BaitRegistry.BaitType.None];
+        if (!currentBucket.AddFish(fishAttached)) { RodMechanics.postFish.props.centralStateManager.FinishRun(false); return; };
+        RodMechanics.battle.PopUp(fishAttached.Name, fishAttached.Weight, fishAttached.Length);
+        RodState = RodState.PreCast;
+    }
+    public void Restart()
+    {
         RodState = RodState.PreCast;
     }
     public void Battle()
@@ -133,6 +148,27 @@ public class Rod
     {
         IsFishBite = false;
     }
+
+}
+public class PostFish
+{
+    public class Props
+    {
+        public CentralStateManager centralStateManager;
+        public PostRunPopup postRunPopup;
+        public Bucket bucket;
+        public Props(CentralStateManager centralStateManager, PostRunPopup postRunPopup, Bucket bucket)
+        {
+            this.centralStateManager = centralStateManager;
+            this.postRunPopup = postRunPopup;
+            this.bucket = bucket;
+        }
+    }
+    public Props props;
+    public PostFish(Props props)
+    {
+        this.props = props;
+    }
 }
 
 
@@ -141,22 +177,26 @@ public class RodMechanics
     public Cast cast;
     public Battle battle;
     public FishWait fishWait;
+    public PostFish postFish;
     public RodMechanics(Props props)
     {
         cast = new Cast(props.castProps);
         battle = new Battle(props.battleProps);
         fishWait = new FishWait(props.fishProps);
+        postFish = new PostFish(props.postFishProps);
     }
     public class Props
     {
         public Cast.Props castProps;
         public Battle.Props battleProps;
         public FishWait.Props fishProps;
-        public Props(Cast.Props castProps, Battle.Props battleProps, FishWait.Props fishProps)
+        public PostFish.Props postFishProps;
+        public Props(Cast.Props castProps, Battle.Props battleProps, FishWait.Props fishProps, PostFish.Props postFishProps)
         {
             this.castProps = castProps;
             this.battleProps = battleProps;
             this.fishProps = fishProps;
+            this.postFishProps = postFishProps;
         }
     }
 }

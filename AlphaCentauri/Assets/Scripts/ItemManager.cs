@@ -13,7 +13,7 @@ public class ItemManager : MonoBehaviour
   [SerializeField] Transform upgradeContent, upgradeItem, buyItem, buyContent, sidePanel, shopInventory, lineupContainer;
   [SerializeField] TMP_Text balanceText;
   CentralStateManager centralStateManager;
-  Shop shop;
+  public Shop shop { get; private set; }
   Inventory inventory = new(new Dictionary<BuyItemType, InventoryItem>());
   public BuyItemType[] BaitLineup { get; private set; }
   [SerializeField] List<BuyImage> buyImages = new List<BuyImage>();
@@ -112,9 +112,19 @@ public class ItemManager : MonoBehaviour
   {
     sidePanel.GetComponent<Sidepanel>().SetUI(buyItemType, BuyItem);
   }
-  void UpdateBalanceUI()
+  public void UpdateBalanceUI()
   {
+    Debug.Log("updating balance ui");
     balanceText.text = currencyPrefix + shop.Balance.ToString();
+  }
+  public void DeductBalance(int amount)
+  {
+    shop.DeductBalance(amount);
+  }
+  public string GetBalance()
+  {
+    return currencyPrefix + shop.Balance.ToString();
+
   }
   void UpdateLineupUI()
   {
