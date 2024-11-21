@@ -14,12 +14,12 @@ public class Guard : MonoBehaviour
     public float caughtTime;
     float VisibleTimer;
     float viewAngle;
-    public enum GuardState {Staying, Patroling};
+    public enum GuardState {Neither, Staying, Patroling};
     GuardState guardState;
     public enum PlayerState {Playing, Waiting, getCaught};
-    PlayerState playerState;
+    public PlayerState playerState;
     float waitTime;
-    float guardChecking;
+    public float guardChecking;
     public List<GameObject> waypoints;
     int targetWaypointindex=0;
     Transform Player;
@@ -73,6 +73,7 @@ public class Guard : MonoBehaviour
         {
             playerState = PlayerState.Waiting;
             Debug.Log("GetCaught");//Add trigger gameover here
+            VisibleTimer = 0;
         }
         if (guardChecking >=20f)
         {
@@ -122,7 +123,7 @@ public class Guard : MonoBehaviour
                 }
                 else
                 {
-                    
+                    guardState = GuardState.Neither;
                 }
             }
         }
