@@ -12,13 +12,14 @@ public class ItemManager : MonoBehaviour
   [SerializeField] string currencyPrefix;
   [SerializeField] Transform upgradeContent, upgradeItem, buyItem, buyContent, sidePanel, shopInventory, lineupContainer;
   [SerializeField] TMP_Text balanceText;
+  CentralStateManager centralStateManager;
   Shop shop;
   Inventory inventory = new(new Dictionary<BuyItemType, InventoryItem>());
   public BuyItemType[] BaitLineup { get; private set; }
   [SerializeField] List<BuyImage> buyImages = new List<BuyImage>();
   void Awake()
   {
-
+    centralStateManager = GetComponent<CentralStateManager>();
     BaitLineup = new BuyItemType[]{
       BuyItemType.None,
       BuyItemType.None,
@@ -38,16 +39,6 @@ public class ItemManager : MonoBehaviour
     }
     shop = new(BuyItemsClone, UpgradeItems);
     UpdateUI();
-
-    //Debug
-    BuyItem(BuyItemType.CacingTanah);
-    BuyItem(BuyItemType.CacingTanah);
-    BuyItem(BuyItemType.CacingTanah);
-    BuyItem(BuyItemType.CacingTanah);
-    BuyItem(BuyItemType.CacingTanah);
-    BuyItem(BuyItemType.CacingTanah);
-    BuyItem(BuyItemType.CacingTanah);
-    BuyItem(BuyItemType.Mackarel);
   }
 
   public void UI(bool show = true)

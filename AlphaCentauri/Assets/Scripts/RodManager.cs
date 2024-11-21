@@ -14,8 +14,10 @@ public class RodManager : MonoBehaviour
     [SerializeField] Transform horizontalBar, verticalBar, fishableArea, target, bobberObject, hookBar, successBar, popUp;
     [SerializeField] float bobberVelocity = 5f;
     TimeManager timeManager;
+    CentralStateManager centralStateManager;
     void Awake()
     {
+        centralStateManager = GetComponent<CentralStateManager>();
         timeManager = transform.GetComponent<TimeManager>();
         SetRod(RodType.FishingRod1);
         equippedRod.EquipBait(BaitRegistry.Baits[BaitRegistry.BaitType.None]);
@@ -37,27 +39,35 @@ public class RodManager : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (centralStateManager.playerState == CentralStateManager.PlayerState.Rod)
         {
-            if (!clickDebounce)
+
+            if (Input.GetMouseButton(0))
             {
-                clickDebounce = true;
-                OnClick();
+                if (!clickDebounce)
+                {
+                    clickDebounce = true;
+                    OnClick();
+                }
+
             }
 
-        }
-
-        else
-        {
-            if (clickDebounce)
+            else
             {
-                clickDebounce = false;
+                if (clickDebounce)
+                {
+                    clickDebounce = false;
+                }
             }
+            equippedRod.Update();
         }
-        equippedRod.Update();
     }
     void OnClick()
     {
-        equippedRod.OnClick();
+        if (centralStateManager.playerState == CentralStateManager.PlayerState.Rod)
+        {
+
+            equippedRod.OnClick();
+        }
     }
 }
