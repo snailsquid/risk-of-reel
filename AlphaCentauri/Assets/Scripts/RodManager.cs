@@ -18,23 +18,29 @@ public class RodManager : MonoBehaviour
     CentralStateManager centralStateManager;
     void Awake()
     {
+        equippedRod = new("Rod", RodRarity.Basic);
         centralStateManager = GetComponent<CentralStateManager>();
         timeManager = transform.GetComponent<TimeManager>();
-        SetRod(RodType.FishingRod1);
+        SetRod(RodRarity.Basic);
         equippedRod.EquipBait(BaitRegistry.Baits[BaitRegistry.BaitType.None]);
-        equippedBucket = BucketRegistry.Buckets[BucketRegistry.Tier.Basic];
-        equippedRod.SetBucket(equippedBucket);
+        EquipBucket(BucketRegistry.Rarity.Basic);
     }
     void Start()
     {
+
+    }
+    void EquipBucket(BucketRegistry.Rarity rarity)
+    {
+        equippedBucket = BucketRegistry.Buckets[rarity];
+        equippedRod.SetBucket(equippedBucket);
     }
     void EquipBait(InventoryItem baitItem)
     {
 
     }
-    void SetRod(RodType rodType)
+    void SetRod(RodRarity rodRarity)
     {
-        equippedRod = Rods[rodType];
+        equippedRod.SetRodRarity(rodRarity);
         Cast.Props castProps = new Cast.Props(horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject, waterObject, bobberVelocity);
         Battle.Props battleProps = new Battle.Props(hookBar, successBar, MaxFishBiteTime, popUp);
         FishWait.Props fishWaitProps = new FishWait.Props(FishBite);

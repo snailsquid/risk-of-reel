@@ -8,6 +8,6 @@ public class FishManager : MonoBehaviour
     Bucket currentBucket;
     void Start()
     {
-        currentBucket = BucketRegistry.Buckets[BucketRegistry.Tier.Basic];
+        currentBucket = BucketRegistry.Buckets[BucketRegistry.Rarity.Basic];
     }
 }

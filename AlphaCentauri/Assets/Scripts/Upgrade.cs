@@ -17,7 +17,7 @@ public class Upgrade : MonoBehaviour
         UpgradeItem upgradeItem = ItemRegistry.UpgradeItems[upgradeItemType];
         Name.text = name;
         ImageObject.GetComponent<Image>().sprite = upgradeItem.Image;
-        Price.text = upgradeItem.Price.ToString();
+        Price.text = upgradeItem.Prices[upgradeItem.CurrentLevel].ToString();
         description = upgradeItem.Description;
         Level.text = upgradeItem.CurrentLevel.ToString();
         this.upgradeItemType = upgradeItemType;

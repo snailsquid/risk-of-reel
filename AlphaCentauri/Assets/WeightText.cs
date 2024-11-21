@@ -16,6 +16,7 @@ public class WeightText : MonoBehaviour
     {
         if (gameManager.GetComponent<CentralStateManager>().playerState == CentralStateManager.PlayerState.Rod)
         {
+            Debug.Log(rodManager.equippedBucket);
             GetComponent<TMP_Text>().text = rodManager.equippedBucket.TotalWeight + "kg/" + rodManager.equippedBucket.MaxWeight + "kg";
         }
 

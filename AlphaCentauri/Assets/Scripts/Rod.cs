@@ -37,6 +37,10 @@ public class Rod
         this.timeManager = timeManager;
         this.centralStateManager = centralStateManager;
     }
+    public void SetRodRarity(RodRarity rodRarity)
+    {
+        RodRarity = rodRarity;
+    }
     public void SetBucket(Bucket bucket)
     {
         currentBucket = bucket;

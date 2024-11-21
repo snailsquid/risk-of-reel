@@ -173,7 +173,7 @@ public static class ItemRegistry
   }
   public enum UpgradeItemType
   {
-    Upgrade
+    Rod, Hook, Bucket
   }
   public static Dictionary<BuyItemType, BuyItem> BuyItems = new Dictionary<BuyItemType, BuyItem>(){
     {BuyItemType.None,new BuyItem("None", 1000, "None Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.None])},
@@ -181,7 +181,9 @@ public static class ItemRegistry
     {BuyItemType.Mackarel,new BuyItem("Macakererelle", 1000, "THIS MACAKRENRKEEKRE Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.Mackarel])},
   };
   public static Dictionary<UpgradeItemType, UpgradeItem> UpgradeItems = new Dictionary<UpgradeItemType, UpgradeItem>(){
-    {UpgradeItemType.Upgrade,new UpgradeItem("Upgrade", 1000, "Upgrade", null)},
+    {UpgradeItemType.Rod,new UpgradeItem("Rod", new List<int>{100000}, "[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
+    {UpgradeItemType.Hook,new UpgradeItem("Hook", new List<int>{100000}, "[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
+    {UpgradeItemType.Bucket,new UpgradeItem("Bucket", new List<int>{100000}, "[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
   };
 
 }
