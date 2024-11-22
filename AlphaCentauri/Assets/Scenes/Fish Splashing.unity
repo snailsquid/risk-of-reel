@@ -2688,7 +2688,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c13c2e202ab6be74bb1af80afdd778fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Bobber: {fileID: 3001853000703922498, guid: 3ef640db229b8844c996d2b53ece3344, type: 3}
   moveSpeed: 250
   changeFrequency: 0.01
   targetPosition: 0

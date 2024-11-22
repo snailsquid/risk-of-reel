@@ -7,7 +7,12 @@ using DG.Tweening;
 
 public class Bobber : MonoBehaviour
 {
+    [SerializeField] Transform Particle;
+    ParticleSystem ps;
     [SerializeField] Transform debugObject;
+    float firstPositionX;
+    float firstPositionZ;
+    public float moveRamge;
     public float minShake;
     public float maxShake;
     [SerializeField] bool debug = false;
@@ -18,7 +23,7 @@ public class Bobber : MonoBehaviour
     float x = 0;
     void Start()
     {
-        //Fish = fish.GetComponent<FishMovement>();
+        ps = Particle.GetComponent<ParticleSystem>();
     }
     void OnTriggerEnter(Collider other)
     {
@@ -34,12 +39,19 @@ public class Bobber : MonoBehaviour
     }
     public void Splash()
     {
-        //transform.DOMove(new Vector3(transform.position.x,transform.position.y+UnityEngine.Random.Range(0,100),transform.position.z),2).SetEase(Ease.InOutSine).SetLoops(-1,LoopType.Yoyo);
-        transform.DOShakePosition(UnityEngine.Random.Range(minShake,maxShake),0.1f,5).SetLoops(-1);
+        ps.Play();
+        firstPositionX = transform.position.x;
+        firstPositionZ = transform.position.z;
+        DG.Tweening.Sequence sequence = DOTween.Sequence().SetLoops(-1);
+        sequence.Append(transform.DOLocalMove(new Vector3(transform.position.x+UnityEngine.Random.Range(-moveRamge,moveRamge),transform.position.y,transform.position.z+UnityEngine.Random.Range(-moveRamge,moveRamge)),1).SetEase(Ease.Linear));
+        sequence.Append(transform.DOLocalMove(new Vector3(transform.position.x+UnityEngine.Random.Range(-moveRamge,moveRamge),transform.position.y,transform.position.z+UnityEngine.Random.Range(-moveRamge,moveRamge)),2).SetEase(Ease.Linear));
+        sequence.Append(transform.DOLocalMove(new Vector3(transform.position.x+UnityEngine.Random.Range(-moveRamge,moveRamge),transform.position.y,transform.position.z+UnityEngine.Random.Range(-moveRamge,moveRamge)),1).SetEase(Ease.Linear).SetLoops(2,LoopType.Yoyo));
+        sequence.Append(transform.DOLocalMove(new Vector3(transform.position.x+UnityEngine.Random.Range(-moveRamge,moveRamge),transform.position.y,transform.position.z+UnityEngine.Random.Range(-moveRamge,moveRamge)),1).SetEase(Ease.Linear));
+        sequence.Append(transform.DOLocalMove(new Vector3(transform.position.x+UnityEngine.Random.Range(-moveRamge,moveRamge),transform.position.y,transform.position.z+UnityEngine.Random.Range(-moveRamge,moveRamge)),2).SetEase(Ease.Linear).SetLoops(1,LoopType.Yoyo));
+        sequence.Append(transform.DOLocalMove(new Vector3(firstPositionX,transform.position.y,firstPositionZ),1).SetEase(Ease.Linear));
     }
     public static double BobEase(double t, double damping = 0.4f, double frequency = 2.0)
     {
-
         // Apply the bobbing formula
         return Math.Exp(-damping * t) * Math.Sin(2 * Math.PI * frequency * t) * -1;
     }
