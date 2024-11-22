@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using DG.Tweening;
 
 public class Bobber : MonoBehaviour
 {
     [SerializeField] Transform debugObject;
     [SerializeField] bool debug = false;
-    [SerializeField] float timeToBob = 7.5f, damping = 0.4f, freq = 0.4f, multiplier = 2f;
+    [SerializeField] float timeToBob = 7.5f, damping = 0.4f, freq = 0.4f, multiplier = 2f, jumpHeight = 5f;
+    public float duration = 2f;
     public bool IsTouchingWater { get; private set; } = false;
     Rigidbody rigidBody;
     float yTouchWater = 0;
@@ -45,5 +47,16 @@ public class Bobber : MonoBehaviour
             float x = (float)BobEase(deltaTime, damping, freq) * multiplier;
             rigidBody.position = new Vector3(rigidBody.position.x, yTouchWater + x, rigidBody.position.z);
         }
+    }
+    public void FishLaunch(FishGenerator.FishType fishType)
+    {
+        GameObject fishModel = FishGenerator.GetFishModel(fishType);
+        if (fishModel != null)
+        {
+            GameObject clone = Instantiate(fishModel);
+            clone.transform.position = transform.position;
+            clone.transform.DOMove(clone.transform.position + new Vector3(0, jumpHeight, 0), duration).SetEase(Ease.InOutQuint);
+        }
+        Destroy(gameObject);
     }
 }

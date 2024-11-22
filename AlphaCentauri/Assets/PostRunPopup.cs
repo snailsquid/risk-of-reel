@@ -40,11 +40,11 @@ public class PostRunPopup : MonoBehaviour
     {
         this.canContinue = canContinue;
         continueContainer.localScale = new Vector3(0, 0, 0);
-        transform.DOScale(new Vector2(0.5f, 0.5f), popUpTime);
         StartCoroutine(WaitCoroutine());
     }
     IEnumerator WaitCoroutine()
     {
+        transform.DOScale(new Vector2(0.5f, 0.5f), popUpTime);
         yield return new WaitForSeconds(hideTime);
         if (canContinue)
         {

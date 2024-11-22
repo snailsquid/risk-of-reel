@@ -34,12 +34,18 @@ public class FishingProgress : MonoBehaviour
         if (rod.IsFishBite)
         {
 
+            Debug.Log("yes");
             Calculation();
         }
         else
         {
-            successCounter = 0;
         }
+    }
+    public void Reset()
+    {
+        Debug.Log("nah");
+        successCounter = 0;
+        success.value = 0;
     }
     private void Calculation()
     {

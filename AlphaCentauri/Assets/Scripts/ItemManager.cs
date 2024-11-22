@@ -20,6 +20,7 @@ public class ItemManager : MonoBehaviour
   [SerializeField] List<BuyImage> buyImages = new List<BuyImage>();
   void Awake()
   {
+    Debug.Log("awake");
     centralStateManager = GetComponent<CentralStateManager>();
     rodManager = GetComponent<RodManager>();
     BaitLineup = new BuyItemType[]{
@@ -37,10 +38,10 @@ public class ItemManager : MonoBehaviour
       }
     }
     shop = new(BuyItemsClone, UpgradeItems);
+    UpdateUI();
   }
   void Start()
   {
-    UpdateUI();
   }
 
   public void UI(bool show = true)
