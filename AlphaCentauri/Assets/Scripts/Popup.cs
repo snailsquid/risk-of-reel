@@ -7,6 +7,7 @@ using DG.Tweening;
 
 public class PopUp : MonoBehaviour
 {
+    [SerializeField] float popUpTime = 2f, hideTime = 5;
     [SerializeField] TMP_Text fishName, fishWeightAndLength;
     public static string FishType;//nanti diganti
 
@@ -17,6 +18,12 @@ public class PopUp : MonoBehaviour
     }
     public void Show()
     {
-        transform.DOScale(new Vector2(0.5f, 0.5f), 2);
+        transform.DOScale(new Vector2(0.5f, 0.5f), popUpTime);
+        StartCoroutine(WaitCoroutine());
+    }
+    IEnumerator WaitCoroutine()
+    {
+        yield return new WaitForSeconds(hideTime);
+        transform.DOScale(new Vector3(0, 0), popUpTime);
     }
 }

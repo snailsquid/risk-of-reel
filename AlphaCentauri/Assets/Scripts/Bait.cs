@@ -50,8 +50,6 @@ public class BaitChance
             }
             else
             {
-                Debug.Log(fishTemplate);
-                Debug.Log(FishChances);
                 this.FishChances.Add(fishTemplate, 0);
             }
         }
@@ -73,6 +71,14 @@ public class BaitRegistry
     }
     public static Dictionary<BaitType, Bait> Baits { get; private set; } = new Dictionary<BaitType, Bait>(){
         {BaitType.None,new Bait("None", new Dictionary<FishTemplate, float>(){
+            {FishTemplates[FishType.Bass], 0},
+            {FishTemplates[FishType.Salmon],20}
+        })},
+        {BaitType.CacingTanah,new Bait("wormy", new Dictionary<FishTemplate, float>(){
+            {FishTemplates[FishType.Bass], 0},
+            {FishTemplates[FishType.Salmon],20}
+        })},
+        {BaitType.Mackarel,new Bait("MACKAREL OMG", new Dictionary<FishTemplate, float>(){
             {FishTemplates[FishType.Bass], 0},
             {FishTemplates[FishType.Salmon],20}
         })},
