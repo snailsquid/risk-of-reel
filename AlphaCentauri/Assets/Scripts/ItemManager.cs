@@ -11,9 +11,10 @@ public class ItemManager : MonoBehaviour
 {
   [SerializeField] string currencyPrefix;
   [SerializeField] Transform upgradeContent, upgradeItem, buyItem, buyContent, sidePanel, shopInventory, lineupContainer, quickSwitch;
-  [SerializeField] TMP_Text balanceText;
+  [SerializeField] TMP_Text balanceText, logText;
   CentralStateManager centralStateManager;
   RodManager rodManager;
+  public EventLog eventLog;
   public Shop shop { get; private set; }
   public Inventory inventory { get; private set; }
   public List<BuyItemType> BaitLineup { get; private set; }
@@ -21,6 +22,7 @@ public class ItemManager : MonoBehaviour
   void Awake()
   {
     Debug.Log("awake");
+    eventLog = logText.GetComponent<EventLog>();
     centralStateManager = GetComponent<CentralStateManager>();
     rodManager = GetComponent<RodManager>();
     BaitLineup = new List<BuyItemType>{

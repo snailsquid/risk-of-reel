@@ -147,7 +147,7 @@ public class Rod
     }
     public void BattleFail()
     {
-        Debug.Log("You failed bruh");
+        RodMechanics.cast.CastProperties.itemManager.eventLog.Log("Fish got away");
         FishUnbite();
         RodState = RodState.PreCast;
         RodMechanics.battle.UI(false);
