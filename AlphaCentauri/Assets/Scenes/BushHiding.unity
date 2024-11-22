@@ -252,7 +252,9 @@ MonoBehaviour:
     m_Bits: 64
   susMeter: {fileID: 1017644856}
   caughtTime: 8
+  pause: {fileID: 1105501514}
   playerState: 0
+  guardChecking: 0
   waypoints:
   - {fileID: 1413508369}
   - {fileID: 280350568}
@@ -1790,8 +1792,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53dcb07ce59eb604fb4ac9e99fdda944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guard: {fileID: 266739369}
   pauseMenuUI: {fileID: 1022537177}
+  Trigger: 0
 --- !u!1 &1167844249
 GameObject:
   m_ObjectHideFlags: 0

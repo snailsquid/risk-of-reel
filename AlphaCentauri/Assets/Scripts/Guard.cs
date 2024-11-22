@@ -14,6 +14,8 @@ public class Guard : MonoBehaviour
     public float caughtTime;
     float VisibleTimer;
     float viewAngle;
+    PauseMenu pauseMenu;
+    [SerializeField] GameObject pause;
     public enum GuardState {Neither, Staying, Patroling};
     GuardState guardState;
     public enum PlayerState {Playing, Waiting, getCaught};
@@ -28,6 +30,7 @@ public class Guard : MonoBehaviour
         playerState = PlayerState.Playing;
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         viewAngle = spotlight.spotAngle;
+        pauseMenu = pause.GetComponent<PauseMenu>();
     }
     bool CanSeePlayer()//Detect player by Guard vision
     {
@@ -71,9 +74,11 @@ public class Guard : MonoBehaviour
         susMeter.value=VisibleTimer;
         if (VisibleTimer >= caughtTime)
         {
+            
             playerState = PlayerState.Waiting;
             Debug.Log("GetCaught");//Add trigger gameover here
             VisibleTimer = 0;
+            pauseMenu.Pause();
         }
         if (guardChecking >=20f)
         {
