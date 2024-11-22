@@ -16,14 +16,14 @@ public class ItemManager : MonoBehaviour
   RodManager rodManager;
   public Shop shop { get; private set; }
   Inventory inventory = new(new Dictionary<BuyItemType, InventoryItem>());
-  public BuyItemType[] BaitLineup { get; private set; }
+  public List<BuyItemType> BaitLineup { get; private set; }
   [SerializeField] List<BuyImage> buyImages = new List<BuyImage>();
   void Awake()
   {
     Debug.Log("awake");
     centralStateManager = GetComponent<CentralStateManager>();
     rodManager = GetComponent<RodManager>();
-    BaitLineup = new BuyItemType[]{
+    BaitLineup = new List<BuyItemType>{
       BuyItemType.None,
       BuyItemType.None,
       BuyItemType.None,
@@ -139,7 +139,7 @@ public class ItemManager : MonoBehaviour
   }
   void UpdateLineupUI()
   {
-    for (int i = 0; i < BaitLineup.Length; i++)
+    for (int i = 0; i < BaitLineup.Count; i++)
     {
       Debug.Log(BaitLineup[i]);
       lineupContainer.GetChild(i).GetComponent<LineupButton>().SetButton(BaitLineup[i]);
@@ -148,7 +148,7 @@ public class ItemManager : MonoBehaviour
   public void AddToLineup(BuyItemType buyItemType)
   {
     if (BaitLineup.Contains(buyItemType)) return;
-    for (int i = 0; i < BaitLineup.Length; i++)
+    for (int i = 0; i < BaitLineup.Count; i++)
     {
       if (BaitLineup[i] == BuyItemType.None)
       {
