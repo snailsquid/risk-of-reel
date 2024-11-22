@@ -22,7 +22,7 @@ public class Rod
     public RodMechanics RodMechanics { get; private set; }
     public bool IsFishBite { get; private set; } = false;
     public Fish fishAttached;
-    public Bait baitAttached;
+    public BaitRegistry.BaitType BaitAttached;
     public Bucket currentBucket;
     public Rod(string name, RodRarity rodRarity)
     {
@@ -58,7 +58,8 @@ public class Rod
                 {
                     RodState = RodState.FishWaiting;
                     Debug.Log((timeManager.CurrentTime, timeManager.maxTime));
-                    RodMechanics.fishWait.WaitBite(baitAttached, (timeManager.CurrentTime, timeManager.maxTime));
+                    if (BaitAttached != BaitRegistry.BaitType.None && RodMechanics.cast.CastProperties.itemManager.inventory.Items[ItemRegistry.BaitToBuy[BaitAttached]].Quantity <= 0) return;
+                    RodMechanics.fishWait.WaitBite(BaitAttached, (timeManager.CurrentTime, timeManager.maxTime));
                 };
                 break;
             case RodState.FishWaiting:
@@ -96,9 +97,9 @@ public class Rod
                 break;
         }
     }
-    public void EquipBait(Bait bait)
+    public void EquipBait(BaitRegistry.BaitType bait)
     {
-        baitAttached = bait;
+        BaitAttached = bait;
     }
     public void Cast()
     {
@@ -112,7 +113,6 @@ public class Rod
     public void PostFish()
     {
         RodMechanics.battle.UI(false);
-        baitAttached = BaitRegistry.Baits[BaitRegistry.BaitType.None];
         if (!currentBucket.AddFish(fishAttached)) { RodMechanics.postFish.props.centralStateManager.FinishRun(false); return; };
         RodMechanics.cast.bobberClone.GetComponent<Bobber>().FishLaunch(fishAttached.fishType);
         RodMechanics.battle.PopUp(fishAttached.Name, fishAttached.Weight, fishAttached.Length);
@@ -226,7 +226,7 @@ public class FishWait
     {
         this.props = props;
     }
-    public async Task WaitBite(Bait bait, (float current, float max) time)
+    public async Task WaitBite(BaitRegistry.BaitType bait, (float current, float max) time)
     {
         float randomTime = Random.Range(props.FishBite.MinTime, props.FishBite.MaxTime) * 1000;
         Debug.Log(randomTime);
