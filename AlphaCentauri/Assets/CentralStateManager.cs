@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class CentralStateManager : MonoBehaviour
 {
-    [SerializeField] Transform hideButton, weightText, postRunPopupObject;
+    [SerializeField] Transform hideButton, weightText, postRunPopupObject, quickSwitchContainer, susSlider;
     PostRunPopup postRunPopup;
     TimeManager timeManager;
     RodManager rodManager;
@@ -37,6 +37,8 @@ public class CentralStateManager : MonoBehaviour
         itemManager.UI(state == PlayerState.Shop);
         weightText.gameObject.SetActive(state == PlayerState.Rod);
         hideButton.gameObject.SetActive(state == PlayerState.Rod);
+        quickSwitchContainer.gameObject.SetActive(state == PlayerState.Rod);
+        susSlider.gameObject.SetActive(state == PlayerState.Rod);
         playerState = state;
     }
     public void FinishRun(bool canContinue) // can be continued
