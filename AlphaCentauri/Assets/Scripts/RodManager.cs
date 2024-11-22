@@ -2,52 +2,86 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using static RodRegistry;
 
 public class RodManager : MonoBehaviour
 {
     public Rod equippedRod { get; private set; }
+    public Bucket equippedBucket { get; private set; }
     public bool clickDebounce;
     [SerializeField] (int MinTime, int MaxTime) FishBite = (5, 10);
-    [SerializeField] float MaxFishBiteTime = 20f;
     [SerializeField] private Transform referenceObject, waterObject;
-    [SerializeField] Transform horizontalBar, verticalBar, fishableArea, target, bobberObject, hookBar, successBar;
+    [SerializeField] Transform horizontalBar, verticalBar, fishableArea, target, bobberObject, hookBar, successBar, popUp, postRunPopup;
     [SerializeField] float bobberVelocity = 5f;
+    TimeManager timeManager;
+    CentralStateManager centralStateManager;
+    ItemManager itemManager;
     void Awake()
     {
-        SetRod(RodType.FishingRod1);
+        equippedRod = new("Rod", RodRarity.Basic);
+        itemManager = GetComponent<ItemManager>();
+        centralStateManager = GetComponent<CentralStateManager>();
+        timeManager = transform.GetComponent<TimeManager>();
+        equippedRod.EquipBait(BaitRegistry.BaitType.None);
+        EquipBucket(0);
     }
-    void SetRod(RodType rodType)
+    void Start()
     {
-        equippedRod = Rods[rodType];
-        Cast.Props castProps = new Cast.Props(horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject, waterObject, bobberVelocity);
-        Battle.Props battleProps = new Battle.Props(hookBar, successBar, MaxFishBiteTime);
+
+        SetRod(RodRarity.Basic);
+    }
+    public void EquipBucket(int level)
+    {
+        equippedBucket = new(ItemRegistry.UpgradeItems[ItemRegistry.UpgradeItemType.Bucket].Values[level]);
+        equippedRod.SetBucket(equippedBucket);
+    }
+    void EquipBait(InventoryItem baitItem)
+    {
+
+    }
+    void SetRod(RodRarity rodRarity)
+    {
+        equippedRod.SetRodRarity(rodRarity);
+        Debug.Log(itemManager.shop);
+        float maxFishBiteTime = ItemRegistry.UpgradeItems[ItemRegistry.UpgradeItemType.Hook].Values[itemManager.shop.UpgradeItems[ItemRegistry.UpgradeItemType.Hook].CurrentLevel];
+        Cast.Props castProps = new Cast.Props(horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject, waterObject, bobberVelocity, itemManager);
+        Battle.Props battleProps = new Battle.Props(hookBar, successBar, maxFishBiteTime, popUp);
         FishWait.Props fishWaitProps = new FishWait.Props(FishBite);
-        equippedRod.SetRodMechanic(new RodMechanics.Props(castProps, battleProps, fishWaitProps));
+        PostFish.Props postFishProps = new PostFish.Props(centralStateManager, postRunPopup.GetComponent<PostRunPopup>(), equippedBucket);
+        equippedRod.SetRodMechanic(new RodMechanics.Props(castProps, battleProps, fishWaitProps, postFishProps), timeManager, centralStateManager);
     }
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (centralStateManager.playerState == CentralStateManager.PlayerState.Rod)
         {
-            if (!clickDebounce)
+
+            if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
             {
-                clickDebounce = true;
-                OnClick();
+                if (!clickDebounce)
+                {
+                    clickDebounce = true;
+                    OnClick();
+                }
+
             }
 
-        }
-
-        else
-        {
-            if (clickDebounce)
+            else
             {
-                clickDebounce = false;
+                if (clickDebounce)
+                {
+                    clickDebounce = false;
+                }
             }
+            equippedRod.Update();
         }
-        equippedRod.Update();
     }
     void OnClick()
     {
-        equippedRod.OnClick();
+        if (centralStateManager.playerState == CentralStateManager.PlayerState.Rod)
+        {
+
+            equippedRod.OnClick();
+        }
     }
 }

@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - water
+  - Tooltipable
+  - Guard
   - FishableArea
   layers:
   - Default
@@ -13,7 +15,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Bush
   - 
   - 
   - 

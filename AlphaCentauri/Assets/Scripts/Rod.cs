@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Microsoft.Unity.VisualStudio.Editor;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Animations;
 using static RodRegistry;
 
 public class Rod
@@ -15,17 +18,33 @@ public class Rod
     public string Name
     { get; private set; }
     public RodRarity RodRarity { get; private set; }
-    public Bait Bait { get; set; }
+    public HookRarity HookRarity { get; private set; }
     public RodMechanics RodMechanics { get; private set; }
     public bool IsFishBite { get; private set; } = false;
+    public Fish fishAttached;
+    public BaitRegistry.BaitType BaitAttached;
+    public Bucket currentBucket;
     public Rod(string name, RodRarity rodRarity)
     {
         Name = name;
         RodRarity = rodRarity;
     }
-    public void SetRodMechanic(RodMechanics.Props props)
+    TimeManager timeManager;
+    CentralStateManager centralStateManager;
+    public void SetRodMechanic(RodMechanics.Props props, TimeManager timeManager, CentralStateManager centralStateManager)
     {
+        Debug.Log("setting rod mechanics");
         RodMechanics = new RodMechanics(props);
+        this.timeManager = timeManager;
+        this.centralStateManager = centralStateManager;
+    }
+    public void SetRodRarity(RodRarity rodRarity)
+    {
+        RodRarity = rodRarity;
+    }
+    public void SetBucket(Bucket bucket)
+    {
+        currentBucket = bucket;
     }
     public void Update()
     {
@@ -38,11 +57,18 @@ public class Rod
                 if (isFinished)
                 {
                     RodState = RodState.FishWaiting;
-                    RodMechanics.fishWait.WaitBite();
+                    Debug.Log((timeManager.CurrentTime, timeManager.maxTime));
+                    if (BaitAttached != BaitRegistry.BaitType.None && RodMechanics.cast.CastProperties.itemManager.inventory.Items[ItemRegistry.BaitToBuy[BaitAttached]].Quantity <= 0) return;
+                    RodMechanics.fishWait.WaitBite(BaitAttached, (timeManager.CurrentTime, timeManager.maxTime));
                 };
                 break;
             case RodState.FishWaiting:
-                if (RodMechanics.fishWait.GetTempFishBite()) { IsFishBite = true; Battle(); }
+                if (RodMechanics.fishWait.GetTempFishBite())
+                {
+                    IsFishBite = true;
+                    fishAttached = RodMechanics.fishWait.TempFish;
+                    Battle();
+                }
                 break;
             case RodState.Battling:
                 IsFishBite = RodMechanics.battle.BattleUpdate();
@@ -71,13 +97,14 @@ public class Rod
                 break;
         }
     }
-    public void EquipBait(Bait bait)
+    public void EquipBait(BaitRegistry.BaitType bait)
     {
-        Bait = bait;
+        BaitAttached = bait;
     }
     public void Cast()
     {
         Debug.Log("Casting");
+        Debug.Log(RodMechanics);
         RodMechanics.cast.UI(true);
         RodState = RodState.Casting;
         RodMechanics.cast.CastClick();
@@ -86,6 +113,13 @@ public class Rod
     public void PostFish()
     {
         RodMechanics.battle.UI(false);
+        if (!currentBucket.AddFish(fishAttached)) { RodMechanics.postFish.props.centralStateManager.FinishRun(false); return; };
+        RodMechanics.cast.bobberClone.GetComponent<Bobber>().FishLaunch(fishAttached.fishType);
+        RodMechanics.battle.PopUp(fishAttached.Name, fishAttached.Weight, fishAttached.Length);
+        RodState = RodState.PreCast;
+    }
+    public void Restart()
+    {
         RodState = RodState.PreCast;
     }
     public void Battle()
@@ -111,6 +145,7 @@ public class Rod
         Debug.Log("Successfully Battled the god damn fish");
         RodMechanics.battle.UI(false);
         RodState = RodState.PostFish;
+        PostFish();
     }
     public void BattleFail()
     {
@@ -119,10 +154,32 @@ public class Rod
         FishUnbite();
         RodState = RodState.PreCast;
         RodMechanics.battle.UI(false);
+        GameObject.Destroy(RodMechanics.cast.bobberClone.gameObject);
     }
     public void FishUnbite()
     {
         IsFishBite = false;
+    }
+
+}
+public class PostFish
+{
+    public class Props
+    {
+        public CentralStateManager centralStateManager;
+        public PostRunPopup postRunPopup;
+        public Bucket bucket;
+        public Props(CentralStateManager centralStateManager, PostRunPopup postRunPopup, Bucket bucket)
+        {
+            this.centralStateManager = centralStateManager;
+            this.postRunPopup = postRunPopup;
+            this.bucket = bucket;
+        }
+    }
+    public Props props;
+    public PostFish(Props props)
+    {
+        this.props = props;
     }
 }
 
@@ -132,28 +189,33 @@ public class RodMechanics
     public Cast cast;
     public Battle battle;
     public FishWait fishWait;
+    public PostFish postFish;
     public RodMechanics(Props props)
     {
         cast = new Cast(props.castProps);
         battle = new Battle(props.battleProps);
         fishWait = new FishWait(props.fishProps);
+        postFish = new PostFish(props.postFishProps);
     }
     public class Props
     {
         public Cast.Props castProps;
         public Battle.Props battleProps;
         public FishWait.Props fishProps;
-        public Props(Cast.Props castProps, Battle.Props battleProps, FishWait.Props fishProps)
+        public PostFish.Props postFishProps;
+        public Props(Cast.Props castProps, Battle.Props battleProps, FishWait.Props fishProps, PostFish.Props postFishProps)
         {
             this.castProps = castProps;
             this.battleProps = battleProps;
             this.fishProps = fishProps;
+            this.postFishProps = postFishProps;
         }
     }
 }
 public class FishWait
 {
     bool tempFishBite = false;
+    public Fish TempFish;
     public class Props
     {
         public (int MinTime, int MaxTime) FishBite;
@@ -167,12 +229,13 @@ public class FishWait
     {
         this.props = props;
     }
-    public async Task WaitBite()
+    public async Task WaitBite(BaitRegistry.BaitType bait, (float current, float max) time)
     {
-        float time = Random.Range(props.FishBite.MinTime, props.FishBite.MaxTime) * 1000;
-        Debug.Log(time);
-        await Task.Delay((int)time);
+        float randomTime = Random.Range(props.FishBite.MinTime, props.FishBite.MaxTime) * 1000;
+        Debug.Log(randomTime);
+        await Task.Delay((int)randomTime);
         tempFishBite = true;
+        TempFish = FishGenerator.GenerateFish(bait, time);
     }
     public bool GetTempFishBite()
     {
@@ -193,17 +256,24 @@ public class Battle
     {
         public Transform hookBar { get; private set; }
         public Transform successBar { get; private set; }
-        public float maxFishBiteTime { get; private set; } = 10f;
-        public Props(Transform hookBar, Transform successBar, float maxFishBiteTime)
+        public float maxFishBiteTime { get; private set; }
+        public Transform popup { get; private set; }
+        public Props(Transform hookBar, Transform successBar, float maxFishBiteTime, Transform popUp)
         {
             this.hookBar = hookBar;
             this.successBar = successBar;
             this.maxFishBiteTime = maxFishBiteTime;
+            this.popup = popUp;
+        }
+        public void SetmaxFishBiteTime(float time)
+        {
+            maxFishBiteTime = time;
         }
     }
-    Props props;
+    public Props props { get; private set; }
     public void UI(bool show)
     {
+        props.hookBar.GetComponent<FishingProgress>().Reset();
         props.hookBar.gameObject.SetActive(show);
         props.successBar.gameObject.SetActive(show);
     }
@@ -226,6 +296,13 @@ public class Battle
         }
         return true;
     }
+    public void PopUp(string name, float weight, float length)
+
+    {
+        PopUp popUp = props.popup.GetComponent<PopUp>();
+        popUp.SetText(name, weight, length);
+        popUp.Show();
+    }
 }
 
 public class Cast
@@ -239,6 +316,7 @@ public class Cast
         Throwing,
     }
     CastState castState = CastState.None;
+    float initialWidth;
     public bool CastUpdate()
     {
         switch (castState)
@@ -259,6 +337,7 @@ public class Cast
     public Cast(Props castProps)
     {
         CastProperties = castProps;
+        initialWidth = CastProperties.horizontalBar.GetComponent<RectTransform>().rect.width;
     }
     public void CastClick()
     {
@@ -296,10 +375,9 @@ public class Cast
     }
     public void Restart()
     {
-        GameObject.Destroy(bobberClone.gameObject);
         castState = CastState.None;
     }
-    Transform bobberClone;
+    public Transform bobberClone { get; private set; }
     void BobberCast()
     {
         Transform fishableArea = CastProperties.fishableArea;
@@ -336,7 +414,8 @@ public class Cast
     {
         public Transform horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject, waterObject;
         public float bobberVelocity;
-        public Props(Transform horizontalBar, Transform verticalBar, Transform fishableArea, Transform target, Transform bobberObject, Transform referenceObject, Transform waterObject, float bobberVelocity)
+        public ItemManager itemManager;
+        public Props(Transform horizontalBar, Transform verticalBar, Transform fishableArea, Transform target, Transform bobberObject, Transform referenceObject, Transform waterObject, float bobberVelocity, ItemManager itemManager)
         {
             this.horizontalBar = horizontalBar;
             this.verticalBar = verticalBar;
@@ -346,6 +425,7 @@ public class Cast
             this.referenceObject = referenceObject;
             this.bobberVelocity = bobberVelocity;
             this.waterObject = waterObject;
+            this.itemManager = itemManager;
         }
     }
 
@@ -373,13 +453,10 @@ public static class RodRegistry
         Super,
         Ultimate
     }
-    public enum RodType
+    public enum HookRarity
     {
-        FishingRod1,
-        FishingRod2
+        Basic,
+        Super,
+        Ultimate
     }
-    public static Dictionary<RodType, Rod> Rods = new Dictionary<RodType, Rod>(){
-        {RodType.FishingRod1, new Rod("Fishing Rod 1", RodRarity.Basic)},
-        {RodType.FishingRod2, new Rod("Fishing Rod 2", RodRarity.Super)}
-    };
 }
