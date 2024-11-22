@@ -92,10 +92,11 @@ public class FishGenerator
         Debug.Log("Models/" + fishType.ToString());
         return Resources.Load("Models/" + fishType.ToString(), typeof(GameObject)) as GameObject;
     }
-    public static Fish GenerateFish(Bait bait, (float current, float max) time)
+    public static Fish GenerateFish(BaitRegistry.BaitType bait, (float current, float max) time)
     {
-        Dictionary<FishTemplate, float> fishChances = bait.BaitChance.FishChances;
-        float totalchance = bait.BaitChance.TotalChance;
+        BaitChance baitChance = BaitRegistry.Baits[bait].BaitChance;
+        Dictionary<FishTemplate, float> fishChances = baitChance.FishChances;
+        float totalchance = baitChance.TotalChance;
         float rng = Random.Range(0, totalchance);
         float sum = 0;
         foreach (KeyValuePair<FishTemplate, float> key in fishChances)

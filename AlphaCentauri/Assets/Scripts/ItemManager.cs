@@ -10,12 +10,12 @@ using static ItemRegistry;
 public class ItemManager : MonoBehaviour
 {
   [SerializeField] string currencyPrefix;
-  [SerializeField] Transform upgradeContent, upgradeItem, buyItem, buyContent, sidePanel, shopInventory, lineupContainer;
+  [SerializeField] Transform upgradeContent, upgradeItem, buyItem, buyContent, sidePanel, shopInventory, lineupContainer, quickSwitch;
   [SerializeField] TMP_Text balanceText;
   CentralStateManager centralStateManager;
   RodManager rodManager;
   public Shop shop { get; private set; }
-  Inventory inventory = new(new Dictionary<BuyItemType, InventoryItem>());
+  public Inventory inventory { get; private set; }
   public List<BuyItemType> BaitLineup { get; private set; }
   [SerializeField] List<BuyImage> buyImages = new List<BuyImage>();
   void Awake()
@@ -38,6 +38,7 @@ public class ItemManager : MonoBehaviour
       }
     }
     shop = new(BuyItemsClone, UpgradeItems);
+    inventory = new(new Dictionary<BuyItemType, InventoryItem>(), quickSwitch.GetComponent<QuickSwitch>());
     UpdateUI();
   }
   void Start()
@@ -186,6 +187,11 @@ public static class ItemRegistry
   {
     Rod, Hook, Bucket
   }
+  public static Dictionary<BaitRegistry.BaitType, BuyItemType> BaitToBuy = new Dictionary<BaitRegistry.BaitType, BuyItemType>(){
+    {BaitRegistry.BaitType.None,BuyItemType.None},
+    {BaitRegistry.BaitType.CacingTanah,BuyItemType.CacingTanah},
+    {BaitRegistry.BaitType.Mackarel,BuyItemType.Mackarel},
+  };
   public static Dictionary<BuyItemType, BuyItem> BuyItems = new Dictionary<BuyItemType, BuyItem>(){
     {BuyItemType.None,new BuyItem("None", 1000, "None Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.None])},
     {BuyItemType.CacingTanah,new BuyItem("Cacing Tanah", 1000, "Cacing Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.CacingTanah])},
@@ -193,8 +199,8 @@ public static class ItemRegistry
   };
   public static Dictionary<UpgradeItemType, UpgradeItem> UpgradeItems = new Dictionary<UpgradeItemType, UpgradeItem>(){
     {UpgradeItemType.Rod,new UpgradeItem("Rod", new List<int>{100000,2000000},new List<float>{1, 1.2f, 1.4f} ,"[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
-    {UpgradeItemType.Hook,new UpgradeItem("Hook", new List<int>{100000, 2000000},new List<float>{5, 10, 15}, "[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
-    {UpgradeItemType.Bucket,new UpgradeItem("Bucket", new List<int>{100000, 2000000},new List<float>{50, 280f, 5000f}, "[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
+    {UpgradeItemType.Hook,new UpgradeItem("Hook", new List<int>{100000, 2000000},new List<float>{5, 10, 15}, "[Basic] 5 seconds to fish\n[Super] 10 seconds to fish\n[Ultimate] 15 seconds to fish", Resources.Load("Images/Rod")as Sprite)},
+    {UpgradeItemType.Bucket,new UpgradeItem("Bucket", new List<int>{100000, 2000000},new List<float>{50, 280f, 5000f}, "[Basic] Maximum 50kg weight\n[Super] Maximum 280kg weight\n[Ultimate] Maximum 5000kg weight", Resources.Load("Images/Rod")as Sprite)},
   };
 
 }

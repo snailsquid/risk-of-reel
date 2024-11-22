@@ -8,8 +8,11 @@ public class QuickSwitchItem : MonoBehaviour
     ItemRegistry.BuyItemType bait;
     ItemManager itemManager;
     [SerializeField] int index;
+    [SerializeField] Transform image, quantityText;
+    QuickSwitch quickSwitch;
     void Start()
     {
+        quickSwitch = transform.parent.GetComponent<QuickSwitch>();
         itemManager = GameObject.Find("GameManager").transform.GetComponent<ItemManager>();
         GetComponent<Button>().onClick.AddListener(OnClick);
     }
@@ -17,18 +20,22 @@ public class QuickSwitchItem : MonoBehaviour
     {
         this.bait = bait;
         this.index = index;
-        transform.GetChild(0).GetComponent<Image>().sprite = ItemRegistry.BuyItems[bait].Image;
+        image.GetComponent<Image>().sprite = ItemRegistry.BuyItems[bait].Image;
+    }
+    public void UpdateQuantity()
+    {
+        quantityText.GetComponent<Text>().text = itemManager.inventory.Items[bait].Quantity.ToString();
     }
     void OnClick()
     {
-        if (index == transform.parent.GetComponent<QuickSwitch>().baitIndex)
+        if (index == quickSwitch.baitIndex)
         {
-            transform.parent.GetComponent<QuickSwitch>().ToggleContainer();
+            quickSwitch.ToggleContainer();
         }
         else
         {
-            transform.parent.GetComponent<QuickSwitch>().SwitchBait(index);
-            transform.parent.GetComponent<QuickSwitch>().ToggleContainer();
+            quickSwitch.SwitchBait(index);
+            quickSwitch.ToggleContainer();
         }
     }
 }

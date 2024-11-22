@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using static RodRegistry;
 
 public class RodManager : MonoBehaviour
@@ -22,7 +23,7 @@ public class RodManager : MonoBehaviour
         itemManager = GetComponent<ItemManager>();
         centralStateManager = GetComponent<CentralStateManager>();
         timeManager = transform.GetComponent<TimeManager>();
-        equippedRod.EquipBait(BaitRegistry.Baits[BaitRegistry.BaitType.None]);
+        equippedRod.EquipBait(BaitRegistry.BaitType.None);
         EquipBucket(0);
     }
     void Start()
@@ -55,7 +56,7 @@ public class RodManager : MonoBehaviour
         if (centralStateManager.playerState == CentralStateManager.PlayerState.Rod)
         {
 
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 if (!clickDebounce)
                 {
