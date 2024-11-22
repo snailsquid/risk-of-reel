@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using DG.Tweening;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class Bobber : MonoBehaviour
 {
-    [SerializeField] Transform Particle;
+    [SerializeField] Transform Particle, fishableArea;
     ParticleSystem ps;
     [SerializeField] Transform debugObject;
     float firstPositionX;
@@ -24,6 +25,8 @@ public class Bobber : MonoBehaviour
     void Start()
     {
         ps = Particle.GetComponent<ParticleSystem>();
+        ps.Stop();
+        fishableArea = GameObject.Find("Fishable Area").transform;
     }
     void OnTriggerEnter(Collider other)
     {
@@ -37,18 +40,22 @@ public class Bobber : MonoBehaviour
             rigidBody.useGravity = false;
         };
     }
+    Vector3 GetRandomFishableArea()
+    {
+        return new Vector3(UnityEngine.Random.Range(fishableArea.position.x - fishableArea.localScale.x / 2, fishableArea.position.x + fishableArea.localScale.x / 2), fishableArea.position.y, UnityEngine.Random.Range(fishableArea.position.z - fishableArea.localScale.z / 2, fishableArea.position.z + fishableArea.localScale.z / 2));
+    }
     public void Splash()
     {
         ps.Play();
         firstPositionX = transform.position.x;
         firstPositionZ = transform.position.z;
         DG.Tweening.Sequence sequence = DOTween.Sequence().SetLoops(-1);
-        sequence.Append(transform.DOLocalMove(new Vector3(transform.position.x+UnityEngine.Random.Range(-moveRamge,moveRamge),transform.position.y,transform.position.z+UnityEngine.Random.Range(-moveRamge,moveRamge)),1).SetEase(Ease.Linear));
-        sequence.Append(transform.DOLocalMove(new Vector3(transform.position.x+UnityEngine.Random.Range(-moveRamge,moveRamge),transform.position.y,transform.position.z+UnityEngine.Random.Range(-moveRamge,moveRamge)),2).SetEase(Ease.Linear));
-        sequence.Append(transform.DOLocalMove(new Vector3(transform.position.x+UnityEngine.Random.Range(-moveRamge,moveRamge),transform.position.y,transform.position.z+UnityEngine.Random.Range(-moveRamge,moveRamge)),1).SetEase(Ease.Linear).SetLoops(2,LoopType.Yoyo));
-        sequence.Append(transform.DOLocalMove(new Vector3(transform.position.x+UnityEngine.Random.Range(-moveRamge,moveRamge),transform.position.y,transform.position.z+UnityEngine.Random.Range(-moveRamge,moveRamge)),1).SetEase(Ease.Linear));
-        sequence.Append(transform.DOLocalMove(new Vector3(transform.position.x+UnityEngine.Random.Range(-moveRamge,moveRamge),transform.position.y,transform.position.z+UnityEngine.Random.Range(-moveRamge,moveRamge)),2).SetEase(Ease.Linear).SetLoops(1,LoopType.Yoyo));
-        sequence.Append(transform.DOLocalMove(new Vector3(firstPositionX,transform.position.y,firstPositionZ),1).SetEase(Ease.Linear));
+        sequence.Append(transform.DOLocalMove(new Vector3(GetRandomFishableArea().x - transform.position.x, transform.position.y, GetRandomFishableArea().z - transform.position.z), 1).SetEase(Ease.Linear));
+        sequence.Append(transform.DOLocalMove(new Vector3(GetRandomFishableArea().x - transform.position.x, transform.position.y, GetRandomFishableArea().z - transform.position.z), 2).SetEase(Ease.Linear));
+        sequence.Append(transform.DOLocalMove(new Vector3(GetRandomFishableArea().x - transform.position.x, transform.position.y, GetRandomFishableArea().z - transform.position.z), 1).SetEase(Ease.Linear).SetLoops(2, LoopType.Yoyo));
+        sequence.Append(transform.DOLocalMove(new Vector3(GetRandomFishableArea().x - transform.position.x, transform.position.y, GetRandomFishableArea().z - transform.position.z), 1).SetEase(Ease.Linear));
+        sequence.Append(transform.DOLocalMove(new Vector3(GetRandomFishableArea().x - transform.position.x, transform.position.y, GetRandomFishableArea().z - transform.position.z), 2).SetEase(Ease.Linear).SetLoops(1, LoopType.Yoyo));
+        sequence.Append(transform.DOLocalMove(new Vector3(firstPositionX, transform.position.y, firstPositionZ), 1).SetEase(Ease.Linear));
     }
     public static double BobEase(double t, double damping = 0.4f, double frequency = 2.0)
     {
