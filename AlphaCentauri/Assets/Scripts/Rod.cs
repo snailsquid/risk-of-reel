@@ -33,6 +33,7 @@ public class Rod
     CentralStateManager centralStateManager;
     public void SetRodMechanic(RodMechanics.Props props, TimeManager timeManager, CentralStateManager centralStateManager)
     {
+        Debug.Log("setting rod mechanics");
         RodMechanics = new RodMechanics(props);
         this.timeManager = timeManager;
         this.centralStateManager = centralStateManager;
@@ -102,6 +103,7 @@ public class Rod
     public void Cast()
     {
         Debug.Log("Casting");
+        Debug.Log(RodMechanics);
         RodMechanics.cast.UI(true);
         RodState = RodState.Casting;
         RodMechanics.cast.CastClick();

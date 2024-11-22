@@ -27,9 +27,6 @@ public class ItemManager : MonoBehaviour
       BuyItemType.None,
       BuyItemType.None,
     };
-  }
-  void Start()
-  {
     Dictionary<BuyItemType, BuyItem> BuyItemsClone = BuyItems;
     foreach (KeyValuePair<BuyItemType, BuyItem> pair in BuyItemsClone)
     {
@@ -40,6 +37,9 @@ public class ItemManager : MonoBehaviour
       }
     }
     shop = new(BuyItemsClone, UpgradeItems);
+  }
+  void Start()
+  {
     UpdateUI();
   }
 
