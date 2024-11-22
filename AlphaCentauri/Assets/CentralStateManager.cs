@@ -6,11 +6,12 @@ using UnityEngine;
 
 public class CentralStateManager : MonoBehaviour
 {
-    [SerializeField] Transform hideButton, weightText, postRunPopupObject, quickSwitchContainer, susSlider;
+    [SerializeField] Transform hideButton, weightText, postRunPopupObject, quickSwitchContainer, susSlider, mainMenuCanvas;
     PostRunPopup postRunPopup;
     TimeManager timeManager;
     RodManager rodManager;
     ItemManager itemManager;
+    CameraManager cameraManager;
     public enum PlayerState
     {
         StartMenu,
@@ -21,13 +22,14 @@ public class CentralStateManager : MonoBehaviour
     void Awake()
     {
         postRunPopup = postRunPopupObject.GetComponent<PostRunPopup>();
+        cameraManager = GetComponent<CameraManager>();
         timeManager = GetComponent<TimeManager>();
         rodManager = GetComponent<RodManager>();
         itemManager = GetComponent<ItemManager>();
     }
     void Start()
     {
-        SetState(PlayerState.Shop);
+        SetState(PlayerState.StartMenu);
     }
 
     public void SetState(PlayerState state)
@@ -39,6 +41,7 @@ public class CentralStateManager : MonoBehaviour
         hideButton.gameObject.SetActive(state == PlayerState.Rod);
         quickSwitchContainer.gameObject.SetActive(state == PlayerState.Rod);
         susSlider.gameObject.SetActive(state == PlayerState.Rod);
+        mainMenuCanvas.gameObject.SetActive(state == PlayerState.StartMenu);
         playerState = state;
     }
     public void FinishRun(bool canContinue) // can be continued
@@ -48,6 +51,12 @@ public class CentralStateManager : MonoBehaviour
         postRunPopup.SetFishes(BucketToList(rodManager.equippedBucket));
         postRunPopup.Show(canContinue);
         Debug.Log(rodManager.equippedBucket.Fishes.Count);
+    }
+    public void StartGame()
+    {
+
+        quickSwitchContainer.GetComponent<QuickSwitch>().ResetUI();
+        cameraManager.SwitchToFishing();
     }
     List<Fish> BucketToList(Bucket bucket)
     {

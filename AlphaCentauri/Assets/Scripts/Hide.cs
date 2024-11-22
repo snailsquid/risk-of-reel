@@ -14,12 +14,17 @@ public class Hide : MonoBehaviour
     float timeHiding = 0, timeUnhiding = 0;
     bool canHide = true;
     Vector3 velocity;
+    CentralStateManager centralStateManager;
     public float cooldownLeft
     {
         get;
         private set;
     }
     public float forcedUnhideTime { get; private set; }
+    void Start()
+    {
+        centralStateManager = GameObject.Find("GameManager").GetComponent<CentralStateManager>();
+    }
     void Update()
     {
         HideCounter();
@@ -27,6 +32,7 @@ public class Hide : MonoBehaviour
 
     void HideCounter()
     {
+        if (centralStateManager.playerState != CentralStateManager.PlayerState.Rod) return;
         if (isHide)
         {
             timeUnhiding = 0;
