@@ -55,7 +55,6 @@ public class CentralStateManager : MonoBehaviour
     public void StartGame()
     {
 
-        quickSwitchContainer.GetComponent<QuickSwitch>().ResetUI();
         cameraManager.SwitchToFishing();
     }
     List<Fish> BucketToList(Bucket bucket)
