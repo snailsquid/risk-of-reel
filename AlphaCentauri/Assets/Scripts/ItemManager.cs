@@ -38,7 +38,6 @@ public class ItemManager : MonoBehaviour
       }
     }
     shop = new(BuyItemsClone, UpgradeItems);
-    Debug.Log("shop init");
     UpdateUI();
   }
   void Start()
