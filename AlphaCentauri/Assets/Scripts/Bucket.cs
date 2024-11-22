@@ -57,16 +57,5 @@ public class Bucket
 }
 public static class BucketRegistry
 {
-    public enum Rarity
-    {
-        Basic,
-        Super,
-        Ultimate
-    }
-    public static Dictionary<Rarity, Bucket> Buckets = new(){
-        {Rarity.Basic,new Bucket(50)},
-        {Rarity.Super,new Bucket(280)},
-        {Rarity.Ultimate,new Bucket(5000)},
-    };
 
 }

@@ -75,6 +75,11 @@ public class ItemManager : MonoBehaviour
         int level = shop.UpgradeItems[UpgradeItemType.Bucket].CurrentLevel;
         rodManager.EquipBucket(level);
       }
+      else if (upgradeItemType == UpgradeItemType.Hook)
+      {
+        int level = shop.UpgradeItems[UpgradeItemType.Hook].CurrentLevel;
+        rodManager.equippedRod.RodMechanics.battle.props.SetmaxFishBiteTime(shop.UpgradeItems[UpgradeItemType.Hook].Values[level]);
+      }
 
       UpdateUpgradeUI();
     }
@@ -187,7 +192,7 @@ public static class ItemRegistry
   };
   public static Dictionary<UpgradeItemType, UpgradeItem> UpgradeItems = new Dictionary<UpgradeItemType, UpgradeItem>(){
     {UpgradeItemType.Rod,new UpgradeItem("Rod", new List<int>{100000,2000000},new List<float>{1, 1.2f, 1.4f} ,"[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
-    {UpgradeItemType.Hook,new UpgradeItem("Hook", new List<int>{100000, 2000000},new List<float>{1, 1.2f, 1.4f}, "[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
+    {UpgradeItemType.Hook,new UpgradeItem("Hook", new List<int>{100000, 2000000},new List<float>{5, 10, 15}, "[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
     {UpgradeItemType.Bucket,new UpgradeItem("Bucket", new List<int>{100000, 2000000},new List<float>{50, 280f, 5000f}, "[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
   };
 

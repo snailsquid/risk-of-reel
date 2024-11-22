@@ -10,7 +10,6 @@ public class RodManager : MonoBehaviour
     public Bucket equippedBucket { get; private set; }
     public bool clickDebounce;
     [SerializeField] (int MinTime, int MaxTime) FishBite = (5, 10);
-    [SerializeField] float MaxFishBiteTime = 20f;
     [SerializeField] private Transform referenceObject, waterObject;
     [SerializeField] Transform horizontalBar, verticalBar, fishableArea, target, bobberObject, hookBar, successBar, popUp, postRunPopup;
     [SerializeField] float bobberVelocity = 5f;
@@ -23,13 +22,13 @@ public class RodManager : MonoBehaviour
         itemManager = GetComponent<ItemManager>();
         centralStateManager = GetComponent<CentralStateManager>();
         timeManager = transform.GetComponent<TimeManager>();
-        SetRod(RodRarity.Basic);
         equippedRod.EquipBait(BaitRegistry.Baits[BaitRegistry.BaitType.None]);
         EquipBucket(0);
     }
     void Start()
     {
 
+        SetRod(RodRarity.Basic);
     }
     public void EquipBucket(int level)
     {
@@ -43,8 +42,9 @@ public class RodManager : MonoBehaviour
     void SetRod(RodRarity rodRarity)
     {
         equippedRod.SetRodRarity(rodRarity);
+        float maxFishBiteTime = ItemRegistry.UpgradeItems[ItemRegistry.UpgradeItemType.Hook].Values[itemManager.shop.UpgradeItems[ItemRegistry.UpgradeItemType.Hook].CurrentLevel];
         Cast.Props castProps = new Cast.Props(horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject, waterObject, bobberVelocity, itemManager);
-        Battle.Props battleProps = new Battle.Props(hookBar, successBar, MaxFishBiteTime, popUp);
+        Battle.Props battleProps = new Battle.Props(hookBar, successBar, maxFishBiteTime, popUp);
         FishWait.Props fishWaitProps = new FishWait.Props(FishBite);
         PostFish.Props postFishProps = new PostFish.Props(centralStateManager, postRunPopup.GetComponent<PostRunPopup>(), equippedBucket);
         equippedRod.SetRodMechanic(new RodMechanics.Props(castProps, battleProps, fishWaitProps, postFishProps), timeManager, centralStateManager);
