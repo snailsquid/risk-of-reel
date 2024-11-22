@@ -124,11 +124,12 @@ public class Rod
     }
     public void Battle()
     {
-        RodMechanics.cast.Restart();
+        //RodMechanics.cast.Restart();
         RodMechanics.battle.UI(true);
         RodMechanics.cast.UI(false);
         RodState = RodState.Battling;
         Debug.Log("battling");
+        RodMechanics.cast.Splashing();
     }
     public void FishWait()
     {
@@ -140,6 +141,7 @@ public class Rod
     }
     public void BattleSuccess()
     {
+        RodMechanics.cast.Restart();
         Debug.Log("Successfully Battled the god damn fish");
         RodMechanics.battle.UI(false);
         RodState = RodState.PostFish;
@@ -147,7 +149,8 @@ public class Rod
     }
     public void BattleFail()
     {
-        RodMechanics.cast.CastProperties.itemManager.eventLog.Log("Fish got away");
+        RodMechanics.cast.Restart();
+        Debug.Log("You failed bruh");
         FishUnbite();
         RodState = RodState.PreCast;
         RodMechanics.battle.UI(false);
@@ -392,6 +395,10 @@ public class Cast
 
         float time = distance.magnitude / CastProperties.bobberVelocity;
         rigidbody.velocity = CastProperties.bobberVelocity * distance.normalized + new Vector3(0, time * Physics.gravity.magnitude * 0.5f);
+    }
+    public void Splashing()
+    {
+        bobberClone.GetComponent<Bobber>().Splash();
     }
     bool IsBobberOnWater()
     {
