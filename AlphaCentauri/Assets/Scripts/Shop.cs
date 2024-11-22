@@ -67,7 +67,6 @@ public class BuyItem : IItem
   public Bait Bait { get; }
   public BuyItem(string name, int price, string description, Sprite image, Bait bait)
   {
-    Debug.Log(name);
     Name = name;
     Price = price;
     Description = description;

@@ -20,6 +20,7 @@ public class ItemManager : MonoBehaviour
   [SerializeField] List<BuyImage> buyImages = new List<BuyImage>();
   void Awake()
   {
+    Debug.Log("awake");
     centralStateManager = GetComponent<CentralStateManager>();
     rodManager = GetComponent<RodManager>();
     BaitLineup = new BuyItemType[]{
@@ -27,9 +28,6 @@ public class ItemManager : MonoBehaviour
       BuyItemType.None,
       BuyItemType.None,
     };
-  }
-  void Start()
-  {
     Dictionary<BuyItemType, BuyItem> BuyItemsClone = BuyItems;
     foreach (KeyValuePair<BuyItemType, BuyItem> pair in BuyItemsClone)
     {
@@ -40,7 +38,11 @@ public class ItemManager : MonoBehaviour
       }
     }
     shop = new(BuyItemsClone, UpgradeItems);
+    Debug.Log("shop init");
     UpdateUI();
+  }
+  void Start()
+  {
   }
 
   public void UI(bool show = true)

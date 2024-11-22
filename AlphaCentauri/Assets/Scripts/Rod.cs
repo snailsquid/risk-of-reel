@@ -112,6 +112,7 @@ public class Rod
         RodMechanics.battle.UI(false);
         baitAttached = BaitRegistry.Baits[BaitRegistry.BaitType.None];
         if (!currentBucket.AddFish(fishAttached)) { RodMechanics.postFish.props.centralStateManager.FinishRun(false); return; };
+        RodMechanics.cast.bobberClone.GetComponent<Bobber>().FishLaunch(fishAttached.fishType);
         RodMechanics.battle.PopUp(fishAttached.Name, fishAttached.Weight, fishAttached.Length);
         RodState = RodState.PreCast;
     }
@@ -148,6 +149,7 @@ public class Rod
         FishUnbite();
         RodState = RodState.PreCast;
         RodMechanics.battle.UI(false);
+        GameObject.Destroy(RodMechanics.cast.bobberClone.gameObject);
     }
     public void FishUnbite()
     {
@@ -266,6 +268,7 @@ public class Battle
     public Props props { get; private set; }
     public void UI(bool show)
     {
+        props.hookBar.GetComponent<FishingProgress>().Reset();
         props.hookBar.gameObject.SetActive(show);
         props.successBar.gameObject.SetActive(show);
     }
@@ -281,7 +284,6 @@ public class Battle
     {
         FishTimer += Time.deltaTime;
 
-        Debug.Log(FishTimer + " " + props.maxFishBiteTime);
         if (FishTimer > props.maxFishBiteTime)
         {
             FishTimer = 0;
@@ -368,10 +370,9 @@ public class Cast
     }
     public void Restart()
     {
-        GameObject.Destroy(bobberClone.gameObject);
         castState = CastState.None;
     }
-    Transform bobberClone;
+    public Transform bobberClone { get; private set; }
     void BobberCast()
     {
         Transform fishableArea = CastProperties.fishableArea;
