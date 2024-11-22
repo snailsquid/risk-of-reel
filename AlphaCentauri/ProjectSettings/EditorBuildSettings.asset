@@ -4,5 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/BattleScene(copy).unity
+    guid: 84e4b975ea0d05645a7612e1364851e0
+  - enabled: 1
+    path: Assets/Scenes/PostFishing.unity
+    guid: 41f4e1a606d89e945b0412e4a438bbcf
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}
