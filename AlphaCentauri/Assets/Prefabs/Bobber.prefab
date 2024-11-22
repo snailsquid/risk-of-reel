@@ -126,6 +126,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugObject: {fileID: 972011454275979031, guid: cf0e266f24db9b04d832f68478ef44e7, type: 3}
+  minShake: 0.5
+  maxShake: 1.5
+  bobMood: 0
   debug: 1
   timeToBob: 7.5
   damping: 0.4

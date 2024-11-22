@@ -5,7 +5,6 @@ using UnityEngine;
 using Unity.VisualScripting;
 public class FishMovement : MonoBehaviour
 {
-
     float maxX = 250f;
     float minX = -250f;
     public float moveSpeed = 250f;
