@@ -36,6 +36,10 @@ public class FishingProgress : MonoBehaviour
 
             Calculation();
         }
+        else
+        {
+            successCounter = 0;
+        }
     }
     private void Calculation()
     {
