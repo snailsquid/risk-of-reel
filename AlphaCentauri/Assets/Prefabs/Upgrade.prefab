@@ -228,8 +228,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: {fileID: 2658955004254452420}
   Price: {fileID: 8681112969466109792}
-  Level: {fileID: 0}
+  Level: {fileID: 8378250323368878272}
   ImageObject: {fileID: 8703863160833546372}
+  upgrade1: {fileID: 21300000, guid: 758feaca69bfc0c4d8c438482d284e57, type: 3}
+  upgrade2: {fileID: 21300000, guid: bc8633655d151da41adb729dc714d893, type: 3}
+  upgrade3: {fileID: 21300000, guid: 31c37fc1b0031a146a3936ef335698e2, type: 3}
 --- !u!114 &8872236672037358095
 MonoBehaviour:
   m_ObjectHideFlags: 0

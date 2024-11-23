@@ -7,8 +7,10 @@ using UnityEngine.UI;
 
 public class Upgrade : MonoBehaviour
 {
-    [SerializeField] TMP_Text Name, Price, Level;
+    [SerializeField] TMP_Text Name, Price;
+    [SerializeField] Transform Level;
     [SerializeField] Transform ImageObject;
+    [SerializeField] Sprite upgrade1, upgrade2, upgrade3;
     Action<ItemRegistry.UpgradeItemType> upgradeCallback;
     ItemRegistry.UpgradeItemType upgradeItemType;
     public void SetUI(ItemRegistry.UpgradeItemType upgradeItemType, Action<ItemRegistry.UpgradeItemType> upgradeCallback)
@@ -24,6 +26,13 @@ public class Upgrade : MonoBehaviour
         // Level.text = upgradeItem.CurrentLevel.ToString();
         this.upgradeItemType = upgradeItemType;
         this.upgradeCallback = upgradeCallback;
+        Level.GetComponent<Image>().sprite = ItemRegistry.UpgradeItems[upgradeItemType].CurrentLevel switch
+        {
+            0 => upgrade1,
+            1 => upgrade2,
+            2 => upgrade3,
+            _ => null
+        };
     }
     public void OnClick()
     {
