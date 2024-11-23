@@ -1,13 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Guard : MonoBehaviour
 {
     public float Guardspeed = 5f;
-    public float inGameTime;
     public Light spotlight;
     public float viewDistance;
     public LayerMask viewMask;
@@ -15,7 +13,8 @@ public class Guard : MonoBehaviour
     public float caughtTime;
     float VisibleTimer;
     float viewAngle;
-    [SerializeField] float checkInterval = 20f;
+    float currentTime;
+    [SerializeField] float checkInterval = 20f, firstHalf = 2;
     [SerializeField] Transform gameManager, referenceObject;
     public enum GuardState { Neither, Staying, Patroling };
     GuardState guardState;
@@ -27,9 +26,13 @@ public class Guard : MonoBehaviour
     int targetWaypointindex = 0;
     AudioSource audioSource;
     Transform player;
+    float startTime;
     CentralStateManager centralStateManager;
+    TimeManager timeManager;
     void Start()
     {
+        timeManager = gameManager.GetComponent<TimeManager>();
+        startTime = timeManager.startTime;
         audioSource = GetComponent<AudioSource>();
         playerState = PlayerState.Playing;
         player = referenceObject.GetComponent<ReferenceScript>().player;
@@ -62,12 +65,15 @@ public class Guard : MonoBehaviour
             waitTime = 0;
         }
     }
+    float calc(float x)
+    {
+        return Mathf.Log10(Mathf.Pow(x, 0.5f) + 1);
+    }
     void Update()
     {
+        currentTime = timeManager.CurrentTime;
         if (centralStateManager.playerState == CentralStateManager.PlayerState.Rod)
         {
-
-            inGameTime += Time.deltaTime;
             guardChecking += Time.deltaTime;
             if (CanSeePlayer())
             {
@@ -92,9 +98,11 @@ public class Guard : MonoBehaviour
                 int check = Random.Range(0, 100);//Random number between 0-100 to calculate the chance
                 Debug.Log(check);
                 check = 0;
-                if (inGameTime < 600)//Chance Guard patrol from jam 20.00-00.00
+                Debug.Log(currentTime + " " + startTime);
+                Debug.Log(currentTime - (24 - startTime));
+                if (currentTime + startTime - 24 < firstHalf)
                 {
-                    if (check <= Mathf.Floor(inGameTime / 120) * 5)// Compare to check for chance trigger patrol
+                    if (check <= calc(currentTime) * 100)// Compare to check for chance trigger patrol
                     {
                         Debug.Log("Alert");//Add ui Guard go patrol
                         targetWaypointindex = 0;
@@ -110,7 +118,7 @@ public class Guard : MonoBehaviour
                 }
                 else
                 {
-                    if (check <= ((Mathf.Floor(inGameTime / 120)) * 10) - 20)//Chance Guard patrol from jam 00.00-02.00
+                    if (check <= (Mathf.Pow((currentTime - firstHalf) / (timeManager.maxTime - firstHalf), 0.25f) * (1 - calc(timeManager.maxTime)) + calc(timeManager.maxTime)) * 100)
                     {
                         Debug.Log("Alert");//Add ui Guard go patrol
                         targetWaypointindex = 0;
@@ -152,7 +160,6 @@ public class Guard : MonoBehaviour
         }
         else
         {
-            inGameTime = 0;
             guardChecking = 0;
         }
     }

@@ -8,7 +8,8 @@ using UnityEngine;
 public class TimeManager : MonoBehaviour
 {
     public float CurrentTime { get; private set; }
-    public float maxTime { get; private set; } = 6;
+    public float maxTime = 5;
+    public float startTime = 20;
     [SerializeField] float realToGameTime = 30;
     [SerializeField] TMP_Text timeText;
     CentralStateManager centralStateManager;
@@ -49,10 +50,15 @@ public class TimeManager : MonoBehaviour
             }
             CurrentTime = RealTime * realToGameTime / 3600f;
             float roundedTime = Mathf.Floor(CurrentTime);
-            float hour = roundedTime < 4 ? roundedTime + 8 : roundedTime - 2;
+            Debug.Log(CurrentTime);
+            Debug.Log(roundedTime);
+            Debug.Log(RealTime);
+            float hour = roundedTime < 24 - startTime ? roundedTime + startTime : roundedTime - (24 - startTime);
+
             float minute = (float)Math.Floor(CurrentTime % 1 * 100 * 0.6) % 60;
+            Debug.Log(minute);
             timeText.text = String.Format("{0:00}:{1:00}", hour, minute);
-            if (CurrentTime > maxTime)
+            if (CurrentTime - (24 - startTime) > maxTime)
             {
                 centralStateManager.FinishRun(false);
             }

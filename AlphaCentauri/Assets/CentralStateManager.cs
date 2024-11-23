@@ -34,6 +34,7 @@ public class CentralStateManager : MonoBehaviour
 
     public void SetState(PlayerState state)
     {
+        if (state == PlayerState.Rod) { timeManager.StartTime(); }
         Debug.Log("Changing to state " + state);
         timeManager.UI(state == PlayerState.Rod);
         itemManager.UI(state == PlayerState.Shop);
