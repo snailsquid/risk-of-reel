@@ -150,6 +150,7 @@ public class Rod
     public void BattleFail()
     {
         RodMechanics.cast.Restart();
+        RodMechanics.battle.props.eventLog.Log("Fish got away, took too long", 2);
         Debug.Log("You failed bruh");
         FishUnbite();
         RodState = RodState.PreCast;
@@ -258,12 +259,14 @@ public class Battle
         public Transform successBar { get; private set; }
         public float maxFishBiteTime { get; private set; }
         public Transform popup { get; private set; }
-        public Props(Transform hookBar, Transform successBar, float maxFishBiteTime, Transform popUp)
+        public EventLog eventLog { get; private set; }
+        public Props(Transform hookBar, Transform successBar, float maxFishBiteTime, Transform popUp, EventLog eventLog)
         {
             this.hookBar = hookBar;
             this.successBar = successBar;
             this.maxFishBiteTime = maxFishBiteTime;
             this.popup = popUp;
+            this.eventLog = eventLog;
         }
         public void SetmaxFishBiteTime(float time)
         {
@@ -366,7 +369,7 @@ public class Cast
     void PlayVertical()
     {
         verticalPercent = Mathf.PingPong(Time.time, 1f);
-        CastProperties.verticalBar.localRotation = Quaternion.Euler(0f, 0f, -verticalPercent * 90f + 90f);
+        CastProperties.verticalBar.localRotation = Quaternion.Euler(0f, 0f, -verticalPercent * 90f + 45f);
     }
     void PlayHorizontal()
     {

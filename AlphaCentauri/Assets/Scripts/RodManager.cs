@@ -12,20 +12,23 @@ public class RodManager : MonoBehaviour
     public bool clickDebounce;
     [SerializeField] (int MinTime, int MaxTime) FishBite = (5, 10);
     [SerializeField] private Transform referenceObject, waterObject;
-    [SerializeField] Transform horizontalBar, verticalBar, fishableArea, target, bobberObject, hookBar, successBar, popUp, postRunPopup;
+    [SerializeField] Transform horizontalBar, verticalBar, fishableArea, target, bobberObject, hookBar, successBar, popUp, postRunPopup, eventLogObect;
     [SerializeField] float bobberVelocity = 5f;
     TimeManager timeManager;
     CentralStateManager centralStateManager;
     ItemManager itemManager;
+    EventLog eventLog;
     void Awake()
     {
         equippedRod = new("Rod", RodRarity.Basic);
+        eventLog = eventLogObect.GetComponent<EventLog>();
         itemManager = GetComponent<ItemManager>();
         centralStateManager = GetComponent<CentralStateManager>();
         timeManager = transform.GetComponent<TimeManager>();
         equippedRod.EquipBait(BaitRegistry.BaitType.None);
         EquipBucket(0);
     }
+
     void Start()
     {
 
@@ -46,7 +49,7 @@ public class RodManager : MonoBehaviour
         Debug.Log(itemManager.shop);
         float maxFishBiteTime = ItemRegistry.UpgradeItems[ItemRegistry.UpgradeItemType.Hook].Values[itemManager.shop.UpgradeItems[ItemRegistry.UpgradeItemType.Hook].CurrentLevel];
         Cast.Props castProps = new Cast.Props(horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject, waterObject, bobberVelocity, itemManager);
-        Battle.Props battleProps = new Battle.Props(hookBar, successBar, maxFishBiteTime, popUp);
+        Battle.Props battleProps = new Battle.Props(hookBar, successBar, maxFishBiteTime, popUp, eventLog);
         FishWait.Props fishWaitProps = new FishWait.Props(FishBite);
         PostFish.Props postFishProps = new PostFish.Props(centralStateManager, postRunPopup.GetComponent<PostRunPopup>(), equippedBucket);
         equippedRod.SetRodMechanic(new RodMechanics.Props(castProps, battleProps, fishWaitProps, postFishProps), timeManager, centralStateManager);
