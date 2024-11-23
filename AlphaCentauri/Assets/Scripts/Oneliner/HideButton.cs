@@ -22,6 +22,7 @@ public class HideButton : MonoBehaviour
             print(hide.cooldownLeft);
             if (!hide.isHide && hide.cooldownLeft <= 0)
             {
+                AudioManager.Instance.PlaySFX(AudioRegistry.Sounds[AudioManager.Sound.BushShake]);
                 hide.StartHide();
             }
             else if (!hide.isHide && hide.cooldownLeft > 0)
@@ -30,6 +31,7 @@ public class HideButton : MonoBehaviour
             }
             else
             {
+                AudioManager.Instance.PlaySFX(AudioRegistry.Sounds[AudioManager.Sound.BushShake]);
                 hide.StopHide();
                 debounce = false;
             }

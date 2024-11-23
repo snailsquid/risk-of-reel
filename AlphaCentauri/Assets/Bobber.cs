@@ -35,6 +35,7 @@ public class Bobber : MonoBehaviour
         if (other.gameObject.tag == "water" && !IsTouchingWater)
         {
             Debug.Log("touched water");
+            AudioManager.Instance.PlaySFX(AudioRegistry.Sounds[AudioManager.Sound.WaterSplashBobber]);
             IsTouchingWater = true;
             rigidBody = transform.GetComponent<Rigidbody>();
             yTouchWater = rigidBody.position.y;

@@ -141,6 +141,9 @@ public class Rod
     }
     public void BattleSuccess()
     {
+        RodMechanics.cast.bobberClone.GetComponent<AudioSource>().Stop();
+        AudioManager.Instance.StopSound();
+        AudioManager.Instance.PlaySFX(AudioRegistry.Sounds[AudioManager.Sound.WaterSplashPostFish]);
         RodMechanics.cast.Restart();
         Debug.Log("Successfully Battled the god damn fish");
         RodMechanics.battle.UI(false);
@@ -149,6 +152,8 @@ public class Rod
     }
     public void BattleFail()
     {
+        RodMechanics.cast.bobberClone.GetComponent<AudioSource>().Stop();
+        AudioManager.Instance.StopSound();
         RodMechanics.cast.Restart();
         RodMechanics.battle.props.eventLog.Log("Fish got away, took too long", 2);
         Debug.Log("You failed bruh");
@@ -401,6 +406,8 @@ public class Cast
     }
     public void Splashing()
     {
+        AudioManager.Instance.PlaySound(AudioRegistry.Sounds[AudioManager.Sound.WaterSplashBobber], bobberClone.GetComponent<AudioSource>());
+        AudioManager.Instance.PlaySoundMain(AudioRegistry.Sounds[AudioManager.Sound.FishingLinePull]);
         bobberClone.GetComponent<Bobber>().Splash();
     }
     bool IsBobberOnWater()

@@ -25,10 +25,12 @@ public class Guard : MonoBehaviour
     public float guardChecking;
     public List<GameObject> waypoints;
     int targetWaypointindex = 0;
+    AudioSource audioSource;
     Transform player;
     CentralStateManager centralStateManager;
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         playerState = PlayerState.Playing;
         player = referenceObject.GetComponent<ReferenceScript>().player;
         centralStateManager = gameManager.GetComponent<CentralStateManager>();
@@ -96,6 +98,8 @@ public class Guard : MonoBehaviour
                     {
                         Debug.Log("Alert");//Add ui Guard go patrol
                         targetWaypointindex = 0;
+                        audioSource.clip = AudioRegistry.Sounds[AudioManager.Sound.FootSteps];
+                        audioSource.Play();
                         guardState = GuardState.Patroling;
                         guardChecking = -20f;
                     }
@@ -111,6 +115,8 @@ public class Guard : MonoBehaviour
                         Debug.Log("Alert");//Add ui Guard go patrol
                         targetWaypointindex = 0;
                         guardState = GuardState.Patroling;
+                        audioSource.clip = AudioRegistry.Sounds[AudioManager.Sound.FootSteps];
+                        audioSource.Play();
                         guardChecking = -20f;
                     }
                     else//If not checking just restart timer and do nothing
@@ -136,6 +142,7 @@ public class Guard : MonoBehaviour
                     {
                         guardState = GuardState.Neither;
                     }
+                    audioSource.Stop();
                 }
             }
             if (guardState == GuardState.Staying)
