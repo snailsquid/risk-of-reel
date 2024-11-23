@@ -34,7 +34,6 @@ public class FishingProgress : MonoBehaviour
         if (rod.IsFishBite)
         {
 
-            Debug.Log("yes");
             Calculation();
         }
         else

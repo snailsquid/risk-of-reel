@@ -81,6 +81,7 @@ public class Guard : MonoBehaviour
             {
 
                 playerState = PlayerState.Waiting;
+                gameManager.GetComponent<CentralStateManager>().FinishRun(true);
                 Debug.Log("GetCaught");//Add trigger gameover here
                 VisibleTimer = 0;
             }

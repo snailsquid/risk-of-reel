@@ -21,7 +21,7 @@ public class Upgrade : MonoBehaviour
         else
             Price.text = upgradeItem.Prices[upgradeItem.CurrentLevel].ToString();
         GetComponent<TooltipItem>().description = upgradeItem.Description;
-        Level.text = upgradeItem.CurrentLevel.ToString();
+        // Level.text = upgradeItem.CurrentLevel.ToString();
         this.upgradeItemType = upgradeItemType;
         this.upgradeCallback = upgradeCallback;
     }

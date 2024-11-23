@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class HideButton : MonoBehaviour
 {
-    [SerializeField] Transform reference;
+    [SerializeField] Transform reference, centralEventLog;
     Transform player;
     bool debounce = false;
     Button button;
@@ -24,6 +24,10 @@ public class HideButton : MonoBehaviour
             {
                 hide.StartHide();
             }
+            else if (!hide.isHide && hide.cooldownLeft > 0)
+            {
+                centralEventLog.GetComponent<EventLog>().Log("Cooldown still active", 1);
+            }
             else
             {
                 hide.StopHide();
@@ -34,23 +38,6 @@ public class HideButton : MonoBehaviour
     }
     void Update()
     {
-        if (!hide.isHide)
-        {
-            if (hide.cooldownLeft > 0)
-            {
-
-                button.GetComponentInChildren<TMP_Text>().text = "(" + Mathf.Round(hide.cooldownLeft) + ")";
-            }
-            else
-            {
-
-                button.GetComponentInChildren<TMP_Text>().text = "Hide";
-            }
-        }
-        else
-        {
-            button.GetComponentInChildren<TMP_Text>().text = "Unhide (" + Mathf.Round(hide.forcedUnhideTime) + ")";
-        }
 
     }
 }
