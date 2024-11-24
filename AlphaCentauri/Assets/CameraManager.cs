@@ -7,6 +7,10 @@ public class CameraManager : MonoBehaviour
     [SerializeField] Transform player, mainMenuPos, fishingPos, gameManager;
     [SerializeField] CanvasGroup mainMenuCanvas;
     [SerializeField] float transitionTime = 1f;
+    void Start()
+    {
+        SwitchToMainMenu();
+    }
     public void SwitchToMainMenu()
     {
         player.DOMove(mainMenuPos.position, 1f);
@@ -16,7 +20,7 @@ public class CameraManager : MonoBehaviour
     {
         player.GetChild(0).GetComponent<MouseRotateCamera>().SetAble(false, fishingPos.rotation.eulerAngles);
         player.DORotate(fishingPos.rotation.eulerAngles, transitionTime);
-        mainMenuCanvas.transform.DOMove(mainMenuCanvas.transform.position + new Vector3(0, 0, -10), transitionTime).SetEase(Ease.InOutSine);
+        mainMenuCanvas.transform.DOMove(mainMenuCanvas.transform.position + new Vector3(0, 0, -10), transitionTime).SetEase(Ease.InOutQuart);
         mainMenuCanvas.DOFade(0, transitionTime);
         player.DOMove(fishingPos.position, transitionTime).SetEase(Ease.OutBack).onComplete = () =>
         {

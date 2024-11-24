@@ -385,7 +385,7 @@ public class Cast
         Vector3 areaSize = fishableArea.GetComponent<Renderer>().bounds.size;
         Vector3 areaPos = fishableArea.position;
 
-        Vector3 bobberTarget = new Vector3(areaSize.x * horizontalPercent + areaPos.x - areaSize.x / 2f, areaPos.y, areaSize.z * verticalPercent + areaPos.z - areaSize.z / 2f);
+        Vector3 bobberTarget = new Vector3(areaSize.x * horizontalPercent + areaPos.x - fishableArea.localScale.x / 2f, areaPos.y, areaSize.z * verticalPercent + areaPos.z - fishableArea.localScale.z / 2f);
         CastProperties.target.position = bobberTarget;
 
 
