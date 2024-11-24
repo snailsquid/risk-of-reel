@@ -46,6 +46,7 @@ public class Rod
                 bool isFinished = RodMechanics.cast.CastUpdate();
                 if (isFinished)
                 {
+                    Debug.Log("Finished casting");
                     RodState = RodState.FishWaiting;
                     Debug.Log((timeManager.CurrentTime, timeManager.maxTime));
                     if (BaitAttached != BaitRegistry.BaitType.None && RodMechanics.cast.CastProperties.itemManager.inventory.Items[ItemRegistry.BaitToBuy[BaitAttached]].Quantity <= 0) return;
@@ -230,6 +231,7 @@ public class FishWait
     }
     public async Task WaitBite(BaitRegistry.BaitType bait, (float current, float max) time)
     {
+        Debug.Log("waiting..");
         float randomTime = Random.Range(props.FishBite.MinTime, props.FishBite.MaxTime) * 1000;
         Debug.Log(randomTime);
         await Task.Delay((int)randomTime);
@@ -407,10 +409,11 @@ public class Cast
     {
         if (bobberClone.GetComponent<Bobber>().IsTouchingWater)
         {
+            Debug.Log("Bobber is on water");
             castState = CastState.None;
             return true;
         }
-        else return true;
+        else return false;
     }
 
     public class Props
