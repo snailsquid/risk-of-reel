@@ -27,7 +27,7 @@ public class HideButton : MonoBehaviour
             }
             else if (!hide.isHide && hide.cooldownLeft > 0)
             {
-                centralEventLog.GetComponent<EventLog>().Log("Cooldown still active", 1);
+                centralEventLog.GetComponent<EventLog>().Log("Cooldown still active", 1.5f);
             }
             else
             {

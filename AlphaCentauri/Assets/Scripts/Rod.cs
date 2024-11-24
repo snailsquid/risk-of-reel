@@ -1,15 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
-using Microsoft.Unity.VisualStudio.Editor;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Animations;
 using static RodRegistry;
 
 public class Rod
@@ -116,7 +106,10 @@ public class Rod
         if (!currentBucket.AddFish(fishAttached)) { RodMechanics.postFish.props.centralStateManager.FinishRun(false); return; };
         RodMechanics.cast.bobberClone.GetComponent<Bobber>().FishLaunch(fishAttached.fishType);
         RodMechanics.battle.PopUp(fishAttached.Name, fishAttached.Weight, fishAttached.Length);
-        RodState = RodState.PreCast;
+    }
+    public void SetState(RodState rodState)
+    {
+        RodState = rodState;
     }
     public void Restart()
     {

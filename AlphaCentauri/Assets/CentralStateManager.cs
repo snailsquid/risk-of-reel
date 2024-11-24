@@ -6,12 +6,13 @@ using UnityEngine;
 
 public class CentralStateManager : MonoBehaviour
 {
-    [SerializeField] Transform hideButton, weightText, postRunPopupObject, quickSwitchContainer, susSlider, mainMenuCanvas;
+    [SerializeField] Transform hideButton, weightText, postRunPopupObject, quickSwitchContainer, susSlider, mainMenuCanvas, eventLogObject;
     PostRunPopup postRunPopup;
     TimeManager timeManager;
     RodManager rodManager;
     ItemManager itemManager;
     CameraManager cameraManager;
+    EventLog eventLog;
     public enum PlayerState
     {
         StartMenu,
@@ -26,15 +27,16 @@ public class CentralStateManager : MonoBehaviour
         timeManager = GetComponent<TimeManager>();
         rodManager = GetComponent<RodManager>();
         itemManager = GetComponent<ItemManager>();
+        eventLog = eventLogObject.GetComponent<EventLog>();
     }
     void Start()
     {
-        SetState(PlayerState.StartMenu);
+        SetState(PlayerState.Shop);
     }
 
     public void SetState(PlayerState state)
     {
-        if (state == PlayerState.Rod) { timeManager.StartTime(); }
+        if (state == PlayerState.Rod) { timeManager.StartTime(); eventLog.Log("Click to Start", 2); }
         Debug.Log("Changing to state " + state);
         timeManager.UI(state == PlayerState.Rod);
         itemManager.UI(state == PlayerState.Shop);
@@ -63,7 +65,6 @@ public class CentralStateManager : MonoBehaviour
         List<Fish> fishes = new List<Fish>();
         foreach (KeyValuePair<Fish, int> pair in bucket.Fishes)
         {
-
             fishes.AddRange(Enumerable.Repeat(pair.Key, pair.Value));
         }
         foreach (Fish fish in fishes)
