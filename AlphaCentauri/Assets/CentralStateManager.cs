@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class CentralStateManager : MonoBehaviour
 {
-    [SerializeField] Transform hideButton, weightText, postRunPopupObject, quickSwitchContainer, susSlider, mainMenuCanvas, eventLogObject;
+    [SerializeField] Transform hideButton, weightText, postRunPopupObject, quickSwitchContainer, mainMenuCanvas, eventLogObject;
     PostRunPopup postRunPopup;
     TimeManager timeManager;
     RodManager rodManager;
@@ -43,7 +43,6 @@ public class CentralStateManager : MonoBehaviour
         weightText.gameObject.SetActive(state == PlayerState.Rod);
         hideButton.gameObject.SetActive(state == PlayerState.Rod);
         quickSwitchContainer.gameObject.SetActive(state == PlayerState.Rod);
-        susSlider.gameObject.SetActive(state == PlayerState.Rod);
         mainMenuCanvas.gameObject.SetActive(state == PlayerState.StartMenu);
         playerState = state;
     }

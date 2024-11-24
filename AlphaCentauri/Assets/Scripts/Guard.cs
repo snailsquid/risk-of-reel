@@ -9,13 +9,12 @@ public class Guard : MonoBehaviour
     public Light spotlight;
     public float viewDistance;
     public LayerMask viewMask;
-    public Slider susMeter;
     public float caughtTime;
     float VisibleTimer;
     float viewAngle;
     float currentTime;
     [SerializeField] float checkInterval = 20f, firstHalf = 2;
-    [SerializeField] Transform gameManager, referenceObject;
+    [SerializeField] Transform gameManager, referenceObject, susMeter;
     public enum GuardState { Neither, Staying, Patroling };
     GuardState guardState;
     public enum PlayerState { Playing, Waiting, getCaught };
@@ -83,14 +82,14 @@ public class Guard : MonoBehaviour
             {
                 VisibleTimer -= Time.deltaTime;//Slider go up when Guard doesn't see player(Hide in bush)
             }
-            VisibleTimer = Mathf.Clamp(VisibleTimer, 0, 8f);
-            susMeter.value = VisibleTimer;
+            VisibleTimer = Mathf.Clamp(VisibleTimer, 0, caughtTime);
+            susMeter.GetComponent<SusMeter>().SetPercent(VisibleTimer / caughtTime);
             if (VisibleTimer >= caughtTime)
             {
-
                 playerState = PlayerState.Waiting;
                 gameManager.GetComponent<CentralStateManager>().FinishRun(true);
                 Debug.Log("GetCaught");//Add trigger gameover here
+                susMeter.GetComponent<SusMeter>().SetPercent(0);
                 VisibleTimer = 0;
             }
             if (guardChecking >= checkInterval)
