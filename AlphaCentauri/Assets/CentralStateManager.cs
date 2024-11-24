@@ -29,7 +29,7 @@ public class CentralStateManager : MonoBehaviour
     }
     void Start()
     {
-        SetState(PlayerState.Shop);
+        SetState(PlayerState.StartMenu);
     }
 
     public void SetState(PlayerState state)

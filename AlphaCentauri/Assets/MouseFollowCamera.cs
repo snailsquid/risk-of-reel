@@ -6,7 +6,7 @@ public class MouseRotateCamera : MonoBehaviour
     [SerializeField] private float rotationSpeed = 5f;     // Speed of rotation smoothing
 
     private Quaternion initialRotation;
-    public bool isAble = true;
+    public bool isAble { get; private set; } = true;
 
     void Start()
     {
@@ -14,9 +14,14 @@ public class MouseRotateCamera : MonoBehaviour
         initialRotation = transform.rotation;
     }
 
+    public void SetAble(bool able, Vector3 rotation)
+    {
+        initialRotation = Quaternion.Euler(rotation);
+        isAble = able;
+    }
     void Update()
     {
-        if (!isAble) { initialRotation = transform.rotation; return; }
+        if (!isAble) { return; }
         // Get the mouse position in screen coordinates
         Vector3 mousePosition = Input.mousePosition;
 
