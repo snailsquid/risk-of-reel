@@ -26,11 +26,12 @@ public class PostRunPopup : MonoBehaviour
         foreach (Transform child in fishesContainer)
         {
             Destroy(child.gameObject);
+            Debug.Log("destroyin");
         }
         foreach (Fish fish in fishes)
         {
-            Transform clone = Instantiate(fishItemPrefab, fishesContainer);
-            clone.GetComponent<FishCollected>().SetFish(fish);
+            Debug.Log("generating");
+            StartCoroutine(SetFishCoroutine(fish));
             weightSum += fish.Weight;
         }
         totalWeight.text = Mathf.Round(weightSum).ToString();
@@ -41,6 +42,14 @@ public class PostRunPopup : MonoBehaviour
         this.canContinue = canContinue;
         continueContainer.localScale = new Vector3(0, 0, 0);
         StartCoroutine(WaitCoroutine());
+    }
+    IEnumerator SetFishCoroutine(Fish fish)
+    {
+        Transform clone = Instantiate(fishItemPrefab, fishesContainer);
+        Debug.Log(clone);
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log(clone);
+        clone.GetComponent<FishCollected>().SetFish(fish);
     }
     IEnumerator WaitCoroutine()
     {

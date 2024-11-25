@@ -56,6 +56,7 @@ public class TimeManager : MonoBehaviour
             timeText.text = String.Format("{0:00}:{1:00}", hour, minute);
             if (CurrentTime - (24 - startTime) > maxTime)
             {
+                RestartTime();
                 centralStateManager.FinishRun(false);
             }
         }

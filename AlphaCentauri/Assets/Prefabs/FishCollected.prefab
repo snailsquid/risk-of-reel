@@ -149,8 +149,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -283,8 +283,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -381,8 +381,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 118}
-  m_SizeDelta: {x: 759.9, y: 106.58}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 335.73, y: 106.58}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5376673269253003559
 CanvasRenderer:
@@ -436,4 +436,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fishName: {fileID: 5472207229573402955}
   weightAndLength: {fileID: 8400909366298918987}
-  image: {fileID: 0}
+  image: {fileID: 1576012125899946812}
