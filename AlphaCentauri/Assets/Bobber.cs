@@ -7,7 +7,7 @@ using DG.Tweening;
 
 public class Bobber : MonoBehaviour
 {
-    [SerializeField] Transform Particle, fishableArea;
+    [SerializeField] Transform Particle, fishableArea, bobberTop;
     ParticleSystem ps;
     [SerializeField] Transform debugObject;
     float firstPositionX;
@@ -81,7 +81,7 @@ public class Bobber : MonoBehaviour
             rigidBody.position = new Vector3(rigidBody.position.x, yTouchWater + x, rigidBody.position.z);
         }
         lr.positionCount = 2;
-        lr.SetPosition(0, transform.position);
+        lr.SetPosition(0, bobberTop.position);
         lr.SetPosition(1, GameObject.Find("RodAttach").transform.position);
     }
     public void FishLaunch(FishGenerator.FishType fishType)

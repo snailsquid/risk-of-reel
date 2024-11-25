@@ -13,6 +13,7 @@ public class CentralStateManager : MonoBehaviour
     ItemManager itemManager;
     CameraManager cameraManager;
     EventLog eventLog;
+    [SerializeField] LinePointAttacher linePointAttacher;
     public enum PlayerState
     {
         StartMenu,
@@ -31,12 +32,13 @@ public class CentralStateManager : MonoBehaviour
     }
     void Start()
     {
+        Debug.Log(playerState);
         SetState(PlayerState.StartMenu);
     }
 
     public void SetState(PlayerState state)
     {
-        if (state == PlayerState.Rod) { timeManager.StartTime(); eventLog.Log("Click to Start", 2); }
+        if (state == PlayerState.Rod) { timeManager.StartTime(); eventLog.Log("Click to Start", 2); linePointAttacher.Equip(itemManager.shop.UpgradeItems[ItemRegistry.UpgradeItemType.Rod].CurrentLevel); }
         Debug.Log("Changing to state " + state);
         timeManager.UI(state == PlayerState.Rod);
         itemManager.UI(state == PlayerState.Shop);

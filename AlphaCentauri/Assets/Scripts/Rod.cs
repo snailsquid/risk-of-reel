@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using static RodRegistry;
 
@@ -260,13 +261,15 @@ public class Battle
         public float maxFishBiteTime { get; private set; }
         public Transform popup { get; private set; }
         public EventLog eventLog { get; private set; }
-        public Props(Transform hookBar, Transform successBar, float maxFishBiteTime, Transform popUp, EventLog eventLog)
+        public LinePointAttacher linePointAttacher;
+        public Props(Transform hookBar, Transform successBar, float maxFishBiteTime, Transform popUp, EventLog eventLog, LinePointAttacher linePointAttacher)
         {
             this.hookBar = hookBar;
             this.successBar = successBar;
             this.maxFishBiteTime = maxFishBiteTime;
             this.popup = popUp;
             this.eventLog = eventLog;
+            this.linePointAttacher = linePointAttacher;
         }
         public void SetmaxFishBiteTime(float time)
         {
@@ -291,10 +294,12 @@ public class Battle
     public bool BattleUpdate()
     {
         FishTimer += Time.deltaTime;
+        props.linePointAttacher.Reel(true);
 
         if (FishTimer > props.maxFishBiteTime)
         {
             FishTimer = 0;
+            props.linePointAttacher.Reel(false);
             return false;
         }
         return true;
@@ -381,8 +386,18 @@ public class Cast
         castState = CastState.None;
     }
     public Transform bobberClone { get; private set; }
+    bool hasBobberLaunched;
     void BobberCast()
     {
+        CastProperties.linePointAttacher.Cast();
+        hasBobberLaunched = false;
+        BobberLaunch();
+    }
+    async Task BobberLaunch()
+    {
+        await Task.Delay(700);
+        hasBobberLaunched = true;
+        bobberClone = GameObject.Instantiate(CastProperties.bobberObject);
         Transform fishableArea = CastProperties.fishableArea;
         Vector3 areaSize = fishableArea.GetComponent<Renderer>().bounds.size;
         Vector3 areaPos = fishableArea.position;
@@ -390,8 +405,6 @@ public class Cast
         Vector3 bobberTarget = new Vector3(areaSize.x * verticalPercent + areaPos.x - areaSize.x / 2f, areaPos.y, areaSize.z * -horizontalPercent + areaPos.z + areaSize.z / 2f);
         CastProperties.target.position = bobberTarget;
 
-
-        bobberClone = GameObject.Instantiate(CastProperties.bobberObject);
         bobberClone.position = CastProperties.referenceObject.GetComponent<ReferenceScript>().player.position;
         Rigidbody rigidbody = bobberClone.GetComponent<Rigidbody>();
         Vector3 distance = CastProperties.target.position - bobberClone.position;
@@ -407,6 +420,7 @@ public class Cast
     }
     bool IsBobberOnWater()
     {
+        if (!hasBobberLaunched) { return false; }
         if (bobberClone.GetComponent<Bobber>().IsTouchingWater)
         {
             Debug.Log("Bobber is on water");
@@ -421,7 +435,8 @@ public class Cast
         public Transform horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject, waterObject;
         public float bobberVelocity;
         public ItemManager itemManager;
-        public Props(Transform horizontalBar, Transform verticalBar, Transform fishableArea, Transform target, Transform bobberObject, Transform referenceObject, Transform waterObject, float bobberVelocity, ItemManager itemManager)
+        public LinePointAttacher linePointAttacher;
+        public Props(Transform horizontalBar, Transform verticalBar, Transform fishableArea, Transform target, Transform bobberObject, Transform referenceObject, Transform waterObject, float bobberVelocity, ItemManager itemManager, LinePointAttacher linePointAttacher)
         {
             this.horizontalBar = horizontalBar;
             this.verticalBar = verticalBar;
@@ -432,6 +447,7 @@ public class Cast
             this.bobberVelocity = bobberVelocity;
             this.waterObject = waterObject;
             this.itemManager = itemManager;
+            this.linePointAttacher = linePointAttacher;
         }
     }
 

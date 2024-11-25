@@ -14,6 +14,7 @@ public class RodManager : MonoBehaviour
     [SerializeField] private Transform referenceObject, waterObject;
     [SerializeField] Transform horizontalBar, verticalBar, fishableArea, target, bobberObject, hookBar, successBar, popUp, postRunPopup, eventLogObect;
     [SerializeField] float bobberVelocity = 5f;
+    [SerializeField] LinePointAttacher linePointAttacher;
     TimeManager timeManager;
     CentralStateManager centralStateManager;
     ItemManager itemManager;
@@ -48,8 +49,8 @@ public class RodManager : MonoBehaviour
         equippedRod.SetRodRarity(rodRarity);
         Debug.Log(itemManager.shop);
         float maxFishBiteTime = ItemRegistry.UpgradeItems[ItemRegistry.UpgradeItemType.Hook].Values[itemManager.shop.UpgradeItems[ItemRegistry.UpgradeItemType.Hook].CurrentLevel];
-        Cast.Props castProps = new Cast.Props(horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject, waterObject, bobberVelocity, itemManager);
-        Battle.Props battleProps = new Battle.Props(hookBar, successBar, maxFishBiteTime, popUp, eventLog);
+        Cast.Props castProps = new Cast.Props(horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject, waterObject, bobberVelocity, itemManager, linePointAttacher);
+        Battle.Props battleProps = new Battle.Props(hookBar, successBar, maxFishBiteTime, popUp, eventLog, linePointAttacher);
         FishWait.Props fishWaitProps = new FishWait.Props(FishBite);
         PostFish.Props postFishProps = new PostFish.Props(centralStateManager, postRunPopup.GetComponent<PostRunPopup>(), equippedBucket);
         equippedRod.SetRodMechanic(new RodMechanics.Props(castProps, battleProps, fishWaitProps, postFishProps), timeManager, centralStateManager);
