@@ -10,6 +10,8 @@ public class PopUp : MonoBehaviour
     [SerializeField] public float popUpTime = 2f, hideTime = 5;
     [SerializeField] TMP_Text fishName, fishWeightAndLength;
     [SerializeField] Transform gameManager;
+    [SerializeField] LinePointAttacher linePointAttacher;
+    [SerializeField] ItemManager itemManager;
     public static string FishType;//nanti diganti
 
     RodManager rodManager;
@@ -33,5 +35,6 @@ public class PopUp : MonoBehaviour
         yield return new WaitForSeconds(hideTime);
         transform.DOScale(new Vector3(0, 0), popUpTime);
         rodManager.equippedRod.SetState(RodRegistry.RodState.PreCast);
+        linePointAttacher.Equip(itemManager.shop.UpgradeItems[ItemRegistry.UpgradeItemType.Rod].CurrentLevel);
     }
 }

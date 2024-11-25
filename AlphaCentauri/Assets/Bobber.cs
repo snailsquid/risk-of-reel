@@ -45,7 +45,10 @@ public class Bobber : MonoBehaviour
     }
     Vector3 GetRandomFishableArea()
     {
-        return new Vector3(UnityEngine.Random.Range(fishableArea.position.x - fishableArea.localScale.x / 2, fishableArea.position.x + fishableArea.localScale.x / 2), fishableArea.position.y, UnityEngine.Random.Range(fishableArea.position.z - fishableArea.localScale.z / 2, fishableArea.position.z + fishableArea.localScale.z / 2));
+        Debug.Log(fishableArea);
+        Collider collider = fishableArea.GetComponent<Collider>();
+        Debug.Log(collider.bounds.min.x + " " + collider.bounds.max.x + " " + collider.bounds.min.z + " " + collider.bounds.max.z);
+        return new Vector3(UnityEngine.Random.Range(collider.bounds.min.x, collider.bounds.max.x), transform.position.y, UnityEngine.Random.Range(collider.bounds.min.z, collider.bounds.max.z));
     }
     public void Splash()
     {
@@ -53,11 +56,11 @@ public class Bobber : MonoBehaviour
         firstPositionX = transform.position.x;
         firstPositionZ = transform.position.z;
         DG.Tweening.Sequence sequence = DOTween.Sequence().SetLoops(-1);
-        sequence.Append(transform.DOMove(new Vector3(GetRandomFishableArea().x, transform.position.y, GetRandomFishableArea().z), 1).SetEase(Ease.InOutBack));
-        sequence.Append(transform.DOMove(new Vector3(GetRandomFishableArea().x, transform.position.y, GetRandomFishableArea().z), 2).SetEase(Ease.InOutBack));
-        sequence.Append(transform.DOMove(new Vector3(GetRandomFishableArea().x, transform.position.y, GetRandomFishableArea().z), 2).SetEase(Ease.InOutBack)).SetLoops(1, LoopType.Yoyo);
-        sequence.Append(transform.DOMove(new Vector3(GetRandomFishableArea().x, transform.position.y, GetRandomFishableArea().z), 1).SetEase(Ease.InOutBack));
-        sequence.Append(transform.DOLocalMove(new Vector3(GetRandomFishableArea().x - transform.position.x, transform.position.y, GetRandomFishableArea().z - transform.position.z), 2).SetEase(Ease.Linear).SetLoops(1, LoopType.Yoyo));
+        sequence.Append(transform.DOMove(GetRandomFishableArea(), 1).SetEase(Ease.InOutBack));
+        sequence.Append(transform.DOMove(GetRandomFishableArea(), 2).SetEase(Ease.InOutBack));
+        sequence.Append(transform.DOMove(GetRandomFishableArea(), 2).SetEase(Ease.InOutBack)).SetLoops(1, LoopType.Yoyo);
+        sequence.Append(transform.DOMove(GetRandomFishableArea(), 1).SetEase(Ease.InOutBack));
+        sequence.Append(transform.DOLocalMove(GetRandomFishableArea(), 2).SetEase(Ease.Linear).SetLoops(1, LoopType.Yoyo));
         sequence.Append(transform.DOLocalMove(new Vector3(firstPositionX, transform.position.y, firstPositionZ), 1).SetEase(Ease.Linear));
     }
     public static double BobEase(double t, double damping = 0.4f, double frequency = 2.0)

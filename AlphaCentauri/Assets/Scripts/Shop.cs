@@ -11,7 +11,6 @@ public class Shop
   public int Balance { get; private set; } = 1000000000;
   public Shop(Dictionary<BuyItemType, BuyItem> buyItems, Dictionary<UpgradeItemType, UpgradeItem> upgradeItems)
   {
-    Debug.Log("initialize shop");
     BuyItems = buyItems;
     UpgradeItems = upgradeItems;
   }
@@ -95,7 +94,6 @@ public class UpgradeItem
     Values = values;
     Image = image;
     MaxLevel = prices.Count;
-    Debug.Log(name);
   }
   public void Upgrade()
   {

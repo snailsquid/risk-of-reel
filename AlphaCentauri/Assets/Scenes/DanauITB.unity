@@ -12067,6 +12067,7 @@ GameObject:
   - component: {fileID: 1442039780}
   - component: {fileID: 1442039779}
   - component: {fileID: 1442039778}
+  - component: {fileID: 1442039781}
   m_Layer: 0
   m_Name: Fishable Area
   m_TagString: FishableArea
@@ -12133,12 +12134,33 @@ Transform:
   m_GameObject: {fileID: 1442039776}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.3027, y: -3.82, z: 9.72}
+  m_LocalPosition: {x: 22.74, y: -4.84, z: 11.53}
   m_LocalScale: {x: 21.96629, y: 0.25044, z: 20.269018}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1442039781
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442039776}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1463648013
 GameObject:
   m_ObjectHideFlags: 0
@@ -12571,6 +12593,8 @@ MonoBehaviour:
   fishName: {fileID: 429941477}
   fishWeightAndLength: {fileID: 1928321669}
   gameManager: {fileID: 1768554212}
+  linePointAttacher: {fileID: 561938371}
+  itemManager: {fileID: 1768554218}
 --- !u!114 &1510020884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13940,7 +13964,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -97107.52}
+  m_AnchoredPosition: {x: 0, y: -101386.15}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1712837981

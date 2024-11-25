@@ -32,14 +32,13 @@ public class CentralStateManager : MonoBehaviour
     }
     void Start()
     {
-        Debug.Log(playerState);
         SetState(PlayerState.StartMenu);
     }
 
     public void SetState(PlayerState state)
     {
         if (state == PlayerState.Rod) { timeManager.StartTime(); eventLog.Log("Click to Start", 2); linePointAttacher.Equip(itemManager.shop.UpgradeItems[ItemRegistry.UpgradeItemType.Rod].CurrentLevel); }
-        Debug.Log("Changing to state " + state);
+        Debug.Log("Changing game to state " + state);
         timeManager.UI(state == PlayerState.Rod);
         itemManager.UI(state == PlayerState.Shop);
         weightText.gameObject.SetActive(state == PlayerState.Rod);

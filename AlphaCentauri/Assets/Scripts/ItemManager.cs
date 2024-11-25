@@ -21,7 +21,6 @@ public class ItemManager : MonoBehaviour
   [SerializeField] List<BuyImage> buyImages = new List<BuyImage>();
   void Awake()
   {
-    Debug.Log("awake");
     eventLog = logText.GetComponent<EventLog>();
     centralStateManager = GetComponent<CentralStateManager>();
     rodManager = GetComponent<RodManager>();
@@ -92,7 +91,6 @@ public class ItemManager : MonoBehaviour
   {
     foreach (Transform child in upgradeContent)
     {
-      print("destroy");
       Destroy(child.gameObject);
     }
     foreach (UpgradeItemType key in shop.UpgradeItems.Keys)
@@ -111,7 +109,6 @@ public class ItemManager : MonoBehaviour
     }
     foreach (BuyItemType key in shop.BuyItems.Keys)
     {
-      Debug.Log(key);
       if (key != BuyItemType.None)
       {
         // Update UI
@@ -128,7 +125,6 @@ public class ItemManager : MonoBehaviour
   }
   public void UpdateBalanceUI()
   {
-    Debug.Log("updating balance ui");
     balanceText.text = currencyPrefix + shop.Balance.ToString();
   }
   public void DeductBalance(int amount)
@@ -201,7 +197,7 @@ public static class ItemRegistry
   };
   public static Dictionary<UpgradeItemType, UpgradeItem> UpgradeItems = new Dictionary<UpgradeItemType, UpgradeItem>(){
     {UpgradeItemType.Rod,new UpgradeItem("Rod", new List<int>{100000,2000000},new List<float>{1, 1.2f, 1.4f} ,"[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
-    {UpgradeItemType.Hook,new UpgradeItem("Hook", new List<int>{100000, 2000000},new List<float>{5, 10, 15}, "[Basic] 5 seconds to fish\n[Super] 10 seconds to fish\n[Ultimate] 15 seconds to fish", Resources.Load("Images/Rod")as Sprite)},
+    {UpgradeItemType.Hook,new UpgradeItem("Hook", new List<int>{100000, 2000000},new List<float>{10, 15, 17}, "[Basic] 5 seconds to fish\n[Super] 10 seconds to fish\n[Ultimate] 15 seconds to fish", Resources.Load("Images/Rod")as Sprite)},
     {UpgradeItemType.Bucket,new UpgradeItem("Bucket", new List<int>{100000, 2000000},new List<float>{50, 280f, 5000f}, "[Basic] Maximum 50kg weight\n[Super] Maximum 280kg weight\n[Ultimate] Maximum 5000kg weight", Resources.Load("Images/Rod")as Sprite)},
   };
 

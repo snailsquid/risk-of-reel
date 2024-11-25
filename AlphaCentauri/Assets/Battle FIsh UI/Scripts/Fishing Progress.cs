@@ -73,7 +73,6 @@ public class FishingProgress : MonoBehaviour
             Debug.Log("Fail");
             successCounter = 0;
             success.value = 0;
-            eventLog.Log("Fish got away, took too long", 2);
             rod.BattleFail();
         }
     }

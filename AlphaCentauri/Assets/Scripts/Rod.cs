@@ -25,7 +25,6 @@ public class Rod
     CentralStateManager centralStateManager;
     public void SetRodMechanic(RodMechanics.Props props, TimeManager timeManager, CentralStateManager centralStateManager)
     {
-        Debug.Log("setting rod mechanics");
         RodMechanics = new RodMechanics(props);
         this.timeManager = timeManager;
         this.centralStateManager = centralStateManager;
@@ -101,7 +100,6 @@ public class Rod
     public void Cast()
     {
         Debug.Log("Casting");
-        Debug.Log(RodMechanics);
         RodMechanics.cast.UI(true);
         RodState = RodState.Casting;
         RodMechanics.cast.CastClick();
@@ -147,6 +145,8 @@ public class Rod
         RodMechanics.cast.Restart();
         Debug.Log("Successfully Battled the god damn fish");
         RodMechanics.battle.UI(false);
+        RodMechanics.battle.Restart();
+        RodMechanics.battle.props.linePointAttacher.Unequip();
         RodState = RodState.PostFish;
         PostFish();
     }
@@ -304,6 +304,7 @@ public class Battle
     }
     public bool BattleUpdate()
     {
+        Debug.Log(FishTimer);
         FishTimer += Time.deltaTime;
         props.linePointAttacher.Reel(true);
 
@@ -311,6 +312,7 @@ public class Battle
         {
             FishTimer = 0;
             props.linePointAttacher.Reel(false);
+            props.eventLog.Log("Fish got away, took too long", 2);
             return false;
         }
         return true;
