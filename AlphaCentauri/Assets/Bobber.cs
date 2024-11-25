@@ -32,7 +32,6 @@ public class Bobber : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.tag + " " + other.gameObject.name);
         if (other.gameObject.tag == "water" && !IsTouchingWater)
         {
             Debug.Log("touched water");
@@ -93,6 +92,10 @@ public class Bobber : MonoBehaviour
             clone.transform.position = transform.position;
             clone.transform.DOMove(clone.transform.position + new Vector3(0, jumpHeight, 0), duration).SetEase(Ease.InOutQuint).onComplete = () => Destroy(clone.gameObject);
         }
+        Finish();
+    }
+    public void Finish()
+    {
         Destroy(gameObject);
     }
 }

@@ -20,6 +20,7 @@ public class Rod
         Name = name;
         RodRarity = rodRarity;
     }
+    public bool CanFish = true;
     TimeManager timeManager;
     CentralStateManager centralStateManager;
     public void SetRodMechanic(RodMechanics.Props props, TimeManager timeManager, CentralStateManager centralStateManager)
@@ -73,20 +74,24 @@ public class Rod
     }
     public void OnClick()
     {
-        switch (RodState)
+        if (CanFish)
         {
-            case RodState.PreCast:
-                Cast();
-                break;
-            case RodState.Casting:
-                Cast();
-                break;
-            case RodState.FishWaiting:
-                break;
-            case RodState.Battling:
-                break;
-            case RodState.PostFish:
-                break;
+
+            switch (RodState)
+            {
+                case RodState.PreCast:
+                    Cast();
+                    break;
+                case RodState.Casting:
+                    Cast();
+                    break;
+                case RodState.FishWaiting:
+                    break;
+                case RodState.Battling:
+                    break;
+                case RodState.PostFish:
+                    break;
+            }
         }
     }
     public void EquipBait(BaitRegistry.BaitType bait)
@@ -150,12 +155,18 @@ public class Rod
         RodMechanics.cast.bobberClone.GetComponent<AudioSource>().Stop();
         AudioManager.Instance.StopSound();
         RodMechanics.cast.Restart();
-        RodMechanics.battle.props.eventLog.Log("Fish got away, took too long", 2);
-        Debug.Log("You failed bruh");
         FishUnbite();
         RodState = RodState.PreCast;
         RodMechanics.battle.UI(false);
         GameObject.Destroy(RodMechanics.cast.bobberClone.gameObject);
+    }
+    public void Hide()
+    {
+        AudioManager.Instance.StopSound();
+        RodMechanics.cast.Restart();
+        FishUnbite();
+        RodState = RodState.PreCast;
+        RodMechanics.battle.UI(false);
     }
     public void FishUnbite()
     {

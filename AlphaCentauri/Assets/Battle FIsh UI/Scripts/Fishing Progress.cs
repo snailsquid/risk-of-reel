@@ -15,7 +15,8 @@ public class FishingProgress : MonoBehaviour
     public float failrate = 10;
     float successbar = 100;
     float failbar = -100;
-    float successCounter = 0;
+    public float successCounter = 0;
+    [SerializeField] EventLog eventLog;
     void Start()
     {
         rod = gameManager.GetComponent<RodManager>().equippedRod;
@@ -72,6 +73,7 @@ public class FishingProgress : MonoBehaviour
             Debug.Log("Fail");
             successCounter = 0;
             success.value = 0;
+            eventLog.Log("Fish got away, took too long", 2);
             rod.BattleFail();
         }
     }

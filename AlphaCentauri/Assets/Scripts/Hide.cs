@@ -12,10 +12,17 @@ public class Hide : MonoBehaviour
     } = false;
     [SerializeField] float maxHideTime = 8, cooldownTime = 10, timeHideAnim = 0.8f;
     [SerializeField] Transform playerDefaultLocation, bush;
+    [SerializeField] RodManager rodManager;
+    [SerializeField] EventLog eventLog;
+    [SerializeField] LinePointAttacher linePointAttacher;
+    [SerializeField] ItemManager itemManager;
+    [SerializeField] FishingProgress fishingProgress;
+    [SerializeField] CameraManager cameraManager;
     float timeHiding = 0, timeUnhiding = 0;
     bool canHide = true;
     Vector3 velocity;
     CentralStateManager centralStateManager;
+
     public float cooldownLeft
     {
         get;
@@ -28,6 +35,20 @@ public class Hide : MonoBehaviour
     }
     void Update()
     {
+        if (isHide)
+        {
+            forcedUnhideTime += Time.deltaTime;
+            cooldownLeft = 0;
+        }
+        else
+        {
+            cooldownLeft -= Time.deltaTime;
+        }
+        if (forcedUnhideTime >= maxHideTime)
+        {
+            forcedUnhideTime = 0;
+            StopHide();
+        }
     }
 
     public void StartHide()
@@ -35,23 +56,32 @@ public class Hide : MonoBehaviour
         print("cant hide rn" + cooldownLeft);
         if (canHide)
         {
+            isHide = true;
             print("I can hide");
             GoHide();
+            rodManager.equippedRod.Hide();
+            fishingProgress.successCounter = 0;
+            fishingProgress.success.value = 0;
+            rodManager.equippedRod.CanFish = false;
+            rodManager.equippedRod.RodMechanics.cast.bobberClone.GetComponent<Bobber>().Finish();
+            linePointAttacher.Unequip();
         }
     }
     public void GoHide()
     {
-        transform.DOMove(bush.position, timeHideAnim);
-        transform.DORotate(bush.rotation.eulerAngles, timeHideAnim);
+        cameraManager.SwitchToHide();
     }
     public void GoUnhide()
     {
-        transform.DOMove(playerDefaultLocation.position, timeHideAnim);
-        transform.DORotate(bush.rotation.eulerAngles, timeHideAnim);
+        cameraManager.SwitchToFishing();
     }
     public void StopHide()
     {
+        isHide = false;
+        cooldownLeft = cooldownTime;
+        Debug.Log("Unhiding");
         GoUnhide();
+        rodManager.equippedRod.CanFish = true;
     }
 
 }

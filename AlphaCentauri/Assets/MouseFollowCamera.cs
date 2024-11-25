@@ -16,10 +16,8 @@ public class MouseRotateCamera : MonoBehaviour
 
     public void SetAble(bool able, Vector3 rotation)
     {
-        Debug.Log(isAble);
         initialRotation = Quaternion.Euler(rotation);
         isAble = able;
-        Debug.Log(isAble);
     }
     void Update()
     {

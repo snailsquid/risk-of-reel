@@ -8205,7 +8205,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -131.5}
   m_SizeDelta: {x: 348.9, y: 172.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &991811508
@@ -8250,8 +8250,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 1174405119
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0.27058825}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -10880,6 +10880,8 @@ MonoBehaviour:
   success: {fileID: 1973264824}
   successrate: 15
   failrate: 10
+  successCounter: 0
+  eventLog: {fileID: 991811508}
 --- !u!114 &1293584114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11242,6 +11244,12 @@ MonoBehaviour:
   timeHideAnim: 0.8
   playerDefaultLocation: {fileID: 105141210}
   bush: {fileID: 285781623}
+  rodManager: {fileID: 1768554213}
+  eventLog: {fileID: 991811508}
+  linePointAttacher: {fileID: 561938371}
+  itemManager: {fileID: 1768554218}
+  fishingProgress: {fileID: 1293584113}
+  cameraManager: {fileID: 1768554221}
 --- !u!135 &1322129454
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -13932,7 +13940,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -83922.71}
+  m_AnchoredPosition: {x: 0, y: -97107.52}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1712837981
@@ -14560,6 +14568,7 @@ MonoBehaviour:
   postRunPopup: {fileID: 1381655382}
   eventLogObect: {fileID: 991811507}
   bobberVelocity: 15
+  linePointAttacher: {fileID: 561938371}
 --- !u!114 &1768554214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14659,6 +14668,7 @@ MonoBehaviour:
   quickSwitchContainer: {fileID: 1371745834}
   mainMenuCanvas: {fileID: 910895550}
   eventLogObject: {fileID: 991811507}
+  linePointAttacher: {fileID: 561938371}
 --- !u!114 &1768554220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14688,8 +14698,10 @@ MonoBehaviour:
   mainMenuPos: {fileID: 428254408}
   fishingPos: {fileID: 105141210}
   gameManager: {fileID: 1768554212}
+  hidePos: {fileID: 285781623}
   mainMenuCanvas: {fileID: 910895554}
   transitionTime: 2.6
+  mouseRotateCamera: {fileID: 399444550}
 --- !u!1 &1776700546
 GameObject:
   m_ObjectHideFlags: 0
