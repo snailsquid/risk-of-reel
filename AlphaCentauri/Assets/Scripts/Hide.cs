@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class Hide : MonoBehaviour
@@ -27,61 +28,30 @@ public class Hide : MonoBehaviour
     }
     void Update()
     {
-        HideCounter();
     }
 
-    void HideCounter()
-    {
-        if (centralStateManager.playerState != CentralStateManager.PlayerState.Rod) return;
-        if (isHide)
-        {
-            timeUnhiding = 0;
-
-            timeHiding += Time.deltaTime;
-            if (timeHiding > maxHideTime)
-            {
-                isHide = false;
-            }
-            LerpHide();
-        }
-        else
-        {
-            timeHiding = 0;
-            timeUnhiding += Time.deltaTime;
-            if (timeUnhiding > cooldownTime)
-            {
-                canHide = true;
-            }
-            else
-            {
-                canHide = false;
-            }
-            LerpUnhide();
-        }
-        cooldownLeft = cooldownTime - timeUnhiding;
-        forcedUnhideTime = maxHideTime - timeHiding;
-
-    }
     public void StartHide()
     {
         print("cant hide rn" + cooldownLeft);
         if (canHide)
         {
             print("I can hide");
-            isHide = true;
+            GoHide();
         }
+    }
+    public void GoHide()
+    {
+        transform.DOMove(bush.position, timeHideAnim);
+        transform.DORotate(bush.rotation.eulerAngles, timeHideAnim);
+    }
+    public void GoUnhide()
+    {
+        transform.DOMove(playerDefaultLocation.position, timeHideAnim);
+        transform.DORotate(bush.rotation.eulerAngles, timeHideAnim);
     }
     public void StopHide()
     {
-        isHide = false;
+        GoUnhide();
     }
 
-    void LerpHide()
-    {
-        transform.position = Vector3.SmoothDamp(transform.position, bush.position, ref velocity, timeHideAnim);
-    }
-    void LerpUnhide()
-    {
-        transform.position = Vector3.SmoothDamp(transform.position, playerDefaultLocation.position, ref velocity, timeHideAnim);
-    }
 }

@@ -32,6 +32,7 @@ public class Bobber : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.gameObject.tag + " " + other.gameObject.name);
         if (other.gameObject.tag == "water" && !IsTouchingWater)
         {
             Debug.Log("touched water");

@@ -31,7 +31,7 @@ public class CentralStateManager : MonoBehaviour
     }
     void Start()
     {
-        SetState(PlayerState.Shop);
+        SetState(PlayerState.StartMenu);
     }
 
     public void SetState(PlayerState state)
@@ -56,6 +56,7 @@ public class CentralStateManager : MonoBehaviour
     }
     public void StartGame()
     {
+        Debug.Log("starting game");
         quickSwitchContainer.GetComponent<QuickSwitch>().ResetUI();
         cameraManager.SwitchToFishing();
     }

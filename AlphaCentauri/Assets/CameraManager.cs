@@ -13,19 +13,22 @@ public class CameraManager : MonoBehaviour
     }
     public void SwitchToMainMenu()
     {
+        player.GetChild(0).GetComponent<MouseRotateCamera>().SetAble(false, mainMenuPos.eulerAngles);
         player.DOMove(mainMenuPos.position, 1f);
-        player.DORotate(mainMenuPos.rotation.eulerAngles, 1f);
+        player.DORotate(mainMenuPos.eulerAngles, 1f);
+        player.GetChild(0).GetComponent<MouseRotateCamera>().SetAble(true, mainMenuPos.eulerAngles);
     }
     public void SwitchToFishing()
     {
-        player.GetChild(0).GetComponent<MouseRotateCamera>().SetAble(false, fishingPos.rotation.eulerAngles);
-        player.DORotate(fishingPos.rotation.eulerAngles, transitionTime);
+        Debug.Log("hi");
+        player.GetChild(0).GetComponent<MouseRotateCamera>().SetAble(false, fishingPos.eulerAngles);
+        player.DORotate(fishingPos.eulerAngles, transitionTime);
         mainMenuCanvas.transform.DOMove(mainMenuCanvas.transform.position + new Vector3(0, 0, -10), transitionTime).SetEase(Ease.InOutQuart);
         mainMenuCanvas.DOFade(0, transitionTime);
-        player.DOMove(fishingPos.position, transitionTime).SetEase(Ease.OutBack).onComplete = () =>
+        player.DOMove(fishingPos.position, transitionTime).SetEase(Ease.InOutQuart).onComplete = () =>
         {
             gameManager.GetComponent<CentralStateManager>().SetState(CentralStateManager.PlayerState.Rod);
-            player.GetChild(0).GetComponent<MouseRotateCamera>().SetAble(true, fishingPos.rotation.eulerAngles);
         };
+        player.GetChild(0).GetComponent<MouseRotateCamera>().SetAble(true, fishingPos.eulerAngles);
     }
 }

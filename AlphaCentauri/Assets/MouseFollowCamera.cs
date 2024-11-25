@@ -11,13 +11,15 @@ public class MouseRotateCamera : MonoBehaviour
     void Start()
     {
         // Store the initial rotation of the camera
-        initialRotation = transform.rotation;
+        initialRotation = transform.parent.rotation;
     }
 
     public void SetAble(bool able, Vector3 rotation)
     {
+        Debug.Log(isAble);
         initialRotation = Quaternion.Euler(rotation);
         isAble = able;
+        Debug.Log(isAble);
     }
     void Update()
     {
@@ -40,6 +42,6 @@ public class MouseRotateCamera : MonoBehaviour
         Quaternion targetRotation = Quaternion.Euler(targetRotationX, targetRotationY, 0f);
 
         // Smoothly rotate the camera
-        transform.rotation = Quaternion.Slerp(transform.rotation, initialRotation * targetRotation, Time.deltaTime * rotationSpeed);
+        transform.parent.rotation = Quaternion.Slerp(transform.parent.rotation, initialRotation * targetRotation, Time.deltaTime * rotationSpeed);
     }
 }

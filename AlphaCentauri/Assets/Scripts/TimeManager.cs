@@ -50,13 +50,9 @@ public class TimeManager : MonoBehaviour
             }
             CurrentTime = RealTime * realToGameTime / 3600f;
             float roundedTime = Mathf.Floor(CurrentTime);
-            Debug.Log(CurrentTime);
-            Debug.Log(roundedTime);
-            Debug.Log(RealTime);
             float hour = roundedTime < 24 - startTime ? roundedTime + startTime : roundedTime - (24 - startTime);
 
             float minute = (float)Math.Floor(CurrentTime % 1 * 100 * 0.6) % 60;
-            Debug.Log(minute);
             timeText.text = String.Format("{0:00}:{1:00}", hour, minute);
             if (CurrentTime - (24 - startTime) > maxTime)
             {
