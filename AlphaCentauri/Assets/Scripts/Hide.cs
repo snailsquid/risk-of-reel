@@ -64,6 +64,7 @@ public class Hide : MonoBehaviour
             fishingProgress.success.value = 0;
             rodManager.equippedRod.CanFish = false;
             rodManager.equippedRod.RodMechanics.cast.bobberClone.GetComponent<Bobber>().Finish();
+            rodManager.equippedRod.RodMechanics.fishWait.SetTempFishBite(false);
             linePointAttacher.Unequip();
         }
     }

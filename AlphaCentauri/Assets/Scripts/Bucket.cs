@@ -12,7 +12,6 @@ public class Bucket
     public bool AddFish(Fish fish)
     {
         if (TotalWeight + fish.Weight > MaxWeight) { return false; }
-        return false;
         if (Fishes.ContainsKey(fish))
         {
             Fishes[fish] += 1;

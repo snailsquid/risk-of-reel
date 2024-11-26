@@ -111,7 +111,7 @@ public class Rod
         RodMechanics.battle.UI(false);
         if (!currentBucket.AddFish(fishAttached)) { RodMechanics.battle.props.eventLog.Log("Bucket too full"); RodMechanics.postFish.props.centralStateManager.FinishRun(false); return; };
         RodMechanics.cast.bobberClone.GetComponent<Bobber>().FishLaunch(fishAttached.fishType);
-        RodMechanics.battle.PopUp(fishAttached.Name, fishAttached.Weight, fishAttached.Length);
+        RodMechanics.battle.PopUp(fishAttached);
     }
     public void SetState(RodState rodState)
     {
@@ -248,14 +248,18 @@ public class FishWait
         float randomTime = Random.Range(props.FishBite.MinTime, props.FishBite.MaxTime) * 1000;
         Debug.Log(randomTime);
         await Task.Delay((int)randomTime);
-        tempFishBite = true;
+        SetTempFishBite(true);
         TempFish = FishGenerator.GenerateFish(bait, time);
+    }
+    public void SetTempFishBite(bool value)
+    {
+        tempFishBite = value;
     }
     public bool GetTempFishBite()
     {
         if (tempFishBite)
         {
-            tempFishBite = false;
+            SetTempFishBite(false);
             Debug.Log("Fish Bite");
             return true;
         }
@@ -318,11 +322,11 @@ public class Battle
         }
         return true;
     }
-    public void PopUp(string name, float weight, float length)
+    public void PopUp(Fish fish)
 
     {
         PopUp popUp = props.popup.GetComponent<PopUp>();
-        popUp.SetText(name, weight, length);
+        popUp.SetText(fish);
         popUp.Show();
     }
 }
