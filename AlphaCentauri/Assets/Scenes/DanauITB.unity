@@ -13443,6 +13443,7 @@ GameObject:
   - component: {fileID: 1685779407}
   - component: {fileID: 1685779406}
   - component: {fileID: 1685779409}
+  - component: {fileID: 1685779410}
   m_Layer: 1
   m_Name: PostProcessing
   m_TagString: Untagged
@@ -13465,8 +13466,8 @@ MonoBehaviour:
   sharedProfile: {fileID: 11400000, guid: fc4eb83beb33ac04ea3bc0172d256e1c, type: 2}
   isGlobal: 1
   blendDistance: 0
-  weight: 1
-  priority: 0
+  weight: 0.5
+  priority: 3
 --- !u!114 &1685779406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13474,7 +13475,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1685779404}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
@@ -13482,8 +13483,8 @@ MonoBehaviour:
   sharedProfile: {fileID: 11400000, guid: 36c2304673dad8b48ad2cbfb428ca112, type: 2}
   isGlobal: 1
   blendDistance: 0
-  weight: 1
-  priority: 0
+  weight: 0
+  priority: 1
 --- !u!114 &1685779407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13491,7 +13492,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1685779404}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
@@ -13499,8 +13500,8 @@ MonoBehaviour:
   sharedProfile: {fileID: 11400000, guid: 08011a0be6d52a94693d8274e94c95b8, type: 2}
   isGlobal: 1
   blendDistance: 0
-  weight: 1
-  priority: 0
+  weight: 0.5
+  priority: 2
 --- !u!4 &1685779408
 Transform:
   m_ObjectHideFlags: 0
@@ -13533,6 +13534,22 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   priority: 0
+--- !u!114 &1685779410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685779404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9117457b33f09440a8a72c7a1d1ebb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeManager: {fileID: 1768554217}
+  morning: {fileID: 1685779406}
+  night: {fileID: 1685779407}
+  evening: {fileID: 1685779405}
 --- !u!1 &1694574322
 GameObject:
   m_ObjectHideFlags: 0
@@ -14662,7 +14679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxTime: 5
-  startTime: 20
+  startTime: 18
   realToGameTime: 250
   timeText: {fileID: 1089825328}
 --- !u!114 &1768554218

@@ -47,7 +47,6 @@ public class RodManager : MonoBehaviour
     void SetRod(RodRarity rodRarity)
     {
         equippedRod.SetRodRarity(rodRarity);
-        Debug.Log(itemManager.shop);
         float maxFishBiteTime = ItemRegistry.UpgradeItems[ItemRegistry.UpgradeItemType.Hook].Values[itemManager.shop.UpgradeItems[ItemRegistry.UpgradeItemType.Hook].CurrentLevel];
         Cast.Props castProps = new Cast.Props(horizontalBar, verticalBar, fishableArea, target, bobberObject, referenceObject, waterObject, bobberVelocity, itemManager, linePointAttacher);
         Battle.Props battleProps = new Battle.Props(hookBar, successBar, maxFishBiteTime, popUp, eventLog, linePointAttacher);
