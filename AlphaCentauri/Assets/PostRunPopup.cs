@@ -59,7 +59,7 @@ public class PostRunPopup : MonoBehaviour
         if (canContinue)
         {
             balanceText.text = itemManager.GetBalance();
-            continueContainer.DOScale(new Vector2(1, 1), popUpTime);
+            continueContainer.DOScale(new Vector3(1, 1, 1), popUpTime);
         }
         else
         {
@@ -69,12 +69,12 @@ public class PostRunPopup : MonoBehaviour
     public void Accept()
     {
         itemManager.DeductBalance(rokokPrice);
-        transform.DOScale(new Vector3(0, 0), popUpTime);
+        transform.DOScale(new Vector3(0, 0, 0), popUpTime);
         centralStateManager.ContinueRun();
     }
     public void Deny()
     {
-        transform.DOScale(new Vector3(0, 0), popUpTime);
+        transform.DOScale(new Vector3(0, 0, 0), popUpTime);
         centralStateManager.EndRun();
     }
 }
