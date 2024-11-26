@@ -191,9 +191,14 @@ public static class ItemRegistry
     {BaitRegistry.BaitType.Mackarel,BuyItemType.Mackarel},
   };
   public static Dictionary<BuyItemType, BuyItem> BuyItems = new Dictionary<BuyItemType, BuyItem>(){
-    {BuyItemType.None,new BuyItem("None", 1000, "None Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.None])},
-    {BuyItemType.CacingTanah,new BuyItem("Cacing Tanah", 1000, "Cacing Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.CacingTanah])},
-    {BuyItemType.Mackarel,new BuyItem("Macakererelle", 1000, "THIS MACAKRENRKEEKRE Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.Mackarel])},
+    {BuyItemType.None,new BuyItem("None", 0, "None Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.None])},
+    {BuyItemType.Pellet,new BuyItem("Pellet", 200, "Your basic bait", null, BaitRegistry.Baits[BaitRegistry.BaitType.Pellet])},
+    {BuyItemType.CacingTanah,new BuyItem("Cacing Tanah", 500, "Cacing Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.CacingTanah])},
+    {BuyItemType.Jangkrik,new BuyItem("Jangkrik", 1000, "THIS MACAKRENRKEEKRE Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.Jangkrik])},
+    {BuyItemType.DagingCincang,new BuyItem("Daging Cincang", 2000, "THIS MACAKRENRKEEKRE Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.DagingCincang])},
+    {BuyItemType.BeefWellington,new BuyItem("Beef Wellington", 100000, "THIS MACAKRENRKEEKRE Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.BeefWellington])},
+    {BuyItemType.Mackarel,new BuyItem("Mackarel", 50000, "THIS MACAKRENRKEEKRE Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.Mackarel])},
+    {BuyItemType.MarianaCrab,new BuyItem("Mariana Crab", 50000, "THIS MACAKRENRKEEKRE Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.MarianaCrab])},
   };
   public static Dictionary<UpgradeItemType, UpgradeItem> UpgradeItems = new Dictionary<UpgradeItemType, UpgradeItem>(){
     {UpgradeItemType.Rod,new UpgradeItem("Rod", new List<int>{100000,2000000},new List<float>{1, 1.2f, 1.4f} ,"[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
