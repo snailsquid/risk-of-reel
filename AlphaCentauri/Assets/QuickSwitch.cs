@@ -34,6 +34,7 @@ public class QuickSwitch : MonoBehaviour
 
     public void ResetUI()
     {
+        Debug.Log("Resetting UI");
         SetBaits(itemManager.BaitLineup);
         foreach (Transform item in baitItemContainer)
         {
@@ -44,6 +45,7 @@ public class QuickSwitch : MonoBehaviour
         Transform indexItem = null;
         foreach (ItemRegistry.BuyItemType item in baits)
         {
+            Debug.Log(item);
             Transform clone = Instantiate(baitItemPrefab, baitItemContainer);
             clone.GetComponent<QuickSwitchItem>().SetBait(item, index);
             if (index == baitIndex)

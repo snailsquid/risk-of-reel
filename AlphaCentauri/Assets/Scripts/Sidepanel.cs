@@ -20,7 +20,7 @@ public class Sidepanel : MonoBehaviour
         this.callback = callback;
         Name.text = item.Name;
         Description.text = item.Description;
-        BuyButton.GetComponentInChildren<TMP_Text>().text = "Buy (" + item.Price + ")";
+        // BuyButton.GetComponentInChildren<TMP_Text>().text = "Buy (" + item.Price + ")";
     }
     public void Equip()
     {

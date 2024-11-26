@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using TMPro;
-using Microsoft.Unity.VisualStudio.Editor;
-using System.Linq;
-using Unity.VisualScripting;
 
 public class PostRunPopup : MonoBehaviour
 {
@@ -13,6 +10,10 @@ public class PostRunPopup : MonoBehaviour
     [SerializeField] int rokokPrice = 50000;
     [SerializeField] Transform gameManager, fishItemPrefab, fishesContainer, continueContainer;
     [SerializeField] TMP_Text totalWeight, balanceText;
+    [SerializeField] RodManager rodManager;
+    [SerializeField] FishingProgress fishingProgress;
+    [SerializeField] LinePointAttacher linePointAttacher;
+    [SerializeField] Guard guard;
     ItemManager itemManager;
     CentralStateManager centralStateManager;
     void Start()
@@ -36,6 +37,15 @@ public class PostRunPopup : MonoBehaviour
         }
         totalWeight.text = Mathf.Round(weightSum).ToString();
 
+        rodManager.equippedRod.Hide();
+        fishingProgress.Reset();
+        rodManager.equippedRod.CanFish = false;
+        if (rodManager.equippedRod.RodMechanics.cast.bobberClone != null)
+        {
+            rodManager.equippedRod.RodMechanics.cast.bobberClone.GetComponent<Bobber>().Finish();
+        }
+        rodManager.equippedRod.RodMechanics.fishWait.SetTempFishBite(false);
+        linePointAttacher.Unequip();
     }
     bool canContinue;
     public void Show(bool canContinue)
@@ -68,13 +78,16 @@ public class PostRunPopup : MonoBehaviour
     }
     public void Accept()
     {
+        rodManager.equippedRod.CanFish = true;
         itemManager.DeductBalance(rokokPrice);
         transform.DOScale(new Vector3(0, 0, 0), popUpTime);
+        guard.Reset();
         centralStateManager.ContinueRun();
     }
     public void Deny()
     {
         transform.DOScale(new Vector3(0, 0, 0), popUpTime);
         centralStateManager.EndRun();
+        guard.Reset();
     }
 }

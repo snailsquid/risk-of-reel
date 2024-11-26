@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,9 @@ public class Guard : MonoBehaviour
     float viewAngle;
     float currentTime;
     [SerializeField] float checkInterval = 20f, firstHalf = 2;
-    [SerializeField] Transform gameManager, referenceObject, susMeter;
+    [SerializeField] Transform gameManager, referenceObject, susMeter, guardCaughtPosition;
+    [SerializeField] Animator satpamAnimator;
+    [SerializeField] CameraManager cameraManager;
     public enum GuardState { Neither, Staying, Patroling };
     GuardState guardState;
     public enum PlayerState { Playing, Waiting, getCaught };
@@ -28,6 +31,7 @@ public class Guard : MonoBehaviour
     float startTime;
     CentralStateManager centralStateManager;
     TimeManager timeManager;
+    public bool canMove { get; private set; } = false;
     void Start()
     {
         timeManager = gameManager.GetComponent<TimeManager>();
@@ -44,7 +48,7 @@ public class Guard : MonoBehaviour
         {
             Vector3 dirToPlayer = (player.position - transform.position).normalized;
             float angleBetweenGuardAndPlayer = Vector3.Angle(transform.forward, dirToPlayer);
-            if (angleBetweenGuardAndPlayer <= viewAngle / 2f)
+            if (angleBetweenGuardAndPlayer <= viewAngle)
             {
                 if (!Physics.Linecast(transform.position, player.position, viewMask))
                 {
@@ -54,8 +58,24 @@ public class Guard : MonoBehaviour
         }
         return false;
     }
+    public void Reset()
+    {
+        guardState = GuardState.Neither;
+        guardChecking = 0;
+        VisibleTimer = 0;
+        waitTime = 0;
+        targetWaypointindex = 1;
+        transform.position = waypoints[1].transform.position;
+        canMove = false;
+    }
+    public void SetMove(bool move)
+    {
+        canMove = move;
+    }
     IEnumerator Stay()//Stay after reach checkingpoint
     {
+        satpamAnimator.SetBool("walking", false);
+        satpamAnimator.SetBool("flashlight", true);
         yield return guardState = GuardState.Staying;
         waitTime += Time.deltaTime;
         if (waitTime >= 8f)
@@ -71,7 +91,7 @@ public class Guard : MonoBehaviour
     void Update()
     {
         currentTime = timeManager.CurrentTime;
-        if (centralStateManager.playerState == CentralStateManager.PlayerState.Rod)
+        if (centralStateManager.playerState == CentralStateManager.PlayerState.Rod && canMove)
         {
             guardChecking += Time.deltaTime;
             if (CanSeePlayer())
@@ -86,11 +106,15 @@ public class Guard : MonoBehaviour
             susMeter.GetComponent<SusMeter>().SetPercent(VisibleTimer / caughtTime);
             if (VisibleTimer >= caughtTime)
             {
+                VisibleTimer = 0;
                 playerState = PlayerState.Waiting;
-                gameManager.GetComponent<CentralStateManager>().FinishRun(true);
+
+                transform.position = guardCaughtPosition.position;
+                cameraManager.SwitchToCaught();
+                canMove = false;
+
                 Debug.Log("GetCaught");//Add trigger gameover here
                 susMeter.GetComponent<SusMeter>().SetPercent(0);
-                VisibleTimer = 0;
             }
             if (guardChecking >= checkInterval)
             {
@@ -134,6 +158,8 @@ public class Guard : MonoBehaviour
             }
             if (guardState == GuardState.Patroling)//from spawnpoint go to checkingpoint and go back to spawnpoint after 8 sec
             {
+                satpamAnimator.SetBool("flashlight", false);
+                satpamAnimator.SetBool("walking", true);
                 Vector3 targetPosition = waypoints[targetWaypointindex].transform.position;
                 Vector3 newPosition = Vector3.MoveTowards(transform.position, targetPosition, Guardspeed * Time.deltaTime);
                 transform.position = newPosition;
@@ -163,3 +189,4 @@ public class Guard : MonoBehaviour
         }
     }
 }
+

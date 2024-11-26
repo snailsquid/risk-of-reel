@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class CentralStateManager : MonoBehaviour
@@ -15,6 +14,7 @@ public class CentralStateManager : MonoBehaviour
     EventLog eventLog;
     [SerializeField] LinePointAttacher linePointAttacher;
     [SerializeField] FishingProgress fishingProgress;
+    [SerializeField] Guard guard;
     public enum PlayerState
     {
         StartMenu,
@@ -38,8 +38,13 @@ public class CentralStateManager : MonoBehaviour
 
     public void SetState(PlayerState state)
     {
-        if (state == PlayerState.Rod) { timeManager.StartTime(); eventLog.Log("Click to Start", 2); linePointAttacher.Equip(itemManager.shop.UpgradeItems[ItemRegistry.UpgradeItemType.Rod].CurrentLevel); }
-        Debug.Log("Changing game to state " + state);
+        if (state == PlayerState.Rod)
+        {
+            timeManager.StartTime();
+            eventLog.Log("Click to Start", 2);
+            linePointAttacher.Equip(itemManager.shop.UpgradeItems[ItemRegistry.UpgradeItemType.Rod].CurrentLevel);
+            guard.SetMove(true);
+        }
         timeManager.UI(state == PlayerState.Rod);
         itemManager.UI(state == PlayerState.Shop);
         weightText.gameObject.SetActive(state == PlayerState.Rod);
@@ -55,7 +60,10 @@ public class CentralStateManager : MonoBehaviour
         linePointAttacher.Unequip();
         postRunPopup.Show(canContinue);
         postRunPopup.SetFishes(BucketToList(rodManager.equippedBucket));
-        rodManager.equippedRod.RodMechanics.cast.bobberClone.GetComponent<Bobber>().Finish();
+        if (rodManager.equippedRod.RodMechanics.cast.bobberClone != null)
+        {
+            rodManager.equippedRod.RodMechanics.cast.bobberClone.GetComponent<Bobber>().Finish();
+        }
         rodManager.equippedRod.CanFish = false;
         rodManager.equippedRod.Restart();
         fishingProgress.successCounter = 0;
@@ -85,7 +93,9 @@ public class CentralStateManager : MonoBehaviour
     {
         rodManager.equippedRod.Restart();
         linePointAttacher.Equip(itemManager.shop.UpgradeItems[ItemRegistry.UpgradeItemType.Rod].CurrentLevel);
+        cameraManager.SwitchToFishing();
         timeManager.StartTime();
+        guard.SetMove(true);
     }
     public void EndRun() // actual end of run
     {
@@ -94,7 +104,7 @@ public class CentralStateManager : MonoBehaviour
         timeManager.RestartTime();
         itemManager.shop.AddBalance(rodManager.equippedBucket.EndRun());
         itemManager.UpdateBalanceUI();
-        SetState(PlayerState.Shop);
+        cameraManager.SwitchToShop();
         rodManager.equippedRod.RodState = RodRegistry.RodState.PreCast;
     }
 }
