@@ -5219,7 +5219,7 @@ MonoBehaviour:
   damping: 0.4
   freq: 0.4
   multiplier: 1
-  jumpHeight: 5
+  jumpHeight: 40
   duration: 2
 --- !u!136 &-1830236856710136955
 CapsuleCollider:

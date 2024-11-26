@@ -9,5 +9,6 @@ public class ContinueButton : MonoBehaviour
     {
         quickSwitchContainer.GetComponent<QuickSwitch>().ResetUI();
         gameManager.GetComponent<CentralStateManager>().SetState(CentralStateManager.PlayerState.Rod);
+        gameManager.GetComponent<RodManager>().equippedRod.CanFish = true;
     }
 }

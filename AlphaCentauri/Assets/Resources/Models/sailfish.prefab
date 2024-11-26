@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8318926013331248171}
   - component: {fileID: 5217952198142821648}
   m_Layer: 0
-  m_Name: sailfish
+  m_Name: Sailfish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,13 +26,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8353789173635722323}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.06739509, y: 7.495816, z: -63.350155}
+  m_LocalRotation: {x: 0.00000013381295, y: -0.7071068, z: -0.7071068, w: -0.00000013411044}
+  m_LocalPosition: {x: 0.06739472, y: 7.495816, z: -63.241222}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: -180}
 --- !u!33 &8318926013331248171
 MeshFilter:
   m_ObjectHideFlags: 0

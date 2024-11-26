@@ -35,6 +35,7 @@ public class PostRunPopup : MonoBehaviour
             weightSum += fish.Weight;
         }
         totalWeight.text = Mathf.Round(weightSum).ToString();
+
     }
     bool canContinue;
     public void Show(bool canContinue)

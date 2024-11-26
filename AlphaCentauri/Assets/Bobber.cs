@@ -92,7 +92,8 @@ public class Bobber : MonoBehaviour
         if (fishModel != null)
         {
             GameObject clone = Instantiate(fishModel);
-            clone.transform.position = transform.position;
+            clone.transform.position = transform.position + new Vector3(0, -5, 0);
+            clone.transform.Rotate(-90, 0, 0);
             clone.transform.DOMove(clone.transform.position + new Vector3(0, jumpHeight, 0), duration).SetEase(Ease.InOutQuint).onComplete = () => Destroy(clone.gameObject);
         }
         Finish();

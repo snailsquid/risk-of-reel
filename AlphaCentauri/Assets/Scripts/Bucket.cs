@@ -11,7 +11,8 @@ public class Bucket
     public float MaxWeight { get; private set; } = 100;
     public bool AddFish(Fish fish)
     {
-        if (TotalWeight > MaxWeight) { return false; }
+        if (TotalWeight + fish.Weight > MaxWeight) { return false; }
+        return false;
         if (Fishes.ContainsKey(fish))
         {
             Fishes[fish] += 1;

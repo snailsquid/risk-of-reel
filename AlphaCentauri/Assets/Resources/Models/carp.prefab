@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2677966719538516414}
   - component: {fileID: 8831348446343732481}
   m_Layer: 0
-  m_Name: carp
+  m_Name: Carp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

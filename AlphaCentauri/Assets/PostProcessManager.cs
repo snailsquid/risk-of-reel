@@ -14,7 +14,6 @@ public class PostProcessManager : MonoBehaviour
     }
     void Update()
     {
-        Debug.Log(timeManager.CurrentTime + startTime);
         if (timeManager.CurrentTime + startTime < nightRange.start) // Transition to night
         {
             evening.weight = 0.5f - ((timeManager.CurrentTime) / (nightRange.start - startTime) / 2);

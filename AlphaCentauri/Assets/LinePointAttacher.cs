@@ -22,6 +22,7 @@ public class LinePointAttacher : MonoBehaviour
         Debug.Log("helo");
         rods[this.index].GetComponent<Animator>().SetBool("unequipped", true);
 
+        this.index = index;
         rods[index].gameObject.SetActive(true);
         rods[index].GetComponent<Animator>().SetBool("unequiped", false);
     }

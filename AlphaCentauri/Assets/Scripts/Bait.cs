@@ -68,6 +68,7 @@ public class BaitRegistry
         BeefWellington,
         Mackarel,
         Crab,
+        MarianaCrab,
     }
     public static Dictionary<BaitType, Bait> Baits { get; private set; } = new Dictionary<BaitType, Bait>(){
         {BaitType.None,new Bait("None", new BaitChance(new Dictionary<FishTemplate, float>(){
@@ -76,24 +77,24 @@ public class BaitRegistry
             {FishTemplates[FishType.Catfish], 10},
             {FishTemplates[FishType.Salmon],10},
         },new Dictionary<Fish.FishRarity, float>(){
-            {Fish.FishRarity.Ampas, 55}
-            {Fish.FishRarity.Special, 5}    
+            {Fish.FishRarity.Ampas, 55},
+            {Fish.FishRarity.Special, 5}
         }).FishChances)},
         {BaitType.Pellet,new Bait("Pellet", new BaitChance(new Dictionary<FishTemplate, float>(){
             {FishTemplates[FishType.Carp], 20},
             {FishTemplates[FishType.Trout], 35},
             {FishTemplates[FishType.Salmon],35},
         },new Dictionary<Fish.FishRarity, float>(){
-            {Fish.FishRarity.Ampas, 5}
-            {Fish.FishRarity.Special, 5}  
+            {Fish.FishRarity.Ampas, 5},
+            {Fish.FishRarity.Special, 5}
         }).FishChances)},
         {BaitType.CacingTanah,new Bait("CacingTanah", new BaitChance(new Dictionary<FishTemplate, float>(){
             {FishTemplates[FishType.Bass], 40},
             {FishTemplates[FishType.Catfish],30},
             {FishTemplates[FishType.Tuna],20},
         },new Dictionary<Fish.FishRarity, float>(){
-            {Fish.FishRarity.Ampas, 5}
-            {Fish.FishRarity.Special, 5}              
+            {Fish.FishRarity.Ampas, 5},
+            {Fish.FishRarity.Special, 5}
         }).FishChances)},
         {BaitType.Jangkrik,new Bait("Jangkrik", new BaitChance(new Dictionary<FishTemplate, float>(){
             {FishTemplates[FishType.KingCrab], 35},
@@ -101,8 +102,8 @@ public class BaitRegistry
             {FishTemplates[FishType.Trout], 10},
             {FishTemplates[FishType.Carp], 10},
         },new Dictionary<Fish.FishRarity, float>(){
-            {Fish.FishRarity.Ampas, 5}
-            {Fish.FishRarity.Special, 5}              
+            {Fish.FishRarity.Ampas, 5},
+            {Fish.FishRarity.Special, 5}
         }).FishChances)},
         {BaitType.DagingCincang,new Bait("DagingCincang", new BaitChance(new Dictionary<FishTemplate, float>(){
             {FishTemplates[FishType.Pufferfish], 35},
@@ -110,19 +111,19 @@ public class BaitRegistry
             {FishTemplates[FishType.Salmon],10},
             {FishTemplates[FishType.Bass],10},
         },new Dictionary<Fish.FishRarity, float>(){
-            {Fish.FishRarity.Ampas, 5}
-            {Fish.FishRarity.Special, 5}              
+            {Fish.FishRarity.Ampas, 5},
+            {Fish.FishRarity.Special, 5}
         }).FishChances)},
         {BaitType.BeefWellington,new Bait("BeefWellington", new BaitChance(new Dictionary<FishTemplate, float>(){
             {FishTemplates[FishType.GreatWhiteShark], 5},
             {FishTemplates[FishType.Sailfish], 45},
             {FishTemplates[FishType.GiantSquid], 10},
-            {FishTemplates[FishType.MarianaCrab], 10},
+            {FishTemplates[FishType.KingCrab], 10},
             {FishTemplates[FishType.Salmon], 10},
             {FishTemplates[FishType.Trout], 5},
         },new Dictionary<Fish.FishRarity, float>(){
-            {Fish.FishRarity.Ampas, 5}
-            {Fish.FishRarity.Special, 10}              
+            {Fish.FishRarity.Ampas, 5},
+            {Fish.FishRarity.Special, 10}
         }).FishChances)},
         {BaitType.Mackarel,new Bait("Mackarel", new BaitChance(new Dictionary<FishTemplate, float>(){
             {FishTemplates[FishType.GiantSquid], 50},
@@ -130,8 +131,8 @@ public class BaitRegistry
             {FishTemplates[FishType.KingCrab], 10},
             {FishTemplates[FishType.Eel], 10},
         },new Dictionary<Fish.FishRarity, float>(){
-            {Fish.FishRarity.Ampas, 5}
-            {Fish.FishRarity.Special, 5}              
+            {Fish.FishRarity.Ampas, 5},
+            {Fish.FishRarity.Special, 5}
         }).FishChances)},
         {BaitType.MarianaCrab,new Bait("MarianaCrab", new BaitChance(new Dictionary<FishTemplate, float>(){
             {FishTemplates[FishType.MantaRay], 40},
@@ -140,8 +141,8 @@ public class BaitRegistry
             {FishTemplates[FishType.Pufferfish], 10},
             {FishTemplates[FishType.Catfish], 10},
         },new Dictionary<Fish.FishRarity, float>(){
-            {Fish.FishRarity.Ampas, 5}
-            {Fish.FishRarity.Special, 5}              
+            {Fish.FishRarity.Ampas, 5},
+            {Fish.FishRarity.Special, 5}
         }).FishChances)},
     };
     public BaitRegistry()

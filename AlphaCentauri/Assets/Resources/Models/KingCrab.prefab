@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7506451458465193732}
   - component: {fileID: 375057394473372743}
   m_Layer: 0
-  m_Name: crab
+  m_Name: KingCrab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -19,6 +19,8 @@ public class Fish
         Rare,
         Legendary,
         Misc,
+        Ampas,
+        Special,
         Dev
     }
     public Fish(FishTemplate fishTemplate, (float current, float max) time)
@@ -34,7 +36,7 @@ public class Fish
     }
     float GenerateStat(float max, float min, (float current, float max) time)
     {
-        return (time.current * (max - min) * Random.Range(1, 4) / 3 / time.max) + min;
+        return Mathf.Round(((time.current * (max - min) * Random.Range(1, 4) / 3 / time.max) + min) * 100) / 100f;
     }
 }
 
@@ -75,7 +77,14 @@ public class FishGenerator
         Bass,
         Trout,
         Catfish,
-        Carp
+        Carp,
+        KingCrab,
+        Eel,
+        Pufferfish,
+        Sailfish,
+        GreatWhiteShark,
+        MantaRay,
+        GiantSquid
     }
 
     public static readonly Dictionary<FishType, FishTemplate> FishTemplates = new Dictionary<FishType, FishTemplate>{

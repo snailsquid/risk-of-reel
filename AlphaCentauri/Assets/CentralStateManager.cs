@@ -14,6 +14,7 @@ public class CentralStateManager : MonoBehaviour
     CameraManager cameraManager;
     EventLog eventLog;
     [SerializeField] LinePointAttacher linePointAttacher;
+    [SerializeField] FishingProgress fishingProgress;
     public enum PlayerState
     {
         StartMenu,
@@ -51,8 +52,14 @@ public class CentralStateManager : MonoBehaviour
     {
         Debug.Log(rodManager.equippedBucket.Fishes.Count);
         timeManager.PauseTime();
-        postRunPopup.SetFishes(BucketToList(rodManager.equippedBucket));
+        linePointAttacher.Unequip();
         postRunPopup.Show(canContinue);
+        postRunPopup.SetFishes(BucketToList(rodManager.equippedBucket));
+        rodManager.equippedRod.RodMechanics.cast.bobberClone.GetComponent<Bobber>().Finish();
+        rodManager.equippedRod.CanFish = false;
+        rodManager.equippedRod.Restart();
+        fishingProgress.successCounter = 0;
+        fishingProgress.success.value = 0;
         Debug.Log(rodManager.equippedBucket.Fishes.Count);
     }
     public void StartGame()
@@ -77,6 +84,7 @@ public class CentralStateManager : MonoBehaviour
     public void ContinueRun()
     {
         rodManager.equippedRod.Restart();
+        linePointAttacher.Equip(itemManager.shop.UpgradeItems[ItemRegistry.UpgradeItemType.Rod].CurrentLevel);
         timeManager.StartTime();
     }
     public void EndRun() // actual end of run

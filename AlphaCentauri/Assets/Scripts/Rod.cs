@@ -73,9 +73,10 @@ public class Rod
     }
     public void OnClick()
     {
+        Debug.Log("Clicked");
         if (CanFish)
         {
-
+            Debug.Log("can fish");
             switch (RodState)
             {
                 case RodState.PreCast:
@@ -108,7 +109,7 @@ public class Rod
     public void PostFish()
     {
         RodMechanics.battle.UI(false);
-        if (!currentBucket.AddFish(fishAttached)) { RodMechanics.postFish.props.centralStateManager.FinishRun(false); return; };
+        if (!currentBucket.AddFish(fishAttached)) { RodMechanics.battle.props.eventLog.Log("Bucket too full"); RodMechanics.postFish.props.centralStateManager.FinishRun(false); return; };
         RodMechanics.cast.bobberClone.GetComponent<Bobber>().FishLaunch(fishAttached.fishType);
         RodMechanics.battle.PopUp(fishAttached.Name, fishAttached.Weight, fishAttached.Length);
     }

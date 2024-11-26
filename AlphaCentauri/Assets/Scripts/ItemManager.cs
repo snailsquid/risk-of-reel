@@ -180,6 +180,7 @@ public static class ItemRegistry
     BeefWellington,
     Mackarel,
     Crab,
+    MarianaCrab,
   }
   public enum UpgradeItemType
   {

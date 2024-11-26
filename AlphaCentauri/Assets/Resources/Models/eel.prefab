@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7939052980883642592}
   - component: {fileID: 6376963489910016159}
   m_Layer: 0
-  m_Name: eel
+  m_Name: Eel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,13 +26,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4343529361430997259}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.06655836, y: 2.8102477, z: -90.62477}
+  m_LocalRotation: {x: -0.00000022697735, y: 0.70710677, z: 0.7071068, w: 0.00000023096797}
+  m_LocalPosition: {x: 0.0665598, y: 2.810247, z: -99.74443}
   m_LocalScale: {x: 0.32639277, y: 0.32639277, z: 0.32639277}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 180}
 --- !u!33 &7939052980883642592
 MeshFilter:
   m_ObjectHideFlags: 0
