@@ -17,13 +17,11 @@ public class PostProcessManager : MonoBehaviour
         Debug.Log(timeManager.CurrentTime + startTime);
         if (timeManager.CurrentTime + startTime < nightRange.start) // Transition to night
         {
-            Debug.Log("Transition night");
             evening.weight = 0.5f - ((timeManager.CurrentTime) / (nightRange.start - startTime) / 2);
             night.weight = 0.5f + ((timeManager.CurrentTime) / (nightRange.start - startTime) / 2);
         }
         else if (timeManager.CurrentTime + startTime - 24 > nightRange.end) // Transition to morning
         {
-            Debug.Log("Transition night");
             night.weight = 1 - ((timeManager.CurrentTime + startTime - 24 - nightRange.end) / (timeManager.maxTime - nightRange.end));
             Debug.Log((timeManager.CurrentTime + startTime - 24));
             morning.weight = (timeManager.CurrentTime + startTime - 24 - nightRange.end) / (timeManager.maxTime - nightRange.end);
