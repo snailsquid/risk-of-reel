@@ -296,8 +296,8 @@ public class Battle
     public void UI(bool show)
     {
         props.hookBar.GetComponent<FishingProgress>().Reset();
-        props.hookBar.gameObject.SetActive(show);
-        props.successBar.gameObject.SetActive(show);
+        props.hookBar.GetComponent<FadeAnim>().SetUI(show);
+        props.successBar.GetComponent<FadeAnim>().SetUI(show);
     }
     public Battle(Props props)
     {
@@ -309,7 +309,6 @@ public class Battle
     }
     public bool BattleUpdate()
     {
-        Debug.Log(FishTimer);
         FishTimer += Time.deltaTime;
         props.linePointAttacher.Reel(true);
 
@@ -473,8 +472,8 @@ public class Cast
     public void UI(bool show)
     {
         Debug.Log(show ? "Showing" : "Hiding");
-        CastProperties.horizontalBar.parent.gameObject.SetActive(show);
-        CastProperties.verticalBar.parent.gameObject.SetActive(show);
+        CastProperties.horizontalBar.parent.GetComponent<FadeAnim>().SetUI(show);
+        CastProperties.verticalBar.parent.GetComponent<FadeAnim>().SetUI(show); ;
     }
 }
 

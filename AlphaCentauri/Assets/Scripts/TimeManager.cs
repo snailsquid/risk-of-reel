@@ -17,7 +17,7 @@ public class TimeManager : MonoBehaviour
     bool isTimePlaying = false;
     public void UI(bool show)
     {
-        timeText.transform.parent.gameObject.SetActive(show);
+        timeText.transform.parent.GetComponent<FadeAnim>().SetUI(show);
     }
     void Awake()
     {

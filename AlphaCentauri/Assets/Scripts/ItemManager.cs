@@ -48,7 +48,7 @@ public class ItemManager : MonoBehaviour
 
   public void UI(bool show = true)
   {
-    shopInventory.gameObject.SetActive(show);
+    shopInventory.GetComponent<FadeAnim>().SetUI(show);
   }
   public void BuyItem(BuyItemType buyItemType)
   {

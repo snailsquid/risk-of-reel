@@ -47,10 +47,10 @@ public class CentralStateManager : MonoBehaviour
         }
         timeManager.UI(state == PlayerState.Rod);
         itemManager.UI(state == PlayerState.Shop);
-        weightText.gameObject.SetActive(state == PlayerState.Rod);
-        hideButton.gameObject.SetActive(state == PlayerState.Rod);
-        quickSwitchContainer.gameObject.SetActive(state == PlayerState.Rod);
-        mainMenuCanvas.gameObject.SetActive(state == PlayerState.StartMenu);
+        weightText.GetComponent<FadeAnim>().SetUI(state == PlayerState.Rod);
+        hideButton.GetComponent<FadeAnim>().SetUI(state == PlayerState.Rod);
+        quickSwitchContainer.GetComponent<FadeAnim>().SetUI(state == PlayerState.Rod);
+        mainMenuCanvas.GetComponent<FadeAnim>().SetUI(state == PlayerState.StartMenu);
         playerState = state;
     }
     public void FinishRun(bool canContinue) // can be continued
