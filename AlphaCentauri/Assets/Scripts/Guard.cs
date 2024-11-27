@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class Guard : MonoBehaviour
 {
@@ -160,8 +161,10 @@ public class Guard : MonoBehaviour
             {
                 satpamAnimator.SetBool("flashlight", false);
                 satpamAnimator.SetBool("walking", true);
-                Vector3 targetPosition = waypoints[targetWaypointindex].transform.position;
+                Transform target = waypoints[targetWaypointindex].transform;
+                Vector3 targetPosition = target.position;
                 Vector3 newPosition = Vector3.MoveTowards(transform.position, targetPosition, Guardspeed * Time.deltaTime);
+                RotateGuard(target.rotation.eulerAngles, 4);
                 transform.position = newPosition;
                 float distance = Vector3.Distance(transform.position, targetPosition);
                 if (distance <= 0.05)
@@ -188,5 +191,15 @@ public class Guard : MonoBehaviour
             guardChecking = 0;
         }
     }
+    bool rotateDebounce = true;
+    void RotateGuard(Vector3 rotation, float duration)
+    {
+        if (rotateDebounce)
+        {
+            rotateDebounce = false;
+            transform.DORotate(rotation, duration).OnComplete(() => rotateDebounce = true);
+        }
+    }
 }
+
 
