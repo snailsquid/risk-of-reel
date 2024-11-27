@@ -41,11 +41,12 @@ public class ItemManager : MonoBehaviour
     }
     shop = new(BuyItemsClone, UpgradeItems);
     inventory = new(new Dictionary<BuyItemType, InventoryItem>(), quickSwitch.GetComponent<QuickSwitch>());
-    UpdateUI();
+
   }
   void Start()
   {
     Debug.Log("im still starting");
+    UpdateUI();
   }
 
   public void UI(bool show = true)
@@ -201,9 +202,9 @@ public static class ItemRegistry
     {BuyItemType.Mackarel,new BuyItem("Mackarel", 50000, "THIS MACAKRENRKEEKRE Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.Mackarel])},
   };
   public static Dictionary<UpgradeItemType, UpgradeItem> UpgradeItems = new Dictionary<UpgradeItemType, UpgradeItem>(){
-    {UpgradeItemType.Rod,new UpgradeItem("Rod", new List<int>{100000,2000000},new List<float>{1, 1.2f, 1.4f} ,"[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},
-    {UpgradeItemType.Hook,new UpgradeItem("Hook", new List<int>{100000, 2000000},new List<float>{10, 15, 17}, "[Basic] 5 seconds to fish\n[Super] 10 seconds to fish\n[Ultimate] 15 seconds to fish", Resources.Load("Images/Rod")as Sprite)},
-    {UpgradeItemType.Bucket,new UpgradeItem("Bucket", new List<int>{100000, 2000000},new List<float>{50, 280f, 5000f}, "[Basic] Maximum 50kg weight\n[Super] Maximum 280kg weight\n[Ultimate] Maximum 5000kg weight", Resources.Load("Images/Rod")as Sprite)},
+    {UpgradeItemType.Rod,new UpgradeItem("Rod", new List<int>{100000,2000000},new List<float>{1, 1.2f, 1.4f} ,"[Super] +20% bar width\n[Ultimate] +40% bar width ", new List<Sprite>{Resources.Load<Sprite>("Images/Rod1"),Resources.Load<Sprite>("Images/Rod2"),Resources.Load<Sprite>("Images/Rod3")})},
+    {UpgradeItemType.Hook,new UpgradeItem("Hook", new List<int>{100000, 2000000},new List<float>{10, 15, 17}, "[Basic] 5 seconds to fish\n[Super] 10 seconds to fish\n[Ultimate] 15 seconds to fish", new List<Sprite>{Resources.Load<Sprite>("Images/Hook1"),Resources.Load<Sprite>("Images/Hook2"),Resources.Load<Sprite>("Images/Hook3")})},
+    {UpgradeItemType.Bucket,new UpgradeItem("Bucket", new List<int>{100000, 2000000},new List<float>{50, 280f, 5000f}, "[Basic] Maximum 50kg weight\n[Super] Maximum 280kg weight\n[Ultimate] Maximum 5000kg weight", new List<Sprite>{Resources.Load<Sprite>("Images/Bucket1"),Resources.Load<Sprite>("Images/Bucket2"),Resources.Load<Sprite>("Images/Bucket3")})},
   };
 
 }

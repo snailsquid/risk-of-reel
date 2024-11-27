@@ -396,7 +396,7 @@ public class Cast
     void PlayHorizontal()
     {
         horizontalPercent = Mathf.PingPong(Time.time, 1f);
-        CastProperties.horizontalBar.localPosition = new Vector3((horizontalPercent - 0.5f) * amplitude, 0f, 0f);
+        CastProperties.horizontalBar.localPosition = new Vector3((horizontalPercent - 0.5f) * amplitude, CastProperties.horizontalBar.localPosition.y, 0f);
     }
     public void Restart()
     {

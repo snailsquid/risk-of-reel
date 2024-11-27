@@ -14,6 +14,7 @@ public class BuyButton : MonoBehaviour
         {
             Buyscreen.SetActive(true);
             Sellscreen.SetActive(false);
+            Debug.Log("hshshsh");
             GameManager.GetComponent<ItemManager>().UpdateUI();
         }
     }

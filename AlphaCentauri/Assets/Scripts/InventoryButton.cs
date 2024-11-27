@@ -14,6 +14,7 @@ public class InventoryButton : MonoBehaviour
         {
             Inventory.SetActive(true);
             Buyscreen.SetActive(false);
+            Debug.Log("hello");
             GameManager.GetComponent<ItemManager>().UpdateUI();
         }
     }

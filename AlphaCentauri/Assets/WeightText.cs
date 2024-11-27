@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WeightText : MonoBehaviour
 {
     [SerializeField] Transform gameManager;
+    [SerializeField] Image image;
+    [SerializeField] ItemManager itemManager;
     RodManager rodManager;
     void Start()
     {
@@ -16,6 +19,8 @@ public class WeightText : MonoBehaviour
         if (gameManager.GetComponent<CentralStateManager>().playerState == CentralStateManager.PlayerState.Rod)
         {
             GetComponent<TMP_Text>().text = rodManager.equippedBucket.TotalWeight + "kg/" + rodManager.equippedBucket.MaxWeight + "kg";
+            UpgradeItem upgradeItem = itemManager.shop.UpgradeItems[ItemRegistry.UpgradeItemType.Bucket];
+            image.sprite = upgradeItem.Image[upgradeItem.CurrentLevel];
         }
 
     }

@@ -83,10 +83,10 @@ public class UpgradeItem
   public List<int> Prices { get; private set; }
   public List<float> Values { get; private set; }
   public string Description { get; private set; }
-  public Sprite Image { get; private set; }
+  public List<Sprite> Image { get; private set; }
   public int CurrentLevel { get; private set; } = 0;
   public int MaxLevel { get; private set; }
-  public UpgradeItem(string name, List<int> prices, List<float> values, string description, Sprite image)
+  public UpgradeItem(string name, List<int> prices, List<float> values, string description, List<Sprite> image)
   {
     Name = name;
     Description = description;
