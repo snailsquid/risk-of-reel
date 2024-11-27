@@ -28,6 +28,7 @@ public class LinePointAttacher : MonoBehaviour
     public void Cast()
     {
         rods[index].GetComponent<Animator>().SetTrigger("cast");
+        AudioManager.Instance.PlaySFX(AudioRegistry.Sounds[AudioManager.Sound.RodCast]);
     }
     public void Reel(bool isReeling)
     {
@@ -36,6 +37,7 @@ public class LinePointAttacher : MonoBehaviour
     public void Unequip()
     {
         rods[index].GetComponent<Animator>().SetBool("unequiped", true);
+        AudioManager.Instance.PlaySFX(AudioRegistry.Sounds[AudioManager.Sound.RodCast]);
     }
 
 }

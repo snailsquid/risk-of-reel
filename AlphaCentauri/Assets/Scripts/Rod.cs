@@ -414,7 +414,7 @@ public class Cast
     {
         await Task.Delay(300);
 
-        AudioManager.Instance.PlaySFX(AudioRegistry.Sounds[AudioManager.Sound.RodWoosh]);
+        //AudioManager.Instance.PlaySFX(AudioRegistry.Sounds[AudioManager.Sound.RodWoosh]);
         await Task.Delay(400);
         hasBobberLaunched = true;
         bobberClone = GameObject.Instantiate(CastProperties.bobberObject);
