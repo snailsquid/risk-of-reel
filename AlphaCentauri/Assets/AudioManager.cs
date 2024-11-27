@@ -64,6 +64,6 @@ public static class AudioRegistry
         {Sound.WaterSplashPostFish, Resources.Load<AudioClip>("Sounds/fish out of water")},
         {Sound.RodCast, Resources.Load<AudioClip>("Sounds/rod cast")},
         {Sound.RodUnequip, Resources.Load<AudioClip>("Sounds/rod unequip")},
-        {Sound.RodEquip, Resources.Load<AudioClip>("Sounds/rod equip")},
+        {Sound.RodEquip, Resources.Load<AudioClip>("Sounds/rod unequip")},
     };
 }

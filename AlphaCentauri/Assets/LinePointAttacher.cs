@@ -24,6 +24,7 @@ public class LinePointAttacher : MonoBehaviour
         this.index = index;
         rods[index].gameObject.SetActive(true);
         rods[index].GetComponent<Animator>().SetBool("unequiped", false);
+        AudioManager.Instance.PlaySFX(AudioRegistry.Sounds[AudioManager.Sound.RodEquip]);
     }
     public void Cast()
     {
@@ -37,7 +38,7 @@ public class LinePointAttacher : MonoBehaviour
     public void Unequip()
     {
         rods[index].GetComponent<Animator>().SetBool("unequiped", true);
-        AudioManager.Instance.PlaySFX(AudioRegistry.Sounds[AudioManager.Sound.RodCast]);
+        AudioManager.Instance.PlaySFX(AudioRegistry.Sounds[AudioManager.Sound.RodUnequip]);
     }
 
 }
