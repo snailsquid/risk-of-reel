@@ -21,6 +21,7 @@ public class QuickSwitchItem : MonoBehaviour
         this.bait = bait;
         this.index = index;
         image.GetComponent<Image>().sprite = ItemRegistry.BuyItems[bait].Image;
+        UpdateQuantity();
     }
     public void UpdateQuantity()
     {

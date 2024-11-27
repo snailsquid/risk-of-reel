@@ -18,6 +18,9 @@ public class PopUp : MonoBehaviour
 
     RodManager rodManager;
     FishGenerator.FishType fishType;
+    Dictionary<Fish.FishRarity, Color> fishColors = new Dictionary<Fish.FishRarity, Color>{
+        {Fish.FishRarity.Common, new Color(0.5f, 0.5f, 0.5f)},
+    };
     void Start()
     {
         rodManager = gameManager.GetComponent<RodManager>();
@@ -26,6 +29,7 @@ public class PopUp : MonoBehaviour
     {
         fishType = fish.fishType;
         fishName.text = fish.Name;
+        fishName.color = fishColors[fish.Rarity];
         fishWeightAndLength.text = fish.Weight + "kg\n" + fish.Length + "m";
     }
     public void Show()

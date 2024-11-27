@@ -57,6 +57,13 @@ public class QuickSwitch : MonoBehaviour
         if (indexItem == null) return;
         indexItem.SetAsFirstSibling();
     }
+    public void UpdateQuantity()
+    {
+        foreach (Transform item in baitItemContainer)
+        {
+            item.GetComponent<QuickSwitchItem>().UpdateQuantity();
+        }
+    }
     public void ToggleContainer()
     {
         RectTransform rt = baitItemContainer.GetComponent<RectTransform>();

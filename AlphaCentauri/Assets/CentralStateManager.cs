@@ -40,6 +40,7 @@ public class CentralStateManager : MonoBehaviour
     {
         if (state == PlayerState.Rod)
         {
+            guard.canCatch = true;
             timeManager.StartTime();
             eventLog.Log("Click to Start", 2);
             linePointAttacher.Equip(itemManager.shop.UpgradeItems[ItemRegistry.UpgradeItemType.Rod].CurrentLevel);
@@ -92,6 +93,7 @@ public class CentralStateManager : MonoBehaviour
     public void ContinueRun()
     {
         rodManager.equippedRod.Restart();
+        guard.canCatch = true;
         linePointAttacher.Equip(itemManager.shop.UpgradeItems[ItemRegistry.UpgradeItemType.Rod].CurrentLevel);
         cameraManager.SwitchToFishing();
         timeManager.StartTime();

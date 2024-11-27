@@ -32,6 +32,7 @@ public class Guard : MonoBehaviour
     float startTime;
     CentralStateManager centralStateManager;
     TimeManager timeManager;
+    public bool canCatch { get; set; } = true;
     public bool canMove { get; private set; } = false;
     void Start()
     {
@@ -110,21 +111,26 @@ public class Guard : MonoBehaviour
             susMeter.GetComponent<SusMeter>().SetPercent(VisibleTimer / caughtTime);
             if (VisibleTimer >= caughtTime)
             {
-                VisibleTimer = 0;
-                playerState = PlayerState.Waiting;
+                if (canCatch)
+                {
+                    canCatch = false;
+                    VisibleTimer = 0;
+                    playerState = PlayerState.Waiting;
 
-                transform.position = guardCaughtPosition.position;
-                cameraManager.SwitchToCaught();
-                canMove = false;
+                    transform.position = guardCaughtPosition.position;
+                    cameraManager.SwitchToCaught();
+                    canMove = false;
 
-                Debug.Log("GetCaught");//Add trigger gameover here
-                susMeter.GetComponent<SusMeter>().SetPercent(0);
+                    Debug.Log("GetCaught");//Add trigger gameover here
+                    susMeter.GetComponent<SusMeter>().SetPercent(0);
+                }
             }
             if (guardChecking >= checkInterval)
             {
                 int check = Random.Range(0, 100);//Random number between 0-100 to calculate the chance
                 Debug.Log(currentTime + " " + (timeManager.maxTime + 24 - timeManager.startTime));
                 Debug.Log(check + " " + calc(currentTime / (timeManager.maxTime + 24 - timeManager.startTime)) * 100);
+                check = 0;
                 if (check <= calc(currentTime / (timeManager.maxTime + 24 - timeManager.startTime)) * 100)// Compare to check for chance trigger patrol
                 {
                     Debug.Log("Alert");//Add ui Guard go patrol

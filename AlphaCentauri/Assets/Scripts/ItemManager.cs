@@ -21,6 +21,7 @@ public class ItemManager : MonoBehaviour
   [SerializeField] List<BuyImage> buyImages = new List<BuyImage>();
   void Awake()
   {
+    Debug.Log("im still awake");
     eventLog = logText.GetComponent<EventLog>();
     centralStateManager = GetComponent<CentralStateManager>();
     rodManager = GetComponent<RodManager>();
@@ -44,6 +45,7 @@ public class ItemManager : MonoBehaviour
   }
   void Start()
   {
+    Debug.Log("im still starting");
   }
 
   public void UI(bool show = true)
@@ -179,8 +181,6 @@ public static class ItemRegistry
     DagingCincang,
     BeefWellington,
     Mackarel,
-    Crab,
-    MarianaCrab,
   }
   public enum UpgradeItemType
   {
@@ -199,7 +199,6 @@ public static class ItemRegistry
     {BuyItemType.DagingCincang,new BuyItem("Daging Cincang", 2000, "THIS MACAKRENRKEEKRE Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.DagingCincang])},
     {BuyItemType.BeefWellington,new BuyItem("Beef Wellington", 100000, "THIS MACAKRENRKEEKRE Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.BeefWellington])},
     {BuyItemType.Mackarel,new BuyItem("Mackarel", 50000, "THIS MACAKRENRKEEKRE Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.Mackarel])},
-    {BuyItemType.MarianaCrab,new BuyItem("Mariana Crab", 50000, "THIS MACAKRENRKEEKRE Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.MarianaCrab])},
   };
   public static Dictionary<UpgradeItemType, UpgradeItem> UpgradeItems = new Dictionary<UpgradeItemType, UpgradeItem>(){
     {UpgradeItemType.Rod,new UpgradeItem("Rod", new List<int>{100000,2000000},new List<float>{1, 1.2f, 1.4f} ,"[Super] +20% bar width\n[Ultimate] +40% bar width ", Resources.Load("Images/Rod")as Sprite)},

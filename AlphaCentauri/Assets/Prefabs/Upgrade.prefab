@@ -170,11 +170,11 @@ MonoBehaviour:
   Name: {fileID: 2658955004254452420}
   Price: {fileID: 715155712852324487}
   ImageObject: {fileID: 8703863160833546372}
-  filled: {fileID: 0}
-  empty: {fileID: 0}
-  l1: {fileID: 0}
-  l2: {fileID: 0}
-  l3: {fileID: 0}
+  filled: {fileID: 21300000, guid: ea4a086d82b7a4b4c97a27942263fbc2, type: 3}
+  empty: {fileID: 21300000, guid: 9a59bdd3c398daf4e9fb96162f613e6e, type: 3}
+  l1: {fileID: 3770572720974277139}
+  l2: {fileID: 5728033382737213775}
+  l3: {fileID: 2559820371849553474}
 --- !u!114 &8872236672037358095
 MonoBehaviour:
   m_ObjectHideFlags: 0

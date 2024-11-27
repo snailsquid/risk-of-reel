@@ -16,6 +16,8 @@ public class FishingProgress : MonoBehaviour
     float successbar = 100;
     float failbar = -100;
     public float successCounter = 0;
+    [SerializeField] QuickSwitch quickSwitch;
+    [SerializeField] ItemManager itemManager;
     [SerializeField] EventLog eventLog;
     void Start()
     {
@@ -61,6 +63,8 @@ public class FishingProgress : MonoBehaviour
         //Progress bar
         success.value = successCounter;
         //Success or fail
+        itemManager.UseLineup(quickSwitch.baitIndex);
+        quickSwitch.UpdateQuantity();
         if (successCounter >= successbar)
         {
             Debug.Log("Success");

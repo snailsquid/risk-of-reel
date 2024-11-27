@@ -408,12 +408,14 @@ public class Cast
     {
         CastProperties.linePointAttacher.Cast();
         hasBobberLaunched = false;
-        AudioManager.Instance.PlaySFX(AudioRegistry.Sounds[AudioManager.Sound.RodWoosh]);
         BobberLaunch();
     }
     async Task BobberLaunch()
     {
-        await Task.Delay(700);
+        await Task.Delay(300);
+
+        AudioManager.Instance.PlaySFX(AudioRegistry.Sounds[AudioManager.Sound.RodWoosh]);
+        await Task.Delay(400);
         hasBobberLaunched = true;
         bobberClone = GameObject.Instantiate(CastProperties.bobberObject);
         Transform fishableArea = CastProperties.fishableArea;

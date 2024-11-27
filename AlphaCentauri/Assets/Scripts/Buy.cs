@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Buy : MonoBehaviour
 {
 
-    [SerializeField] TMP_Text Price, QuantityText;
+    [SerializeField] TMP_Text QuantityText;
     [SerializeField] Image ImageObject;
     Action<ItemRegistry.BuyItemType> updateSidepanel;
     ItemRegistry.BuyItemType buyItemType;
@@ -17,7 +17,6 @@ public class Buy : MonoBehaviour
         BuyItem buyItem = ItemRegistry.BuyItems[buyItemType];
         this.buyItemType = buyItemType;
         ImageObject.GetComponent<Image>().sprite = buyItem.Image;
-        Price.text = buyItem.Price.ToString();
         this.updateSidepanel = updateSidepanel;
         if (quantity > 0)
         {

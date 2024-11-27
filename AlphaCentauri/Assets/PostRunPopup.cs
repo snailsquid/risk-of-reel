@@ -51,6 +51,7 @@ public class PostRunPopup : MonoBehaviour
     bool canContinue;
     public void Show(bool canContinue)
     {
+        transform.DOScale(new Vector3(0.5f, 0.5f, 0.5f), popUpTime);
         this.canContinue = canContinue;
         denyButton.gameObject.SetActive(true);
         if (canContinue)

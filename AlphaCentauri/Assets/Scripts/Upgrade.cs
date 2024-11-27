@@ -37,8 +37,4 @@ public class Upgrade : MonoBehaviour
     {
         upgradeCallback(upgradeItemType);
     }
-    void Start()
-    {
-        GetComponent<Button>().onClick.AddListener(OnClick);
-    }
 }
