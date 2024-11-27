@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,8 @@ public class QuickSwitchItem : MonoBehaviour
     ItemRegistry.BuyItemType bait;
     ItemManager itemManager;
     [SerializeField] int index;
-    [SerializeField] Transform image, quantityText;
+    [SerializeField] Transform image;
+    [SerializeField] TMP_Text quantityText;
     QuickSwitch quickSwitch;
     void Start()
     {
@@ -25,7 +27,12 @@ public class QuickSwitchItem : MonoBehaviour
     }
     public void UpdateQuantity()
     {
-        quantityText.GetComponent<Text>().text = itemManager.inventory.Items[bait].Quantity.ToString();
+        if (bait == ItemRegistry.BuyItemType.None)
+        {
+            quantityText.text = "";
+            return;
+        };
+        quantityText.text = itemManager.inventory.Items[bait].Quantity.ToString();
     }
     void OnClick()
     {

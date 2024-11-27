@@ -130,7 +130,6 @@ public class Guard : MonoBehaviour
                 int check = Random.Range(0, 100);//Random number between 0-100 to calculate the chance
                 Debug.Log(currentTime + " " + (timeManager.maxTime + 24 - timeManager.startTime));
                 Debug.Log(check + " " + calc(currentTime / (timeManager.maxTime + 24 - timeManager.startTime)) * 100);
-                check = 0;
                 if (check <= calc(currentTime / (timeManager.maxTime + 24 - timeManager.startTime)) * 100)// Compare to check for chance trigger patrol
                 {
                     Debug.Log("Alert");//Add ui Guard go patrol

@@ -227,7 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 0
   image: {fileID: 4968547663196095871}
-  quantityText: {fileID: 7290313506806962640}
+  quantityText: {fileID: 209229645505455188}
 --- !u!114 &5153228886321001469
 MonoBehaviour:
   m_ObjectHideFlags: 0

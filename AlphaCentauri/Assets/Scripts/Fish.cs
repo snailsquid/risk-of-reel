@@ -17,7 +17,6 @@ public class Fish
     {
         Common,
         Legendary,
-        Misc,
         Ampas,
         Special,
         Dev
