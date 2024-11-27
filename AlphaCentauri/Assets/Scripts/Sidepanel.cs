@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +17,7 @@ public class Sidepanel : MonoBehaviour
     ItemRegistry.BuyItemType buyItemType;
     public void SetUI(ItemRegistry.BuyItemType buyItemType, Action<ItemRegistry.BuyItemType> callback)
     {
-        BuyItem item = ItemRegistry.BuyItems[buyItemType];
+        BuyItem item = itemManager.shop.BuyItems[buyItemType];
         this.buyItemType = buyItemType;
         this.callback = callback;
         Name.text = item.Name;
