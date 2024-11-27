@@ -18,7 +18,7 @@ public class FadeAnim : MonoBehaviour
     IEnumerator HideCoroutine()
     {
         yield return new WaitForSeconds(delay);
-        GetComponent<CanvasGroup>().DOFade(0, 1f);
+        GetComponent<CanvasGroup>().DOFade(0, .2f);
         Vector3 end = new Vector3(transform.position.x, transform.position.y - distance, transform.position.z);
         transform.DOMove(end, duration).SetEase(ease).onComplete += () => gameObject.SetActive(false);
     }

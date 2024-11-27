@@ -141,7 +141,7 @@ public class ItemManager : MonoBehaviour
     for (int i = 0; i < BaitLineup.Count; i++)
     {
       Debug.Log(BaitLineup[i]);
-      lineupContainer.GetChild(i).GetComponent<LineupButton>().SetButton(BaitLineup[i]);
+      lineupContainer.GetChild(0).GetChild(i).GetComponent<LineupButton>().SetButton(BaitLineup[i]);
     }
   }
   public void AddToLineup(BuyItemType buyItemType)
