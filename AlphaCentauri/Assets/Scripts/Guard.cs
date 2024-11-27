@@ -87,7 +87,10 @@ public class Guard : MonoBehaviour
     }
     float calc(float x)
     {
-        return Mathf.Log10(Mathf.Pow(x, 0.5f) + 1);
+        Debug.Log(x);
+        float l = 2.5f;
+        float k = 4.3f;
+        return (Mathf.Pow(l, k * x) - 1) / (Mathf.Pow(l, k) - 1);
     }
     void Update()
     {
@@ -120,39 +123,22 @@ public class Guard : MonoBehaviour
             if (guardChecking >= checkInterval)
             {
                 int check = Random.Range(0, 100);//Random number between 0-100 to calculate the chance
-                if (currentTime + startTime - 24 < firstHalf)
+                Debug.Log(currentTime + " " + (timeManager.maxTime + 24 - timeManager.startTime));
+                Debug.Log(check + " " + calc(currentTime / (timeManager.maxTime + 24 - timeManager.startTime)) * 100);
+                if (check <= calc(currentTime / (timeManager.maxTime + 24 - timeManager.startTime)) * 100)// Compare to check for chance trigger patrol
                 {
-                    Debug.Log(check + " " + calc(currentTime) * 100);
-                    if (check <= calc(currentTime) * 100)// Compare to check for chance trigger patrol
-                    {
-                        Debug.Log("Alert");//Add ui Guard go patrol
-                        targetWaypointindex = 0;
-                        audioSource.clip = AudioRegistry.Sounds[AudioManager.Sound.FootSteps];
-                        audioSource.Play();
-                        guardState = GuardState.Patroling;
-                        guardChecking = -20f;
-                    }
-                    else//If not checking just restart timer and do nothing
-                    {
-                        guardChecking = 0f;
-                    }
+                    Debug.Log("Alert");//Add ui Guard go patrol
+                    targetWaypointindex = 0;
+                    audioSource.clip = AudioRegistry.Sounds[AudioManager.Sound.FootSteps];
+                    audioSource.Play();
+                    guardState = GuardState.Patroling;
+                    guardChecking = -20f;
                 }
-                else
+                else//If not checking just restart timer and do nothing
                 {
-                    if (check <= (Mathf.Pow((currentTime - firstHalf) / (timeManager.maxTime - firstHalf), 0.25f) * (1 - calc(timeManager.maxTime)) + calc(timeManager.maxTime)) * 100)
-                    {
-                        Debug.Log("Alert");//Add ui Guard go patrol
-                        targetWaypointindex = 0;
-                        guardState = GuardState.Patroling;
-                        audioSource.clip = AudioRegistry.Sounds[AudioManager.Sound.FootSteps];
-                        audioSource.Play();
-                        guardChecking = -20f;
-                    }
-                    else//If not checking just restart timer and do nothing
-                    {
-                        guardChecking = 1f;
-                    }
+                    guardChecking = 0f;
                 }
+
             }
             if (guardState == GuardState.Patroling)//from spawnpoint go to checkingpoint and go back to spawnpoint after 8 sec
             {
