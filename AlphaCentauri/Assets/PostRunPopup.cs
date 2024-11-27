@@ -8,8 +8,8 @@ public class PostRunPopup : MonoBehaviour
 {
     [SerializeField] float popUpTime = 2f, hideTime = 8;
     [SerializeField] int rokokPrice = 50000;
-    [SerializeField] Transform gameManager, fishItemPrefab, fishesContainer, continueContainer;
-    [SerializeField] TMP_Text totalWeight, balanceText;
+    [SerializeField] Transform gameManager, fishItemPrefab, fishesContainer, acceptButton, denyButton;
+    [SerializeField] TMP_Text totalWeight;
     [SerializeField] RodManager rodManager;
     [SerializeField] FishingProgress fishingProgress;
     [SerializeField] LinePointAttacher linePointAttacher;
@@ -32,7 +32,8 @@ public class PostRunPopup : MonoBehaviour
         foreach (Fish fish in fishes)
         {
             Debug.Log("generating");
-            StartCoroutine(SetFishCoroutine(fish));
+            Transform clone = Instantiate(fishItemPrefab, fishesContainer);
+            clone.GetComponent<FishCollected>().SetFish(fish);
             weightSum += fish.Weight;
         }
         totalWeight.text = Mathf.Round(weightSum).ToString();
@@ -51,29 +52,14 @@ public class PostRunPopup : MonoBehaviour
     public void Show(bool canContinue)
     {
         this.canContinue = canContinue;
-        continueContainer.localScale = new Vector3(0, 0, 0);
-        StartCoroutine(WaitCoroutine());
-    }
-    IEnumerator SetFishCoroutine(Fish fish)
-    {
-        Transform clone = Instantiate(fishItemPrefab, fishesContainer);
-        Debug.Log(clone);
-        yield return new WaitForSeconds(0.5f);
-        Debug.Log(clone);
-        clone.GetComponent<FishCollected>().SetFish(fish);
-    }
-    IEnumerator WaitCoroutine()
-    {
-        transform.DOScale(new Vector2(0.5f, 0.5f), popUpTime);
-        yield return new WaitForSeconds(hideTime);
+        denyButton.gameObject.SetActive(true);
         if (canContinue)
         {
-            balanceText.text = itemManager.GetBalance();
-            continueContainer.DOScale(new Vector3(1, 1, 1), popUpTime);
+            acceptButton.gameObject.SetActive(true);
         }
         else
         {
-            Deny();
+            acceptButton.gameObject.SetActive(false);
         }
     }
     public void Accept()
@@ -82,12 +68,16 @@ public class PostRunPopup : MonoBehaviour
         itemManager.DeductBalance(rokokPrice);
         transform.DOScale(new Vector3(0, 0, 0), popUpTime);
         guard.Reset();
+        acceptButton.gameObject.SetActive(false);
+        denyButton.gameObject.SetActive(false);
         centralStateManager.ContinueRun();
     }
     public void Deny()
     {
         transform.DOScale(new Vector3(0, 0, 0), popUpTime);
         centralStateManager.EndRun();
+        acceptButton.gameObject.SetActive(false);
+        denyButton.gameObject.SetActive(false);
         guard.Reset();
     }
 }

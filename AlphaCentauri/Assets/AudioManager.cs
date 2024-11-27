@@ -26,6 +26,7 @@ public class AudioManager : MonoBehaviour
         RodReel,
         WaterSplashBobber,
         WaterSplashPostFish,
+        RodWoosh,
     }
     void Start()
     {
@@ -64,5 +65,6 @@ public static class AudioRegistry
         {Sound.RodReel, Resources.Load<AudioClip>("Sounds/RodReel")},
         {Sound.WaterSplashBobber, Resources.Load<AudioClip>("Sounds/WaterSplashBobber")},
         {Sound.WaterSplashPostFish, Resources.Load<AudioClip>("Sounds/WaterSplashPostFish")},
+        {Sound.RodWoosh, Resources.Load<AudioClip>("Sounds/RodWoosh")},
     };
 }

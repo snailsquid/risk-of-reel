@@ -5,23 +5,25 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+
 public class FishCollected : MonoBehaviour
 {
     [SerializeField] TMP_Text fishName, weightAndLength;
-    [SerializeField] Image image;
+    [SerializeField] FishSpin fishSpin;
+    Fish fish;
     void Start()
     {
-
-        transform.localScale = new Vector2(0, 0);
+        Debug.Log(transform.Find("FishContainer"));
+        fishSpin = GameObject.Find("FishContainer").GetComponent<FishSpin>();
     }
     public void SetFish(Fish fish)
     {
-        transform.DOScale(new Vector2(1, 1), 0.5f);
+        this.fish = fish;
         fishName.text = fish.Name;
         weightAndLength.text = Mathf.Round(fish.Weight * 100) / 100 + "kg   " + Mathf.Round(fish.Length * 100) / 100 + "m";
-        if (fish.Image != null)
-        {
-            image.GetComponent<Image>().sprite = fish.Image;
-        }
+    }
+    public void OnClick()
+    {
+        fishSpin.Show(fish.fishType, 0.5f, 1f);
     }
 }

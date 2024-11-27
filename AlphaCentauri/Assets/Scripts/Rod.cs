@@ -409,6 +409,7 @@ public class Cast
     {
         CastProperties.linePointAttacher.Cast();
         hasBobberLaunched = false;
+        AudioManager.Instance.PlaySFX(AudioRegistry.Sounds[AudioManager.Sound.RodWoosh]);
         BobberLaunch();
     }
     async Task BobberLaunch()

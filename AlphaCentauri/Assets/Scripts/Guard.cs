@@ -120,10 +120,6 @@ public class Guard : MonoBehaviour
             if (guardChecking >= checkInterval)
             {
                 int check = Random.Range(0, 100);//Random number between 0-100 to calculate the chance
-                Debug.Log(check);
-                check = 0;
-                Debug.Log(currentTime + " " + startTime);
-                Debug.Log(currentTime - (24 - startTime));
                 if (currentTime + startTime - 24 < firstHalf)
                 {
                     if (check <= calc(currentTime) * 100)// Compare to check for chance trigger patrol
