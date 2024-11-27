@@ -68,7 +68,7 @@ public class CentralStateManager : MonoBehaviour
         rodManager.equippedRod.CanFish = false;
         rodManager.equippedRod.Restart();
         fishingProgress.successCounter = 0;
-        fishingProgress.success.value = 0;
+        fishingProgress.success.GetComponent<FishRainbow>().value = 0;
         Debug.Log(rodManager.equippedBucket.Fishes.Count);
     }
     public void StartGame()

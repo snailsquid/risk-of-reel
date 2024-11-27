@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class HookMovement : MonoBehaviour
 {
-    public float maxX = 250f;
-    public float minX = -250f;
+    public float maxX = 470;
+    public float minX = -470;
     public float moveSpeed = 250f;
     bool battling = true;
     void Start()

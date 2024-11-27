@@ -10,7 +10,7 @@ public class FishingProgress : MonoBehaviour
     public RectTransform fishTransform;
     public RectTransform hookTransform;
     public bool HookTouchFish;
-    public Slider success;
+    public Transform success;
     public float successrate = 15;
     public float failrate = 10;
     float successbar = 100;
@@ -47,7 +47,7 @@ public class FishingProgress : MonoBehaviour
     {
         Debug.Log("nah");
         successCounter = 0;
-        success.value = 0;
+        success.GetComponent<FishRainbow>().value = 0;
     }
     private void Calculation()
     {
@@ -61,7 +61,7 @@ public class FishingProgress : MonoBehaviour
         }
         successCounter = Mathf.Clamp(successCounter, failbar, successbar);
         //Progress bar
-        success.value = successCounter;
+        success.GetComponent<FishRainbow>().value = successCounter;
         //Success or fail
         itemManager.UseLineup(quickSwitch.baitIndex);
         quickSwitch.UpdateQuantity();
@@ -69,14 +69,14 @@ public class FishingProgress : MonoBehaviour
         {
             Debug.Log("Success");
             successCounter = 0;
-            success.value = 0;
+            success.GetComponent<FishRainbow>().value = 0;
             rod.BattleSuccess();
         }
         else if (successCounter <= failbar)
         {
             Debug.Log("Fail");
             successCounter = 0;
-            success.value = 0;
+            success.GetComponent<FishRainbow>().value = 0;
             rod.BattleFail();
         }
     }
