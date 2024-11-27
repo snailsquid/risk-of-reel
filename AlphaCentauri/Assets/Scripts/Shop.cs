@@ -8,7 +8,7 @@ public class Shop
 {
   public Dictionary<BuyItemType, BuyItem> BuyItems { get; private set; } = new();
   public Dictionary<UpgradeItemType, UpgradeItem> UpgradeItems { get; private set; } = new();
-  public int Balance { get; private set; } = 1000000000;
+  public int Balance { get; private set; } = 0;
   public Shop(Dictionary<BuyItemType, BuyItem> buyItems, Dictionary<UpgradeItemType, UpgradeItem> upgradeItems)
   {
     BuyItems = buyItems;

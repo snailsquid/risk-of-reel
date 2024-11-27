@@ -32,7 +32,9 @@ public class QuickSwitchItem : MonoBehaviour
             quantityText.text = "";
             return;
         };
-        quantityText.text = itemManager.inventory.Items[bait].Quantity.ToString();
+        InventoryItem item = itemManager.inventory.Items[bait];
+        Debug.Log(item);
+        quantityText.text = item.Quantity.ToString();
     }
     void OnClick()
     {

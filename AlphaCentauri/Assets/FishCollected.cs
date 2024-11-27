@@ -8,7 +8,7 @@ using DG.Tweening;
 
 public class FishCollected : MonoBehaviour
 {
-    [SerializeField] TMP_Text fishName, weightAndLength;
+    [SerializeField] TMP_Text fishName, weight, length, moneMade;
     [SerializeField] FishSpin fishSpin;
     Fish fish;
     void Start()
@@ -20,7 +20,8 @@ public class FishCollected : MonoBehaviour
     {
         this.fish = fish;
         fishName.text = fish.Name;
-        weightAndLength.text = Mathf.Round(fish.Weight * 100) / 100 + "kg   " + Mathf.Round(fish.Length * 100) / 100 + "m";
+        weight.text = Mathf.Round(fish.Weight * 100) / 100 + " kg";
+        length.text = Mathf.Round(fish.Length * 100) / 100 + " m";
     }
     public void OnClick()
     {

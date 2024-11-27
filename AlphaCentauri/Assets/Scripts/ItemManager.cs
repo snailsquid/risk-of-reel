@@ -128,7 +128,7 @@ public class ItemManager : MonoBehaviour
   }
   public void UpdateBalanceUI()
   {
-    balanceText.text = currencyPrefix + shop.Balance.ToString();
+    balanceText.text = shop.Balance.ToString();
   }
   public void DeductBalance(int amount)
   {
@@ -136,14 +136,13 @@ public class ItemManager : MonoBehaviour
   }
   public string GetBalance()
   {
-    return currencyPrefix + shop.Balance.ToString();
+    return shop.Balance.ToString();
 
   }
   void UpdateLineupUI()
   {
     for (int i = 0; i < BaitLineup.Count; i++)
     {
-      Debug.Log(BaitLineup[i]);
       lineupContainer.GetChild(0).GetChild(i).GetComponent<LineupButton>().SetButton(BaitLineup[i]);
     }
   }
@@ -193,13 +192,13 @@ public static class ItemRegistry
     {BaitRegistry.BaitType.Mackarel,BuyItemType.Mackarel},
   };
   public static Dictionary<BuyItemType, BuyItem> BuyItems = new Dictionary<BuyItemType, BuyItem>(){
-    {BuyItemType.None,new BuyItem("None", 0, "None Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.None])},
-    {BuyItemType.Pellet,new BuyItem("Pellet", 200, "Your basic bait", null, BaitRegistry.Baits[BaitRegistry.BaitType.Pellet])},
-    {BuyItemType.CacingTanah,new BuyItem("Cacing Tanah", 500, "Cacing Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.CacingTanah])},
-    {BuyItemType.Jangkrik,new BuyItem("Jangkrik", 1000, "THIS MACAKRENRKEEKRE Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.Jangkrik])},
-    {BuyItemType.DagingCincang,new BuyItem("Daging Cincang", 2000, "THIS MACAKRENRKEEKRE Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.DagingCincang])},
-    {BuyItemType.BeefWellington,new BuyItem("Beef Wellington", 100000, "THIS MACAKRENRKEEKRE Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.BeefWellington])},
-    {BuyItemType.Mackarel,new BuyItem("Mackarel", 50000, "THIS MACAKRENRKEEKRE Description", null, BaitRegistry.Baits[BaitRegistry.BaitType.Mackarel])},
+    {BuyItemType.None,new BuyItem("None", 0, "Last resort as to when you absolutely have no bait left", null, BaitRegistry.Baits[BaitRegistry.BaitType.None])},
+    {BuyItemType.Pellet,new BuyItem("Pellet", 200, "Common fish bait, a classic that is always reliable", null, BaitRegistry.Baits[BaitRegistry.BaitType.Pellet])},
+    {BuyItemType.CacingTanah,new BuyItem("Cacing Tanah", 500, "The smell and wiggle of cacing tanah attracts common fish", null, BaitRegistry.Baits[BaitRegistry.BaitType.CacingTanah])},
+    {BuyItemType.Jangkrik,new BuyItem("Jangkrik", 1000, "Farm-raised jangkrik. Born to reel", null, BaitRegistry.Baits[BaitRegistry.BaitType.Jangkrik])},
+    {BuyItemType.DagingCincang,new BuyItem("Daging Cincang", 2000, "Leftover meat from kantin GKU 2 minced to bits", null, BaitRegistry.Baits[BaitRegistry.BaitType.DagingCincang])},
+    {BuyItemType.BeefWellington,new BuyItem("Beef Wellington", 100000, "The ultimate bait. No fish could pass such perfection. They say if you're lucky enough, you can attract the ultimate fish", null, BaitRegistry.Baits[BaitRegistry.BaitType.BeefWellington])},
+    {BuyItemType.Mackarel,new BuyItem("Mackarel", 50000, "I invented this one, this one hell of a bait is the culmination of Mackerels squished together using super glue", null, BaitRegistry.Baits[BaitRegistry.BaitType.Mackarel])},
   };
   public static Dictionary<UpgradeItemType, UpgradeItem> UpgradeItems = new Dictionary<UpgradeItemType, UpgradeItem>(){
     {UpgradeItemType.Rod,new UpgradeItem("Rod", new List<int>{100000,2000000},new List<float>{1, 1.2f, 1.4f} ,"[Super] +20% bar width\n[Ultimate] +40% bar width ", new List<Sprite>{Resources.Load<Sprite>("Images/Rod1"),Resources.Load<Sprite>("Images/Rod2"),Resources.Load<Sprite>("Images/Rod3")})},

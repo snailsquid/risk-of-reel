@@ -9,7 +9,7 @@ public class PostRunPopup : MonoBehaviour
     [SerializeField] float popUpTime = 2f, hideTime = 8;
     [SerializeField] int rokokPrice = 50000;
     [SerializeField] Transform gameManager, fishItemPrefab, fishesContainer, acceptButton, denyButton;
-    [SerializeField] TMP_Text totalWeight;
+    [SerializeField] TMP_Text totalMoney;
     [SerializeField] RodManager rodManager;
     [SerializeField] FishingProgress fishingProgress;
     [SerializeField] LinePointAttacher linePointAttacher;
@@ -23,7 +23,6 @@ public class PostRunPopup : MonoBehaviour
     }
     public void SetFishes(List<Fish> fishes)
     {
-        float weightSum = 0;
         foreach (Transform child in fishesContainer)
         {
             Destroy(child.gameObject);
@@ -34,9 +33,7 @@ public class PostRunPopup : MonoBehaviour
             Debug.Log("generating");
             Transform clone = Instantiate(fishItemPrefab, fishesContainer);
             clone.GetComponent<FishCollected>().SetFish(fish);
-            weightSum += fish.Weight;
         }
-        totalWeight.text = Mathf.Round(weightSum).ToString();
 
         rodManager.equippedRod.Hide();
         fishingProgress.Reset();
@@ -51,7 +48,7 @@ public class PostRunPopup : MonoBehaviour
     bool canContinue;
     public void Show(bool canContinue)
     {
-        transform.DOScale(new Vector3(0.5f, 0.5f, 0.5f), popUpTime);
+        transform.DOScale(new Vector3(0.3f, 0.3f, 0.3f), popUpTime);
         this.canContinue = canContinue;
         denyButton.gameObject.SetActive(true);
         if (canContinue)
@@ -72,6 +69,10 @@ public class PostRunPopup : MonoBehaviour
         acceptButton.gameObject.SetActive(false);
         denyButton.gameObject.SetActive(false);
         centralStateManager.ContinueRun();
+    }
+    public void SetBalance(int sum)
+    {
+        totalMoney.text = sum.ToString();
     }
     public void Deny()
     {

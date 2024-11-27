@@ -61,6 +61,9 @@ public class CentralStateManager : MonoBehaviour
         linePointAttacher.Unequip();
         postRunPopup.Show(canContinue);
         postRunPopup.SetFishes(BucketToList(rodManager.equippedBucket));
+        int sum = rodManager.equippedBucket.EndRun();
+        itemManager.shop.AddBalance(sum);
+        postRunPopup.SetBalance(sum);
         if (rodManager.equippedRod.RodMechanics.cast.bobberClone != null)
         {
             rodManager.equippedRod.RodMechanics.cast.bobberClone.GetComponent<Bobber>().Finish();
@@ -104,7 +107,6 @@ public class CentralStateManager : MonoBehaviour
         //Animation first here
         Debug.Log(rodManager.equippedBucket.Fishes.Count);
         timeManager.RestartTime();
-        itemManager.shop.AddBalance(rodManager.equippedBucket.EndRun());
         itemManager.UpdateBalanceUI();
         cameraManager.SwitchToShop();
         rodManager.equippedRod.RodState = RodRegistry.RodState.PreCast;

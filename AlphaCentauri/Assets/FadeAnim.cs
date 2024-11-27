@@ -7,13 +7,14 @@ public class FadeAnim : MonoBehaviour
     [SerializeField] float duration = 1f, delay = 0f;
     float distance = 1;
     [SerializeField] Ease ease = Ease.OutBack;
-    bool showing = false;
+    bool show = false;
     Vector3 original;
     IEnumerator ShowCoroutine()
     {
         yield return new WaitForSeconds(delay);
+        Debug.Log(original);
         GetComponent<CanvasGroup>().DOFade(1, .2f);
-        transform.DOMove(original, duration).SetEase(ease);
+        transform.DOMove(original, duration).SetEase(ease).onComplete += () => transform.position = original;
     }
     IEnumerator HideCoroutine()
     {
@@ -24,15 +25,12 @@ public class FadeAnim : MonoBehaviour
     }
     void Update()
     {
-        if (gameObject.activeSelf && !showing)
-        {
-            // StartCoroutine(ShowCoroutine());
-            showing = true;
-        }
-        // else if (!gameObject.activeSelf && showing) { StartCoroutine(Hide()); showing = false; }
     }
     public void Show()
     {
+        if (!show) return;
+        Debug.Log("show");
+        show = false;
         if (gameObject.activeSelf) return;
         if (GetComponent<CanvasGroup>() == null) { Debug.Log(gameObject + " does not have canvas group"); return; }
         gameObject.SetActive(true);
@@ -40,6 +38,7 @@ public class FadeAnim : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y - distance, transform.position.z);
         Debug.Log(GetComponent<CanvasGroup>());
         GetComponent<CanvasGroup>().alpha = 0;
+        Debug.Log("before coroutine");
         StartCoroutine(ShowCoroutine());
     }
     public void Hide()
@@ -49,7 +48,7 @@ public class FadeAnim : MonoBehaviour
     }
     public void SetUI(bool active)
     {
-        if (active) Show();
+        if (active) { show = true; Show(); }
         else Hide();
     }
 }
