@@ -45,7 +45,6 @@ public class ItemManager : MonoBehaviour
   }
   void Start()
   {
-    Debug.Log("im still starting");
     UpdateUI();
   }
 
@@ -63,7 +62,8 @@ public class ItemManager : MonoBehaviour
     else
     {
       Debug.Log("Not enough balance");
-    };
+    }
+    ;
   }
   public void UpdateUI()
   {

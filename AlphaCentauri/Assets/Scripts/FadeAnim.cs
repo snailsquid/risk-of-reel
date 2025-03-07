@@ -12,7 +12,6 @@ public class FadeAnim : MonoBehaviour
     IEnumerator ShowCoroutine()
     {
         yield return new WaitForSeconds(delay);
-        Debug.Log(original);
         GetComponent<CanvasGroup>().DOFade(1, .2f);
         transform.DOMove(original, duration).SetEase(ease).onComplete += () => transform.position = original;
     }
@@ -29,7 +28,6 @@ public class FadeAnim : MonoBehaviour
     public void Show()
     {
         if (!show) return;
-        Debug.Log("show");
         show = false;
         if (gameObject.activeSelf) return;
         if (GetComponent<CanvasGroup>() == null) { Debug.Log(gameObject + " does not have canvas group"); return; }
@@ -38,7 +36,6 @@ public class FadeAnim : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y - distance, transform.position.z);
         Debug.Log(GetComponent<CanvasGroup>());
         GetComponent<CanvasGroup>().alpha = 0;
-        Debug.Log("before coroutine");
         StartCoroutine(ShowCoroutine());
     }
     public void Hide()
