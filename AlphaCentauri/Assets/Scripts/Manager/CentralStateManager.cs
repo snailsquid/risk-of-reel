@@ -12,7 +12,7 @@ public class CentralStateManager : MonoBehaviour
     ItemManager itemManager;
     CameraManager cameraManager;
     EventLog eventLog;
-    UIManager uiManager = UIManager.instance;
+    UIManager uiManager = UIManager.Instance;
     [SerializeField] LinePointAttacher linePointAttacher;
     [SerializeField] FishingProgress fishingProgress;
     [SerializeField] Guard guard;
@@ -52,7 +52,7 @@ public class CentralStateManager : MonoBehaviour
         weightText.GetComponent<FadeAnim>().SetUI(state == PlayerState.Rod);
         hideButton.GetComponent<FadeAnim>().SetUI(state == PlayerState.Rod);
         quickSwitchContainer.GetComponent<FadeAnim>().SetUI(state == PlayerState.Rod);
-        UIManager.instance.SetUI("MainMenuCanvas",state == PlayerState.StartMenu);
+        // UIManager.instance.SetUI("MainMenuCanvas",state == PlayerState.StartMenu);
         playerState = state;
     }
     public void FinishRun(bool canContinue) // can be continued
