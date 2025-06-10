@@ -3,25 +3,25 @@ using UnityEngine.EventSystems;
 
 namespace UI
 {
-    public static class CanvasExtensions
+    public static class TransformExtensions
     {
-        public static void Toggle(this Canvas canvas, bool value)
+        public static void Toggle(this Transform transform, bool value)
         {
             const UITransition.TransitionType defaultTransitionTypeIn = UITransition.TransitionType.FadeIn;
             const UITransition.TransitionType defaultTransitionTypeOut = UITransition.TransitionType.FadeOut;
             
-            Toggle(canvas, value, value?  defaultTransitionTypeIn: defaultTransitionTypeOut);
+            Toggle(transform, value, value?  defaultTransitionTypeIn: defaultTransitionTypeOut);
         }
-        public static void Toggle(this Canvas canvas, bool value, UITransition.TransitionType transitionType)
+        public static void Toggle(this Transform transform, bool value, UITransition.TransitionType transitionType)
         {
             switch (transitionType)
             {
                 case UITransition.TransitionType.FadeIn:
-                    canvas.enabled = true; break;
+                    transform.gameObject.SetActive(true); break;
                 case UITransition.TransitionType.FadeOut:
-                    canvas.enabled = false; break;
+                    transform.gameObject.SetActive(false); break;
                 default:
-                    canvas.enabled = false; break;
+                    transform.gameObject.SetActive(false); break;
             }
         }
     }

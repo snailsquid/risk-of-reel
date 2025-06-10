@@ -55,6 +55,8 @@ namespace Manager
 
         public void SetState(GameState state)
         {
+            CurrentGameState = state;
+            Debug.Log("setting ui to " + state);
             uiManager.UpdateUI();
             if (state == GameState.Rod)
             {
@@ -70,7 +72,6 @@ namespace Manager
             // hideButton.GetComponent<FadeAnim>().SetUI(state == GameState.Rod);
             // quickSwitchContainer.GetComponent<FadeAnim>().SetUI(state == GameState.Rod);
             // UIManager.instance.SetUI("MainMenuCanvas",state == PlayerState.StartMenu);
-            CurrentGameState = state;
         }
         public void FinishRun(bool canContinue) // can be continued
         {
