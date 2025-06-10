@@ -2733,34 +2733,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64b8709c36741024e9323cdab5bca54a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiElements:
+  currentGameState: 0
+  registeredUI:
     _serializedList:
-    - Key: MainMenuCanvas
-      Value: {fileID: 910895552}
-    - Key: TestButton
-      Value: {fileID: 0}
-    - Key: QuickSwitchContainer
-      Value: {fileID: 1371745839}
-    - Key: ShopInventoryPanel
-      Value: {fileID: 1088856711}
-    - Key: Time
-      Value: {fileID: 907936830}
-    - Key: HookBar
-      Value: {fileID: 1293584114}
-    - Key: VerticalPanel
-      Value: {fileID: 1939222661}
-    - Key: HorizontalPanel
-      Value: {fileID: 1700009944}
-    - Key: Bucket
-      Value: {fileID: 1132156340}
-    - Key: SusMeter
-      Value: {fileID: 1694574325}
-    - Key: PostrunPopupPanel
-      Value: {fileID: 1381655384}
-    - Key: PopupPanel
-      Value: {fileID: 1510020884}
-  uiElementGroup:
-    _serializedList: []
+    - Key: 0
+      Value: []
+    - Key: 1
+      Value:
+      - {fileID: 910895550}
+    - Key: 2
+      Value:
+      - {fileID: 395218155}
+      - {fileID: 1132156338}
+      - {fileID: 1371745834}
+      - {fileID: 907936829}
+    - Key: 3
+      Value:
+      - {fileID: 1088856709}
 --- !u!1 &267207614
 GameObject:
   m_ObjectHideFlags: 0
@@ -3696,7 +3685,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &395218155
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3820,7 +3809,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 395218154}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89d90fab21295514eb6b5651ca596c78, type: 3}
   m_Name: 
@@ -6204,7 +6193,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -116853.48}
+  m_AnchoredPosition: {x: 0, y: -157595.56}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &543425189
@@ -8889,7 +8878,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 907936828}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89d90fab21295514eb6b5651ca596c78, type: 3}
   m_Name: 
@@ -10792,7 +10781,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1088856708}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89d90fab21295514eb6b5651ca596c78, type: 3}
   m_Name: 
@@ -11443,7 +11432,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1132156337}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89d90fab21295514eb6b5651ca596c78, type: 3}
   m_Name: 
@@ -13794,7 +13783,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1371745834
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13927,7 +13916,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1371745833}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89d90fab21295514eb6b5651ca596c78, type: 3}
   m_Name: 
@@ -18318,12 +18307,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70bdf4e30d093ba44b0f2aaff7359b38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hideButton: {fileID: 395218155}
-  weightText: {fileID: 1132156338}
   postRunPopupObject: {fileID: 1381655382}
-  quickSwitchContainer: {fileID: 1371745834}
-  mainMenuCanvas: {fileID: 910895550}
   eventLogObject: {fileID: 991811507}
+  quickSwitchContainer: {fileID: 1371745834}
   linePointAttacher: {fileID: 561938371}
   fishingProgress: {fileID: 1293584113}
   guard: {fileID: 416700326}

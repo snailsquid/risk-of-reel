@@ -31,8 +31,9 @@ namespace Manager
         [SerializeField] Guard guard;
         public enum GameState
         {
+            None,
             StartMenu,
-            Rod,
+            Fishing,
             Shop,
         }
 
@@ -58,7 +59,7 @@ namespace Manager
             CurrentGameState = state;
             Debug.Log("setting ui to " + state);
             uiManager.UpdateUI();
-            if (state == GameState.Rod)
+            if (state == GameState.Fishing)
             {
                 guard.canCatch = true;
                 timeManager.StartTime();
@@ -66,12 +67,8 @@ namespace Manager
                 linePointAttacher.Equip(itemManager.shop.UpgradeItems[ItemRegistry.UpgradeItemType.Rod].CurrentLevel);
                 guard.SetMove(true);
             }
-            timeManager.UI(state == GameState.Rod);
+            timeManager.UI(state == GameState.Fishing);
             itemManager.UI(state == GameState.Shop);
-            // weightText.GetComponent<FadeAnim>().SetUI(state == GameState.Rod);
-            // hideButton.GetComponent<FadeAnim>().SetUI(state == GameState.Rod);
-            // quickSwitchContainer.GetComponent<FadeAnim>().SetUI(state == GameState.Rod);
-            // UIManager.instance.SetUI("MainMenuCanvas",state == PlayerState.StartMenu);
         }
         public void FinishRun(bool canContinue) // can be continued
         {
@@ -96,7 +93,7 @@ namespace Manager
         public void StartGame()
         {
             Debug.Log("starting game");
-            quickSwitchContainer.GetComponent<QuickSwitch>().ResetUI();
+            // quickSwitchContainer.GetComponent<QuickSwitch>().ResetUI();
             cameraManager.SwitchToFishing(5);
         }
         List<Fish> BucketToList(Bucket bucket)

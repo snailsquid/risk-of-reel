@@ -97,7 +97,7 @@ public class Guard : MonoBehaviour
     void Update()
     {
         currentTime = timeManager.CurrentTime;
-        if (centralStateManager.CurrentGameState == CentralStateManager.GameState.Rod && canMove)
+        if (centralStateManager.CurrentGameState == CentralStateManager.GameState.Fishing && canMove)
         {
             guardChecking += Time.deltaTime;
             if (CanSeePlayer())

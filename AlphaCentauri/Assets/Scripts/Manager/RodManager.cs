@@ -57,7 +57,7 @@ public class RodManager : MonoBehaviour
     }
     void Update()
     {
-        if (centralStateManager.CurrentGameState == CentralStateManager.GameState.Rod)
+        if (centralStateManager.CurrentGameState == CentralStateManager.GameState.Fishing)
         {
 
             if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
@@ -82,7 +82,7 @@ public class RodManager : MonoBehaviour
     }
     void OnClick()
     {
-        if (centralStateManager.CurrentGameState == CentralStateManager.GameState.Rod)
+        if (centralStateManager.CurrentGameState == CentralStateManager.GameState.Fishing)
         {
 
             equippedRod.OnClick();

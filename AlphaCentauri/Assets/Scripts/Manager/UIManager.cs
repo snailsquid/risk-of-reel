@@ -22,10 +22,10 @@ namespace Manager
 
         private CentralStateManager _centralStateManager;
         [FormerlySerializedAs("_currentGameState")] [SerializeField]
-        private CentralStateManager.GameState currentGameState = CentralStateManager.GameState.StartMenu;
+        private CentralStateManager.GameState currentGameState = CentralStateManager.GameState.None;
 
-        [SerializedDictionary("Game State", "UIs")] public SerializedDictionary<CentralStateManager.GameState, List<Transform>> registeredUI =
-            new SerializedDictionary<CentralStateManager.GameState, List<Transform>>();
+        [SerializedDictionary("Game State", "UIs")] public SerializedDictionary<CentralStateManager.GameState, List<RectTransform>> registeredUI =
+            new SerializedDictionary<CentralStateManager.GameState, List<RectTransform>>();
         private void Start()
         {
             _centralStateManager = CentralStateManager.Instance;
@@ -33,6 +33,7 @@ namespace Manager
 
         private void ToggleUIs(CentralStateManager.GameState gameState, bool toggle)
         {
+            Debug.Log("Toggling "+gameState + " to " + toggle);
             foreach (var uis in registeredUI[gameState])
             {
                 uis.Toggle(toggle);

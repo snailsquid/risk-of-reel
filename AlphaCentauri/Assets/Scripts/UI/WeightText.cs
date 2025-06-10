@@ -17,7 +17,7 @@ public class WeightText : MonoBehaviour
     }
     void Update()
     {
-        if (gameManager.GetComponent<CentralStateManager>().CurrentGameState == CentralStateManager.GameState.Rod)
+        if (gameManager.GetComponent<CentralStateManager>().CurrentGameState == CentralStateManager.GameState.Fishing)
         {
             GetComponent<TMP_Text>().text = rodManager.equippedBucket.TotalWeight + "kg/" + rodManager.equippedBucket.MaxWeight + "kg";
             UpgradeItem upgradeItem = itemManager.shop.UpgradeItems[ItemRegistry.UpgradeItemType.Bucket];

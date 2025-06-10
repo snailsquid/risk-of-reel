@@ -43,7 +43,7 @@ public class TimeManager : MonoBehaviour
     }
     void Update()
     {
-        if (centralStateManager.CurrentGameState == CentralStateManager.GameState.Rod)
+        if (centralStateManager.CurrentGameState == CentralStateManager.GameState.Fishing)
         {
             if (isTimePlaying)
             {

@@ -31,7 +31,7 @@ public class CameraManager : MonoBehaviour
         player.DOMove(fishingPos.position, time).SetEase(Ease.InOutQuart).onComplete = () =>
         {
             Debug.Log("switch to fishing");
-            gameManager.GetComponent<CentralStateManager>().SetState(CentralStateManager.GameState.Rod);
+            gameManager.GetComponent<CentralStateManager>().SetState(CentralStateManager.GameState.Fishing);
         };
         mouseRotateCamera.SetAble(true, fishingPos.eulerAngles);
     }
