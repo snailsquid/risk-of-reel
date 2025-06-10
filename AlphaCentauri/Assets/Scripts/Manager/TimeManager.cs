@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Manager;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -42,7 +43,7 @@ public class TimeManager : MonoBehaviour
     }
     void Update()
     {
-        if (centralStateManager.playerState == CentralStateManager.PlayerState.Rod)
+        if (centralStateManager.CurrentGameState == CentralStateManager.GameState.Rod)
         {
             if (isTimePlaying)
             {

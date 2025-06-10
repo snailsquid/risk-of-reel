@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Manager;
 
 public class Guard : MonoBehaviour
 {
@@ -96,7 +97,7 @@ public class Guard : MonoBehaviour
     void Update()
     {
         currentTime = timeManager.CurrentTime;
-        if (centralStateManager.playerState == CentralStateManager.PlayerState.Rod && canMove)
+        if (centralStateManager.CurrentGameState == CentralStateManager.GameState.Rod && canMove)
         {
             guardChecking += Time.deltaTime;
             if (CanSeePlayer())

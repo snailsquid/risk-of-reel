@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Manager;
+
 public class CameraManager : MonoBehaviour
 {
     [SerializeField] RodManager rodManager;
@@ -29,7 +31,7 @@ public class CameraManager : MonoBehaviour
         player.DOMove(fishingPos.position, time).SetEase(Ease.InOutQuart).onComplete = () =>
         {
             Debug.Log("switch to fishing");
-            gameManager.GetComponent<CentralStateManager>().SetState(CentralStateManager.PlayerState.Rod);
+            gameManager.GetComponent<CentralStateManager>().SetState(CentralStateManager.GameState.Rod);
         };
         mouseRotateCamera.SetAble(true, fishingPos.eulerAngles);
     }
@@ -42,7 +44,7 @@ public class CameraManager : MonoBehaviour
         player.DOMove(fishingPos.position, transitionTime).SetEase(Ease.InOutQuart).onComplete = () =>
         {
             Debug.Log("switch to shop");
-            gameManager.GetComponent<CentralStateManager>().SetState(CentralStateManager.PlayerState.Shop);
+            gameManager.GetComponent<CentralStateManager>().SetState(CentralStateManager.GameState.Shop);
         };
         mouseRotateCamera.SetAble(true, fishingPos.eulerAngles);
     }

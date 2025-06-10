@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Manager;
 using TMPro;
 
 public class PostRunPopup : MonoBehaviour

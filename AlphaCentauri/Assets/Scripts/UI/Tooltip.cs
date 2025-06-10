@@ -1,3 +1,4 @@
+using Manager;
 using UnityEngine;
 
 public class Tooltip : MonoBehaviour
@@ -14,7 +15,7 @@ public class Tooltip : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (centralStateManager.playerState == CentralStateManager.PlayerState.Shop)
+        if (centralStateManager.CurrentGameState == CentralStateManager.GameState.Shop)
         {
             tooltipObject.GetComponent<RectTransform>().anchoredPosition = Input.mousePosition;
         }

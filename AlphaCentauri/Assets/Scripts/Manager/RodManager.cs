@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Manager;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -56,7 +57,7 @@ public class RodManager : MonoBehaviour
     }
     void Update()
     {
-        if (centralStateManager.playerState == CentralStateManager.PlayerState.Rod)
+        if (centralStateManager.CurrentGameState == CentralStateManager.GameState.Rod)
         {
 
             if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
@@ -81,7 +82,7 @@ public class RodManager : MonoBehaviour
     }
     void OnClick()
     {
-        if (centralStateManager.playerState == CentralStateManager.PlayerState.Rod)
+        if (centralStateManager.CurrentGameState == CentralStateManager.GameState.Rod)
         {
 
             equippedRod.OnClick();
