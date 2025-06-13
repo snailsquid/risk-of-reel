@@ -10,7 +10,6 @@ public class FishRainbow : MonoBehaviour
     public float maxValue = 405f;
     void Update()
     {
-        Debug.Log(value);
         float actualValue = (-(value) / 200 * maxValue) + maxValue / 2;
         mask.padding = new Vector4(0, 0, actualValue, 0);
     }

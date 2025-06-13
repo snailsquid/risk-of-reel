@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Manager;
+using UI;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using static RodRegistry;
@@ -273,13 +274,13 @@ public class Battle
     public bool IsFishing { get; private set; } = false;
     public class Props
     {
-        public Transform hookBar { get; private set; }
-        public Transform successBar { get; private set; }
+        public RectTransform hookBar { get; private set; }
+        public RectTransform successBar { get; private set; }
         public float maxFishBiteTime { get; private set; }
-        public Transform popup { get; private set; }
+        public RectTransform popup { get; private set; }
         public EventLog eventLog { get; private set; }
         public LinePointAttacher linePointAttacher;
-        public Props(Transform hookBar, Transform successBar, float maxFishBiteTime, Transform popUp, EventLog eventLog, LinePointAttacher linePointAttacher)
+        public Props(RectTransform hookBar, RectTransform successBar, float maxFishBiteTime, RectTransform popUp, EventLog eventLog, LinePointAttacher linePointAttacher)
         {
             this.hookBar = hookBar;
             this.successBar = successBar;
@@ -297,8 +298,10 @@ public class Battle
     public void UI(bool show)
     {
         props.hookBar.GetComponent<FishingProgress>().Reset();
-        props.hookBar.GetComponent<FadeAnim>().SetUI(show);
-        props.successBar.GetComponent<FadeAnim>().SetUI(show);
+        // props.hookBar.GetComponent<FadeAnim>().SetUI(show);
+        props.hookBar.Toggle(show);
+        // props.successBar.GetComponent<FadeAnim>().SetUI(show);
+        props.successBar.Toggle(show);
     }
     public Battle(Props props)
     {
@@ -475,8 +478,10 @@ public class Cast
     public void UI(bool show)
     {
         Debug.Log(show ? "Showing" : "Hiding");
-        CastProperties.horizontalBar.parent.GetComponent<FadeAnim>().SetUI(show);
-        CastProperties.verticalBar.parent.GetComponent<FadeAnim>().SetUI(show); ;
+        // CastProperties.horizontalBar.parent.gameObject.SetActive(show);
+        // CastProperties.verticalBar.parent.gameObject.SetActive(show);
+        CastProperties.horizontalBar.parent.GetComponent<RectTransform>().Toggle(show);
+        CastProperties.verticalBar.parent.GetComponent<RectTransform>().Toggle(show);
     }
 }
 

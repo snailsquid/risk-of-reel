@@ -13,7 +13,7 @@ public class RodManager : MonoBehaviour
     public bool clickDebounce;
     [SerializeField] (int MinTime, int MaxTime) FishBite = (5, 10);
     [SerializeField] private Transform referenceObject, waterObject;
-    [SerializeField] Transform horizontalBar, verticalBar, fishableArea, target, bobberObject, hookBar, successBar, popUp, postRunPopup, eventLogObect;
+    [SerializeField] RectTransform horizontalBar, verticalBar, fishableArea, target, bobberObject, hookBar, successBar, popUp, postRunPopup, eventLogObect;
     [SerializeField] float bobberVelocity = 5f;
     [SerializeField] LinePointAttacher linePointAttacher;
     TimeManager timeManager;

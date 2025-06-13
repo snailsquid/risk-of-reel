@@ -18,7 +18,8 @@ namespace UI
                 return;
             }
             
-            var endPosition = ui.anchoredPosition;
+            var originalPosition = ui.anchoredPosition;
+            var endPosition = originalPosition;
             var startPosition = CalculateEndPosition(endPosition, uiTransition.Distance, uiTransition.TransitionDirection);
             float startAlpha = 0;
             float endAlpha = 1;
@@ -36,7 +37,7 @@ namespace UI
 
             if (uiTransition.TransitionAnimation.HasFlag(TransitionAnimation.Slide))
             {
-                Slide(ui, startPosition, endPosition, uiTransition.Duration, uiTransition.Ease);    
+                Slide(ui, startPosition, endPosition, uiTransition.Duration, uiTransition.Ease, originalPosition);    
             }
 
         }
@@ -69,11 +70,11 @@ namespace UI
 
     public static class UIAnimation
     {
-        public static void Slide(RectTransform rt, Vector2 startPosition, Vector2 endPosition, float duration, Ease ease)
+        public static void Slide(RectTransform rt, Vector2 startPosition, Vector2 endPosition, float duration, Ease ease, Vector2 originalPosition )
         { 
             Debug.Log(startPosition + " - " + endPosition);
             rt.anchoredPosition = startPosition;
-            rt.DOAnchorPos(endPosition, duration).SetEase(ease);
+            rt.DOAnchorPos(endPosition, duration).SetEase(ease).onComplete = () => {rt.anchoredPosition = originalPosition;};
         }
 
         public static void Fade(CanvasGroup canvasGroup, float duration, Ease ease, float startAlpha = 0, float endAlpha = 1)

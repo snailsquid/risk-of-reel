@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,9 +8,6 @@ using UnityEngine.UI;
 public class EventLog : MonoBehaviour
 {
     [SerializeField] TMP_Text textObject;
-    void Start()
-    {
-    }
     IEnumerator LogCoroutine(string log, double duration)
     {
         textObject.text = "[" + log + "]";
@@ -20,4 +18,15 @@ public class EventLog : MonoBehaviour
     {
         StartCoroutine(LogCoroutine(log, duration));
     }
+
+    #region Singleton
+    public static EventLog Instance { get; set; }
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+            Destroy(this.gameObject);
+        else
+            Instance = this;
+    }
+    #endregion
 }

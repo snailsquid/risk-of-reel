@@ -18,8 +18,7 @@ namespace Manager
         }
         #endregion
 
-        [SerializeField] private Transform postRunPopupObject, eventLogObject, quickSwitchContainer;
-        PostRunPopup postRunPopup;
+        [SerializeField] private PostRunPopup postRunPopup;
         TimeManager timeManager;
         RodManager rodManager;
         ItemManager itemManager;
@@ -41,12 +40,11 @@ namespace Manager
 
         private void AssignVariables()
         {
-            postRunPopup = postRunPopupObject.GetComponent<PostRunPopup>();
             cameraManager = GetComponent<CameraManager>();
             timeManager = GetComponent<TimeManager>();
             rodManager = GetComponent<RodManager>();
             itemManager = GetComponent<ItemManager>();
-            eventLog = eventLogObject.GetComponent<EventLog>();
+            eventLog = EventLog.Instance;
             uiManager = UIManager.Instance;
         }
         void Start()
