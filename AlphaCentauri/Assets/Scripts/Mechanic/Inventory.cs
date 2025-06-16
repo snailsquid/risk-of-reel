@@ -6,11 +6,9 @@ using static ItemRegistry;
 public class Inventory
 {
   public Dictionary<BuyItemType, InventoryItem> Items { get; private set; } = new Dictionary<BuyItemType, InventoryItem>();
-  QuickSwitch quickSwitch;
-  public Inventory(Dictionary<BuyItemType, InventoryItem> items, QuickSwitch quickSwitch)
+  public Inventory(Dictionary<BuyItemType, InventoryItem> items)
   {
     Items = items;
-    this.quickSwitch = quickSwitch;
   }
   public void AddItem(BuyItemType item)
   {

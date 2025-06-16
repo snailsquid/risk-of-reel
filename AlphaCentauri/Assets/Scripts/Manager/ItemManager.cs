@@ -41,7 +41,7 @@ public class ItemManager : MonoBehaviour
       }
     }
     shop = new(BuyItemsClone, UpgradeItems);
-    inventory = new(new Dictionary<BuyItemType, InventoryItem>(), quickSwitch.GetComponent<QuickSwitch>());
+    inventory = new(new Dictionary<BuyItemType, InventoryItem>());
 
   }
   void Start()
