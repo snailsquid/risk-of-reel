@@ -1,9 +1,11 @@
-﻿namespace Mechanic.Items
+﻿using UnityEngine;
+
+namespace Mechanic.Items
 {
-    public enum Rarity
+    public class Rarity : ScriptableObject
     {
-        Basic,
-        Super,
-        Ultimate
+        public string rarityName;
+        public Color color;
+        public float chance;
     }
 }
