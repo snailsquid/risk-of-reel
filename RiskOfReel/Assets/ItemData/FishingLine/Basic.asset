@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f5001f523dd4ce693160eccbff25c67, type: 3}
   m_Name: Basic
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Baisc Fishing Line
   description: 
-  price: 0
+  price: 30
   sprite: {fileID: 0}
   rarity: {fileID: 0}
-  length: 0
-  durability: 0
-  resistance: 0
+  length: 27
+  durability: 13
+  resistance: 12

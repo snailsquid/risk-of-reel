@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 331f4063cf7c49b4b3454651cf8ad840, type: 3}
   m_Name: RodData
   m_EditorClassIdentifier: 
-  itemName: 
-  description: 
-  price: 0
+  itemName: Basic Rod
+  description: Lol
+  price: 10
   sprite: {fileID: 0}
   rarity: {fileID: 0}
-  luck: 0
-  rigidity: 0
-  flex: 0
+  luck: 10
+  rigidity: 10
+  flex: 10
