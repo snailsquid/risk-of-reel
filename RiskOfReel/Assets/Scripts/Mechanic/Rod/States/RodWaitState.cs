@@ -1,13 +1,13 @@
 ﻿namespace Mechanic.Rod.States
 {
-    public class RodWaitState : RodState
+    public class RodWaitState : IRodState
     {
-        public override void Enter()
+        public void Enter()
         {
             
         }
 
-        public override void UpdateState()
+        public void UpdateState()
         {
         }
 

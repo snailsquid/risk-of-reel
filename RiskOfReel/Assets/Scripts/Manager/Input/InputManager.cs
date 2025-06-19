@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
-namespace Manager
+namespace Manager.Input
 {
     public class InputManager : MonoBehaviour
     {
@@ -19,9 +19,7 @@ namespace Manager
         }
         #endregion
 
-        public static event Action OnPointerDown;
-        public static event Action OnPointerUp;
-        public static event Action<Vector2> OnFlick;
+        public static event Action<bool> OnPointerPress;
         
         [Header("Input")]
         [SerializeField] private InputActionAsset gamePlayInputAsset;
@@ -51,24 +49,24 @@ namespace Manager
         }
 
         [Header("Position")]
-        [SerializeField] private Vector2 currentPosition = Vector2.zero;
+        public Vector2 currentPosition = Vector2.zero;
+        public Vector2 previousPosition = Vector2.zero;
         
         [Header("Pointer Down")]
         [SerializeField] private bool isPointerDown;
 
         private void RegisterPointerData()
         {
+            previousPosition = currentPosition;
             currentPosition = _pointerPositionAction.ReadValue<Vector2>();
         }
 
         private void HandlePointerDown(bool value)
         {
             isPointerDown = value;
-            if(isPointerDown)
-                OnPointerDown?.Invoke();
-            else 
-                OnPointerUp?.Invoke();
+            OnPointerPress?.Invoke(value);
         }
+        
         
     }
 }
