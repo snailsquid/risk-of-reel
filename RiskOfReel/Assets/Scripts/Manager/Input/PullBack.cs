@@ -7,30 +7,30 @@ namespace Manager.Input
     {
         private Vector2 _startPosition;
         public Vector2 PullBackDistance;
-        private bool _isPulling = false;
+        public bool IsPulling = false;
         
         public void StartTracking(Vector2 position)
         {
-            if (_isPulling) return;
+            if (IsPulling) return;
             Debug.Log("Pullback starting");
-            _isPulling = true;
+            IsPulling = true;
             _startPosition = position;
         }
 
 
-        public Vector2 EndTracking(Vector2 position)
+        public bool TryEndTracking(Vector2 position, out Vector2 pullBackDistance)
         {
-            return EndTracking(position, null);
-        }
-        public Vector2 EndTracking(Vector2 position, Action callback)
-        {
-            if (!_isPulling) return Vector2.zero;
-            _isPulling = false;
+            if (!IsPulling)
+            {
+                pullBackDistance = Vector2.zero; 
+                return false;
+            }
+            IsPulling = false;
             PullBackDistance = position - _startPosition;
             Debug.Log("Pullback : " + PullBackDistance);
-            callback?.Invoke();
             
-            return(PullBackDistance);
+            pullBackDistance = PullBackDistance;
+            return(true);
         }
     }
 }

@@ -10,5 +10,6 @@
         public void UpdateState()
         {
         }
+        public void Exit(){}
     }
 }

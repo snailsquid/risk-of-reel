@@ -6,40 +6,45 @@ namespace Manager.Input
     public class Flick : IInputType
     {
         [Header("Flick")]
-        [SerializeField] private float minVelocity;
-        [SerializeField] private float minTime;
-        [SerializeField] private bool isTrackingFlick = false;
-        [SerializeField] private Vector2 startPosition = Vector2.zero;
-        [SerializeField] private float startTime = 0f;
-        [SerializeField] private Vector2 deltaPosition = Vector2.zero;
-        [SerializeField] private float deltaTime = 0f;
-        [SerializeField] private Vector2 velocity = Vector2.zero;
+        private bool _isTrackingFlick = false;
+        private Vector2 _startPosition = Vector2.zero;
+        private float _startTime = 0f;
+        private Vector2 _deltaPosition = Vector2.zero;
+        private float _deltaTime = 0f;
+        private Vector2 _velocity = Vector2.zero;
         
         public static event Action<Vector2> OnFlick;
 
         public void StartTracking(Vector2 position)
         {
-            if (isTrackingFlick) return;
+            if (_isTrackingFlick) return;
             Debug.Log("Flick starting");
-            isTrackingFlick = true;
-            startPosition = position;
-            startTime = Time.time;
+            _isTrackingFlick = true;
+            _startPosition = position;
+            _startTime = Time.time;
         }
 
-        public Vector2 EndTracking(Vector2 position)
+        public bool TryEndTracking(Vector2 position, out Vector2 velocity)
         {
-            if (!isTrackingFlick) return Vector2.zero;
-            deltaPosition = position - startPosition;
-            deltaTime = Time.time - startTime;        
-            velocity = deltaPosition / deltaTime;
-
-            isTrackingFlick = false;
-            Debug.Log("Flick : "  + velocity);
-            if (velocity.magnitude > minVelocity && velocity.y > 0 && deltaTime > minTime)
+            if (!_isTrackingFlick)
             {
-                return(velocity);
+                velocity = Vector2.zero;
+                return false;
             }
-            return Vector2.zero;
+            _deltaPosition = position - _startPosition;
+            _deltaTime = Time.time - _startTime;        
+            _velocity = _deltaPosition / _deltaTime;
+
+            _isTrackingFlick = false;
+            Debug.Log("Flick : "  + _velocity);
+            if (_velocity.y > 0)
+            {
+                velocity = _velocity;
+                return(true);
+            }
+            
+            velocity = Vector2.zero;
+            return false;
         }
     }
 }
