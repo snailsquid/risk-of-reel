@@ -14,9 +14,11 @@ namespace Mechanic.Rod
         public RodWaitState WaitState;
         private IRodState _currentState;
         [SerializeField] private RodData data;
-        [SerializeField] private FishingLine attachedFishingLine;
+        public FishingLine attachedFishingLine;
         [SerializeField] private Bait.Bait attachedBait;
         public Bobber.Bobber attachedBobber;
+        private Player.Player _player;
+        [SerializeField] private Bobber.Bobber initialBobber;
         public Fish.Fish AttachedFish { get; private set; }
 
         public static event Action<Fish.Fish> OnFishCaught;
@@ -30,7 +32,9 @@ namespace Mechanic.Rod
 
         public void Start()
         {
+            _player = transform.parent.GetComponent<Player.Player>(); 
             ChangeState(CastState);
+            ChangeBobber(initialBobber);
         }
 
         private void Update()
@@ -65,6 +69,11 @@ namespace Mechanic.Rod
         public void DestroyBait()
         {
             attachedBait = null;
+        }
+
+        public Player.Player GetPlayer()
+        {
+            return _player;
         }
     }
 }

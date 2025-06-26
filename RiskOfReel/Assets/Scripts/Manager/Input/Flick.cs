@@ -43,6 +43,7 @@ namespace Manager.Input
                 return(true);
             }
             
+            Debug.Log("Flick failed");
             velocity = Vector2.zero;
             return false;
         }

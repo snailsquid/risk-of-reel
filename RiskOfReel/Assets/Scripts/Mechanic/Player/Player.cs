@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Mechanic.Player
 {
@@ -8,7 +9,7 @@ namespace Mechanic.Player
         public Rod.Rod Rod { get; private set; }
         public Inventory.Inventory Inventory { get; private set; }
         public Bucket.Bucket Bucket { get; private set; }
-        public PlayerData PlayerData { get; private set; }
+        public PlayerData playerData;
 
         void OnEnable()
         {
@@ -23,6 +24,11 @@ namespace Mechanic.Player
         public void OnFishCaught(Fish.Fish fish)
         {
             Bucket.AddToBucket(fish);
+        }
+
+        public Vector2 GetPlayerCameraDirection()
+        {
+            return transform.GetComponentInChildren<Camera>().transform.right;
         }
     }
 }

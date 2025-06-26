@@ -18,6 +18,7 @@ namespace Mechanic.Rod.States
         private bool _isPointerDown = false;
         private Coroutine _runningCoroutine;
         private bool _isCasting = false;
+        private Vector2 _maxVelocity = new Vector2(500, 500);
 
         public RodCastState(Rod rod)
         {
@@ -67,12 +68,26 @@ namespace Mechanic.Rod.States
             _isCasting = true;
             _runningCoroutine = _rod.StartCoroutine(CastCoroutine());
         }
+
+        private Vector2 CalculateNormalizedVelocity(Vector2 velocity)
+        {
+            var normalizedX = Mathf.Clamp(velocity.x/_maxVelocity.x, -1, 1);
+            var normalizedY = Mathf.Clamp(velocity.y/_maxVelocity.y, 0, 1);
+            return new Vector2(normalizedX, normalizedY);
+        }
+
+        private float CalculateNormalizedPower(float power)
+        {
+            
+            return Mathf.Clamp(power / _rod.GetPlayer().playerData.strength, 0, 1);
+        }
         private IEnumerator CastCoroutine()
         {
-            // Do something
             Debug.Log($"Casting rod with power {_pullBackPower} and velocity {_flickVelocity}");
-            yield return _rod.StartCoroutine(_rod.attachedBobber.ThrowCoroutine());
-            _rod.ChangeState(_rod.WaitState);
+            var normalizedVelocity = CalculateNormalizedVelocity(_flickVelocity);
+            var normalizedPower = CalculateNormalizedPower(_pullBackPower);
+            yield return _rod.StartCoroutine(_rod.attachedBobber.ThrowCoroutine(normalizedVelocity, normalizedPower));
+            _rod.ChangeState(_rod.CastState);
             
             _runningCoroutine = null;
             _isCasting = false;
@@ -116,6 +131,7 @@ namespace Mechanic.Rod.States
 
         private void Fail()
         {
+            Debug.Log("Cast failed");
             Exit();
             Enter();
         }

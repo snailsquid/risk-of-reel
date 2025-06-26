@@ -17,6 +17,6 @@ MonoBehaviour:
   price: 30
   sprite: {fileID: 0}
   rarity: {fileID: 0}
-  length: 27
+  length: 10
   durability: 13
   resistance: 12
