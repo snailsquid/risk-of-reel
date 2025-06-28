@@ -31,10 +31,8 @@ namespace Manager.Input
                 velocity = Vector2.zero;
                 return false;
             }
-            _deltaPosition = position - _startPosition;
-            _deltaTime = Time.time - _startTime;        
-            _velocity = _deltaPosition / _deltaTime;
 
+            _velocity = GetVelocity(position);
             _isTrackingFlick = false;
             Debug.Log("Flick : "  + _velocity);
             if (_velocity.y > 0)
@@ -46,6 +44,13 @@ namespace Manager.Input
             Debug.Log("Flick failed");
             velocity = Vector2.zero;
             return false;
+        }
+
+        public Vector2 GetVelocity(Vector2 position)
+        {
+            _deltaPosition = position - _startPosition;
+            _deltaTime = Time.time - _startTime;        
+            return _deltaPosition / _deltaTime;
         }
     }
 }

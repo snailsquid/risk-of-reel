@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using DG.Tweening;
 using Manager.Input;
+using UI.Rod;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Mechanic.Rod.States
 {
@@ -19,17 +21,13 @@ namespace Mechanic.Rod.States
         private Coroutine _runningCoroutine;
         private bool _isCasting = false;
         private Vector2 _maxVelocity = new Vector2(500, 500);
+        private CastVisualizer _castVisualizer;
 
         public RodCastState(Rod rod)
         {
             _flick = new Flick();
             _pullBack = new PullBack();
             _rod = rod;
-        }
-
-        private void ChangeState(IInputType inputType)
-        {
-            _currentInput = inputType;
         }
 
         private void StartTracking()
@@ -40,7 +38,8 @@ namespace Mechanic.Rod.States
         public void Enter()
         {
             _inputManager = InputManager.Instance;
-            ChangeState(_pullBack);
+            _castVisualizer = CastVisualizer.Instance;
+            _currentInput = _pullBack;
             InputManager.OnPointerPress += HandlePointerPress;
         }
 
@@ -50,6 +49,12 @@ namespace Mechanic.Rod.States
             {
                 TransitionToFlick();
             }
+
+            if (_currentInput == _pullBack)
+            {
+                var distance = _pullBack.GetPullBackMagnitude(_inputManager.currentPosition);
+                _castVisualizer.SetPullBack(distance);
+            }
         }
 
         private void TransitionToFlick()
@@ -57,8 +62,10 @@ namespace Mechanic.Rod.States
             if (!_pullBack.IsPulling) return;
             var canEnd = _pullBack.TryEndTracking(_inputManager.currentPosition, out Vector2 temp);
             if (!canEnd) return;
+            _rod.StartCoroutine(EndPullBackCoroutine());
+            _castVisualizer.EnableFlickText();
             _pullBackPower = temp.magnitude;
-            ChangeState(_flick);
+            _currentInput = _flick;
             StartTracking();
         }
 
@@ -104,10 +111,11 @@ namespace Mechanic.Rod.States
         
         private void HandlePointerPress(bool isPressed)
         {
-            if (isPressed)
+            if (isPressed && _currentInput == _pullBack)
             {
                 _isPointerDown = true;
-                StartTracking();
+                StartTracking(); // Should only be called for pullback
+                _castVisualizer.EnablePullBackText();
             }
             else
             {
@@ -117,16 +125,38 @@ namespace Mechanic.Rod.States
                 if (_currentInput == _pullBack)
                 {
                     var _ = _currentInput.TryEndTracking(_inputManager.currentPosition, out var _);
+                    _rod.StartCoroutine(EndPullBackCoroutine());
                     Fail();
                 }
                 else if (_currentInput == _flick)
                 {
-                    var isEnd = _currentInput.TryEndTracking(_inputManager.currentPosition, out var temp);
-                    if (!isEnd) return;
-                    _flickVelocity = temp;
-                    Cast();
+                    var isEnd = _flick.TryEndTracking(_inputManager.currentPosition, out var temp);
+                    if (isEnd)
+                    {
+                        _rod.StartCoroutine(EndFlickCoroutine());
+                        _flickVelocity = temp;
+                        var velocity = _flick.GetVelocity(_inputManager.currentPosition);
+                        _castVisualizer.SetFlick(velocity);
+                        Cast();
+                    }
+                    else
+                    {
+                        Fail();
+                    }
                 }
             }
+        }
+
+        private IEnumerator EndPullBackCoroutine()
+        {
+            yield return new WaitForSeconds(1);
+            _castVisualizer.DisablePullBackText();
+        }
+
+        private IEnumerator EndFlickCoroutine()
+        {
+            yield return new WaitForSeconds(1);
+            _castVisualizer.DisableFlickText();
         }
 
         private void Fail()

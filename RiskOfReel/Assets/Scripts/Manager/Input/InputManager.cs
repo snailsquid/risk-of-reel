@@ -20,6 +20,7 @@ namespace Manager.Input
         #endregion
 
         public static event Action<bool> OnPointerPress;
+        public static event Action OnPointerMove;
         
         [Header("Input")]
         [SerializeField] private InputActionAsset gamePlayInputAsset;
@@ -46,6 +47,8 @@ namespace Manager.Input
         private void Update()
         {
             RegisterPointerData();
+            if(currentPosition != previousPosition)
+                OnPointerMove?.Invoke();
         }
 
         [Header("Position")]

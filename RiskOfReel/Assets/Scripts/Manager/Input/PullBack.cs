@@ -17,7 +17,6 @@ namespace Manager.Input
             _startPosition = position;
         }
 
-
         public bool TryEndTracking(Vector2 position, out Vector2 pullBackDistance)
         {
             if (!IsPulling)
@@ -25,12 +24,22 @@ namespace Manager.Input
                 pullBackDistance = Vector2.zero; 
                 return false;
             }
+            PullBackDistance = GetPullBackDistance(position);
             IsPulling = false;
-            PullBackDistance = position - _startPosition;
             Debug.Log("Pullback : " + PullBackDistance);
             
             pullBackDistance = PullBackDistance;
             return(true);
+        }
+
+        private Vector2 GetPullBackDistance(Vector2 position)
+        {
+            return position - _startPosition;
+        }
+
+        public float GetPullBackMagnitude(Vector2 position)
+        {
+            return GetPullBackDistance(position).magnitude;
         }
     }
 }
