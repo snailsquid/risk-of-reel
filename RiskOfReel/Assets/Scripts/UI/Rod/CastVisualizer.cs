@@ -17,7 +17,7 @@ namespace UI.Rod
                 Instance = this;
         }
         #endregion
-        private Vector2 _mousePosition;
+        private Vector2 _mouseCanvasPosition;
         public GameObject flickTextPrefab;
         public GameObject pullBackTextPrefab;
         private bool _attachedPullBack = false;
@@ -27,13 +27,17 @@ namespace UI.Rod
         public void EnablePullBackText()
         {
             _pullBackClone = Instantiate(pullBackTextPrefab, transform);
-            _pullBackClone.transform.position = _mousePosition;
+            _pullBackClone.transform.position = _mouseCanvasPosition;
             _attachedPullBack = true;
         }
 
-        public void DisablePullBackText()
+        public void DetachPullBackText()
         {
             _attachedPullBack = false;
+        }
+        public void DisablePullBackText()
+        {
+            DetachPullBackText();
             Destroy(_pullBackClone);
         }
 
@@ -47,7 +51,7 @@ namespace UI.Rod
         public void EnableFlickText()
         {
             _flickClone = Instantiate(flickTextPrefab, transform);
-            _flickClone.transform.position = _mousePosition;
+            _flickClone.transform.position = _mouseCanvasPosition;
             _attachedFlick = true;
         }
 
@@ -70,18 +74,15 @@ namespace UI.Rod
 
         private void OnPointerMove()
         {
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, InputManager.Instance.currentPosition, Camera.main, out _mousePosition);
-            Debug.Log(InputManager.Instance.currentPosition);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, InputManager.Instance.currentPosition, ReferenceScript.Instance.uiCamera, out _mouseCanvasPosition);
             if (_attachedFlick)
             {
-                Debug.Log("flicking");
-                _flickClone.transform.position = transform.TransformPoint(_mousePosition);
+                _flickClone.transform.localPosition = _mouseCanvasPosition;
             }
 
             if (_attachedPullBack)
             {
-                Debug.Log("pulling back");
-                _pullBackClone.transform.position = transform.TransformPoint(_mousePosition);
+                _pullBackClone.transform.localPosition = _mouseCanvasPosition;
             }
         }
     }

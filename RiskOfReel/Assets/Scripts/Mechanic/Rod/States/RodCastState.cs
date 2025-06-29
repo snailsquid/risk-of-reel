@@ -149,6 +149,7 @@ namespace Mechanic.Rod.States
 
         private IEnumerator EndPullBackCoroutine()
         {
+            _castVisualizer.DetachPullBackText();
             yield return new WaitForSeconds(1);
             _castVisualizer.DisablePullBackText();
         }
